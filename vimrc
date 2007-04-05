@@ -1,0 +1,54 @@
+source ~/.vim/tman.vim
+source ~/.vim/Comment.vim
+source ~/.vim/matchit.vim
+
+autocmd BufNewFile,BufRead *.as setf actionscript 
+autocmd BufNewFile,BufRead *.as setf actionscript 
+autocmd BufNewFile,BufRead *.dxhtml setf xhtml
+autocmd BufNewFile,BufRead *.pspi setf spyce
+autocmd BufNewFile,BufRead *.psp setf spyce
+autocmd BufNewFile,BufRead *.pspt setf spyce
+autocmd BufNewFile,BufRead *.spy setf spyce
+autocmd BufNewFile,BufRead *.S set ft=asmarm
+
+autocmd FileType html,xml,xsl,xsd,xslt,dxhtml,xhtml,dtml,php,spyce,eruby source ~/.vim/closetag.vim
+
+autocmd FileType python,spyce,php set ts=8 sw=4 sts=4 expandtab textwidth=0
+autocmd FileType html set ts=8 sw=2 sts=2 expandtab textwidth=0
+autocmd FileType ruby set ts=8 sw=2 sts=2 expandtab
+
+autocmd FileType tex source ~/.vim/tex.vim
+
+"imap <F7> <ESC>:make<CR>i
+"map <F7> :make<CR>
+
+"imap <F6> <ESC>:make clean<CR>i
+"map <F6> :make clean<CR>
+
+nnoremap \tp :set invpaste paste?<CR>
+nmap <F5> \tp
+imap <F5> <C-O>\tp
+set pastetoggle=<F5>
+
+nnoremap \tl :set invlist list?<CR>
+nmap <F6> \tl
+
+nnoremap \th :set invhls hls?<CR>
+nmap <F7> \th
+
+"imap <F4> <ESC>:cn<CR>i
+"map <F4> :cn<CR>
+
+set modelines=3
+set mouse=a
+set autoindent
+set showmatch
+set undolevels=10000
+
+imap <C-t>bi \begin{itemize}<CR><CR><CR><CR>\end{itemize}<CR><c-o>3k<tab>\item 
+imap <C-t>bn \begin{enumerate}<CR><CR><CR><CR>\end{enumerate}<CR><c-o>3k<tab>\item 
+
+imap <F8> <c-o>$ # DEBUG FIXME
+
+set printoptions=paper:letter
+set ts=8 sw=4 sts=4 expandtab
