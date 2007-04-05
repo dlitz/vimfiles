@@ -1,6 +1,7 @@
 source ~/.vim/tman.vim
 source ~/.vim/Comment.vim
 source ~/.vim/matchit.vim
+source ~/.vim/closeb.vim
 
 autocmd BufNewFile,BufRead *.as setf actionscript 
 autocmd BufNewFile,BufRead *.as setf actionscript 
@@ -17,7 +18,10 @@ autocmd FileType python,spyce,php set ts=8 sw=4 sts=4 expandtab textwidth=0
 autocmd FileType html set ts=8 sw=2 sts=2 expandtab textwidth=0
 autocmd FileType ruby set ts=8 sw=2 sts=2 expandtab
 
-autocmd FileType tex source ~/.vim/tex.vim
+"autocmd FileType tex source ~/.vim/tex.vim
+autocmd FileType tex set ts=8 sw=2 sts=2 expandtab
+
+autocmd BufNewFile,BufRead .letter,mutt*,nn.*,snd.* set formatoptions=wantql
 
 "imap <F7> <ESC>:make<CR>i
 "map <F7> :make<CR>
