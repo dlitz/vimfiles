@@ -13,7 +13,7 @@ autocmd BufNewFile,BufRead *.spy setf spyce
 autocmd BufNewFile,BufRead *.S set ft=asmarm
 autocmd BufNewFile,BufRead *.myt set ft=myghty
 
-autocmd FileType html,xml,xsl,xsd,xslt,dxhtml,xhtml,dtml,php,spyce,eruby,wml source ~/.vim/closetag.vim
+autocmd FileType html,xml,xsl,xsd,xslt,dxhtml,xhtml,dtml,php,spyce,eruby,wml,myt source ~/.vim/closetag.vim
 
 autocmd FileType python,spyce,php set ts=8 sw=4 sts=4 expandtab textwidth=0
 autocmd FileType html set ts=8 sw=2 sts=2 expandtab textwidth=0
