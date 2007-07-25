@@ -45,6 +45,7 @@ nmap <F7> \th
 "imap <F4> <ESC>:cn<CR>i
 "map <F4> :cn<CR>
 
+set modeline
 set modelines=3
 set mouse=a
 set autoindent
