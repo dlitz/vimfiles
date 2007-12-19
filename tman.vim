@@ -5,17 +5,17 @@
 
 " Set up the stuff for color highlighing in an xterm (or konsole, or compatible)
 " Without this, VIM is in ugly greyscale with underline and bold!
-if has("terminfo")
-	set t_Co=16
-	set t_Sf=[3%p1%dm
-	set t_Sb=[4%p1%dm
-	set t_vb=
-else
-	set t_Co=16
-	set t_Sf=[3%dm
-	set t_Sb=[4%dm
-	set t_vb=
-endif
+"if has("terminfo")
+"	set t_Co=16
+"	set t_Sf=[3%p1%dm
+"	set t_Sb=[4%p1%dm
+"	set t_vb=
+"else
+"	set t_Co=16
+"	set t_Sf=[3%dm
+"	set t_Sb=[4%dm
+"	set t_vb=
+"endif
 
 syntax on
 set noinsertmode
@@ -37,37 +37,37 @@ au BufNewFile,BufRead .letter,mutt*,nn.*,snd.* set tw=75
 au BufRead /tmp/mutt-* normal :g/^> --.*/,/^$/-1d
 
 " Fix the delete key problem
-map ^[[3~ <Del>
-inoremap ^[[3~ <Del>
+"map ^[[3~ <Del>
+"inoremap ^[[3~ <Del>
 
 " Word forward and back with F11 and F12
-imap <F12> <ESC>lwi
-imap <F11> <ESC>lbi
-map <F12> lw
-map <F11> hb
+"imap <F12> <ESC>lwi
+"imap <F11> <ESC>lbi
+"map <F12> lw
+"map <F11> hb
 
 """ Setup my F10 macros:
 " Edit my .vimrc file
-map <F10>v :e ~/.vimrc
+"map <F10>v :e ~/.vimrc
 " Update the system settings from my vimrc file
-map <F10>u :source ~/.vimrc
+"map <F10>u :source ~/.vimrc
 " Set up commenting
-map <F10># 0i#<SPACE><ESC>
-imap <F10># <ESC>mT0i#<SPACE><ESC>`Tlli
+"map <F10># 0i#<SPACE><ESC>
+"imap <F10># <ESC>mT0i#<SPACE><ESC>`Tlli
 " My email address
-imap <F10>@ dlitz@cheerful.com
+"imap <F10>@ dlitz@cheerful.com
 " Some common HTML stuff
-imap <F10>c &copy;
-imap <F10>& &amp;
-imap <F10>" &quote;
-imap <F10>< &lt;
-imap <F10>> &gt;
+"imap <F10>c &copy;
+"imap <F10>& &amp;
+"imap <F10>" &quote;
+"imap <F10>< &lt;
+"imap <F10>> &gt;
 " Some common C stuff
-imap <F10>Cs /*******************************************************************************<CR>
-imap <F10>Ce *******************************************************************************/<CR>
+"imap <F10>Cs /*******************************************************************************<CR>
+"imap <F10>Ce *******************************************************************************/<CR>
 " Stick paragraph tags on a block of text
-map  <F10>p {j:s/^/<P>/}k:s#$#</P>#gqip}j
-imap <F10>p <ESC>{j:s/^/<P>/}k:s#$#</P>#gqip}ji
+"map  <F10>p {j:s/^/<P>/}k:s#$#</P>#gqip}j
+"imap <F10>p <ESC>{j:s/^/<P>/}k:s#$#</P>#gqip}ji
 
 " Set up some movement keys from within Insert mode
 inoremap <C-A> <Home>
@@ -76,8 +76,8 @@ inoremap <C-B> <ESC><C-B>i
 inoremap <C-F> <ESC><C-F>i
 
 " Pico-like paragraph justification (also try gqap to collapse trailing lines)
-imap <C-J> <c-o>gqip
-map <C-J> gqip
+"imap <C-J> <c-o>gqip
+"map <C-J> gqip
 
 " Make it so that I can see my own maps using the BASH alias command
 "map :alias :map
