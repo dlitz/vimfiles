@@ -61,3 +61,4 @@ set printoptions=paper:letter
 set ts=8 sw=4 sts=4 expandtab
 
 set title
+set sh=/bin/bash
