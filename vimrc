@@ -62,3 +62,7 @@ set ts=8 sw=4 sts=4 expandtab
 
 set title
 set sh=/bin/bash
+
+" Highlight trailing whitespace
+highlight WhitespaceEOL ctermbg=red guibg=red
+match WhitespaceEOL /\s\+$/
