@@ -65,4 +65,4 @@ set sh=/bin/bash
 
 " Highlight trailing whitespace
 highlight WhitespaceEOL ctermbg=red guibg=red
-match WhitespaceEOL /\s\+$/
+autocmd BufWinEnter,WinEnter * match WhitespaceEOL /\s\+$/
