@@ -66,3 +66,6 @@ set sh=/bin/bash
 " Highlight trailing whitespace
 highlight WhitespaceEOL ctermbg=red guibg=red
 autocmd BufWinEnter,WinEnter * match WhitespaceEOL /\s\+$/
+
+" When "set list" is set, show tabs and EOL explicitly
+set listchars=eol:$,tab:>-
