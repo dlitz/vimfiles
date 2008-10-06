@@ -57,6 +57,9 @@ imap <C-t>bn \begin{enumerate}<CR><CR><CR><CR>\end{enumerate}<CR><c-o>3k<tab>\it
 
 imap <F8> <c-o>$ # DEBUG FIXME
 
+" Used for StillWeb.TeXPlugin
+imap <F9> <lt>p:m>
+
 set printoptions=paper:letter
 set ts=8 sw=4 sts=4 expandtab
 
