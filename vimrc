@@ -6,6 +6,7 @@ source ~/.vim/closeb.vim
 autocmd BufNewFile,BufRead *.as setf actionscript 
 autocmd BufNewFile,BufRead *.as setf actionscript 
 autocmd BufNewFile,BufRead *.dxhtml setf xhtml
+autocmd BufNewFile,BufRead *.gcov set ft=gcov
 autocmd BufNewFile,BufRead *.pspi setf spyce
 autocmd BufNewFile,BufRead *.psp setf spyce
 autocmd BufNewFile,BufRead *.pspt setf spyce
