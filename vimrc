@@ -20,6 +20,7 @@ autocmd FileType html,xml,xsl,xsd,xslt,dxhtml,xhtml,dtml,php,spyce,eruby,wml,myg
 autocmd FileType python,spyce,php set ts=8 sw=4 sts=4 expandtab textwidth=0
 autocmd FileType html,myt,mako set ts=8 sw=2 sts=2 expandtab textwidth=0
 autocmd FileType ruby set ts=8 sw=2 sts=2 expandtab
+autocmd FileType haskell set ts=8 sw=2 sts=2 expandtab
 
 "autocmd FileType tex source ~/.vim/tex.vim
 autocmd FileType tex set ts=8 sw=2 sts=2 expandtab
