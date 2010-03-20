@@ -38,8 +38,9 @@ nmap <F5> \tp
 imap <F5> <C-O>\tp
 set pastetoggle=<F5>
 
-nnoremap \tl :set invlist list?<CR>
-nmap <F6> \tl
+"nnoremap \tl :set invlist list?<CR>
+"nmap <F6> \tl
+nmap <F6> :NERDTreeToggle<CR>
 
 nnoremap \th :set invhls hls?<CR>
 nmap <F7> \th
