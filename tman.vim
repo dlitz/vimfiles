@@ -124,7 +124,7 @@ highlight WarningMsg  NONE
 highlight Comment     ctermfg=3 ctermbg=0 guifg=#FF005F guibg=gray
 highlight Constant    term=underline ctermfg=6 guifg=#FF2f8f
 highlight Delimiter   term=bold cterm=bold ctermfg=1 gui=bold guifg=Red
-highlight Directory   term=bold ctermfg=DarkBlue guifg=Blue
+highlight Directory   term=bold ctermfg=DarkGreen guifg=Blue
 highlight Error       term=standout cterm=bold ctermbg=1 ctermfg=1 gui=bold guifg=red
 highlight ErrorMsg    term=standout cterm=bold ctermfg=1 gui=bold guifg=red
 highlight Identifier  term=underline cterm=bold ctermfg=6 guifg=yellow3
