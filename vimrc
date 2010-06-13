@@ -14,6 +14,7 @@ autocmd BufNewFile,BufRead *.spy setf spyce
 autocmd BufNewFile,BufRead *.S set ft=asmarm
 autocmd BufNewFile,BufRead *.myt set ft=myghty
 autocmd BufNewFile,BufRead *.mako set ft=mako
+autocmd BufNewFile,BufRead *.i set ft=swig
 
 autocmd FileType html,xml,xsl,xsd,xslt,dxhtml,xhtml,dtml,php,spyce,eruby,wml,myghty,mako source ~/.vim/closetag.vim
 
