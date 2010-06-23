@@ -1,5 +1,5 @@
-"colorscheme zellner
-colorscheme railscasts
+colorscheme zellner
+"colorscheme railscasts
 "colorscheme sunburst
 
 
@@ -19,7 +19,7 @@ set wildmode=list:longest
 set scrolloff=3
 set shortmess=atI
 set visualbell
-set autowrite " Automatically save before commands like :next
+"set autowrite " Automatically save before commands like :next
 set grepprg=ack
 
 " http://github.com/hgimenez/vimfiles/blob/master/vimrc
@@ -41,7 +41,7 @@ endif
 " Fix my seplling
 set spell
 if exists("+spelllang")
-  set spelllang=en_us
+  set spelllang=en_ca
 endif
 
 set splitbelow                    " Split windows at bottom
