@@ -1,3 +1,6 @@
 [submodule "snippets"]
 	path = snippets
 	url = http://github.com/scrooloose/snipmate-snippets.git
+[submodule "bundle/vim-ruby-debugger"]
+	path = bundle/vim-ruby-debugger
+	url = https://github.com/astashov/vim-ruby-debugger.git

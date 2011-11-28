@@ -21,6 +21,8 @@ set shortmess=atI
 set visualbell
 "set autowrite " Automatically save before commands like :next
 set grepprg=ack
+set mouse=a
+set printfont=courier:h8
 
 " http://github.com/hgimenez/vimfiles/blob/master/vimrc
 
@@ -39,7 +41,7 @@ if has("autocmd")
 endif
 
 " Fix my seplling
-set spell
+"set spell
 if exists("+spelllang")
   set spelllang=en_ca
 endif
@@ -57,6 +59,7 @@ nnoremap <C-y> 3<C-y>             " and down
 
 autocmd FileType html,xml,xsl,php,jsp,eruby let b:closetag_html_style=1
 autocmd FileType html,xml,xsl,php,jsp,eruby source ~/.vim/scripts/closetag.vim
+autocmd BufRead,BufNewFile *.erb set filetype=eruby
 autocmd BufRead,BufNewFile *.vm set filetype=velocity
 autocmd BufRead,BufNewFile *.treetop set filetype=treetop
 autocmd FileType hl7 source ~/.vim/scripts/hl7-status.vim
@@ -64,6 +67,7 @@ autocmd FileType hl7 source ~/.vim/scripts/hl7-status.vim
 " Highlight trailing whitespace
 autocmd FileType * highlight WhitespaceEOL ctermbg=red guibg=red
 autocmd FileType * match WhitespaceEOL /\s\+$/
+autocmd FileType javascript syn keyword javaScriptGlobal location
 
 let mapleader = ","
 
@@ -193,3 +197,6 @@ command! -nargs=0 Lorem :normal iLorem ipsum dolor sit amet, consectetur
 if has("gui_running")
   set lines=80 columns=130
 endif
+
+" Disable rails abbreviation (e.g. AC: -> ActionController:)
+let g:rails_abbreviations = 0
