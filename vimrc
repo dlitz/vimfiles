@@ -1,7 +1,4 @@
 source ~/.vim/tman.vim
-source ~/.vim/Comment.vim
-source ~/.vim/matchit.vim
-source ~/.vim/closeb.vim
 
 autocmd BufNewFile,BufRead *.as setf actionscript 
 autocmd BufNewFile,BufRead *.as setf actionscript 
