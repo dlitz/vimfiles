@@ -1,3 +1,10 @@
+" Pathogen
+runtime bundle/vim-pathogen/autoload/pathogen.vim
+call pathogen#infect()
+syntax on
+filetype plugin indent on
+
+
 source ~/.vim/tman.vim
 
 autocmd BufNewFile,BufRead *.as setf actionscript 
