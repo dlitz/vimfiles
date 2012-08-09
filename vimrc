@@ -4,6 +4,10 @@ call pathogen#infect()
 syntax on
 filetype plugin indent on
 
+" VimOrganizer
+au! BufRead,BufWrite,BufWritePost,BufNewFile *.org 
+au BufEnter *.org            call org#SetOrgFileType()
+
 
 source ~/.vim/tman.vim
 
