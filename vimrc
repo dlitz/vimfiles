@@ -1,85 +1,55 @@
 " Pathogen
-runtime bundle/vim-pathogen/autoload/pathogen.vim
-call pathogen#infect()
-syntax on
+call pathogen#infect()      " Must be before filetype plugin indent on
+
+" filetype-specific auto-indent
 filetype plugin indent on
 
-" VimOrganizer
-au! BufRead,BufWrite,BufWritePost,BufNewFile *.org 
-au BufEnter *.org            call org#SetOrgFileType()
+" highlight bad whitespace (this part must be before colorscheme is loaded)
+autocmd ColorScheme * highlight SpaceError ctermbg=red guibg=red
 
+" syntax highlighting - enable and basic options
+syntax on
+colorscheme dwon
+let java_highlight_all=1
+let java_highlight_debug=1
+let java_highlight_functions=1
+let python_highlight_all=1
+let python_space_error_highlight=1
 
-source ~/.vim/tman.vim
+" highlight bad whitespace (this part must be after "syntax on")
+" We hightlight trailing spaces and spaces-before-tabs.
+autocmd Syntax * syntax match SpaceError display excludenl /\s\+$\| \+\t/ containedin=ALL
 
-autocmd BufNewFile,BufRead *.as setf actionscript 
-autocmd BufNewFile,BufRead *.as setf actionscript 
-autocmd BufNewFile,BufRead *.dxhtml setf xhtml
-autocmd BufNewFile,BufRead *.gcov set ft=gcov
-autocmd BufNewFile,BufRead *.pspi setf spyce
-autocmd BufNewFile,BufRead *.psp setf spyce
-autocmd BufNewFile,BufRead *.pspt setf spyce
-autocmd BufNewFile,BufRead *.spy setf spyce
-autocmd BufNewFile,BufRead *.S set ft=asmarm
-autocmd BufNewFile,BufRead *.myt set ft=myghty
-autocmd BufNewFile,BufRead *.mako set ft=mako
-autocmd BufNewFile,BufRead *.i set ft=swig
+" spaces and tabs
+set tabstop=4 shiftwidth=4 softtabstop=4 expandtab  " default
+autocmd FileType make setlocal ts=8 sw=8 sts=0 noexpandtab
+autocmd FileType html,mako,myt,php setlocal ts=2 sw=2 sts=2 expandtab
+autocmd FileType haskell,ruby,tex,verilog setlocal ts=2 sw=2 sts=2 expandtab
+autocmd FileType python setlocal ts=4 sw=4 sts=4 expandtab
 
-autocmd FileType html,xml,xsl,xsd,xslt,dxhtml,xhtml,dtml,php,spyce,eruby,wml,myghty,mako source ~/.vim/closetag.vim
+" email editing
+autocmd BufNewFile,BufRead .letter,mutt*,nn.*,snd.* setlocal formatoptions=wantql
 
-autocmd FileType python,spyce,php set ts=8 sw=4 sts=4 expandtab textwidth=0
-autocmd FileType html,myt,mako set ts=8 sw=2 sts=2 expandtab textwidth=0
-autocmd FileType ruby,verilog,haskell set ts=8 sw=2 sts=2 expandtab
-
-"autocmd FileType tex source ~/.vim/tex.vim
-autocmd FileType tex set ts=8 sw=2 sts=2 expandtab
-
-autocmd BufNewFile,BufRead .letter,mutt*,nn.*,snd.* set formatoptions=wantql
-
-"imap <F7> <ESC>:make<CR>i
-"map <F7> :make<CR>
-
-"imap <F6> <ESC>:make clean<CR>i
-"map <F6> :make clean<CR>
-
-nnoremap \tp :set invpaste paste?<CR>
-nmap <F5> \tp
-imap <F5> <C-O>\tp
-set pastetoggle=<F5>
-
-"nnoremap \tl :set invlist list?<CR>
-"nmap <F6> \tl
-nmap <F6> :NERDTreeToggle<CR>
-
-nnoremap \th :set invhls hls?<CR>
-nmap <F7> \th
-
-"imap <F4> <ESC>:cn<CR>i
-"map <F4> :cn<CR>
-
-set modeline
-set modelines=3
-set mouse=a
-set autoindent
-set showmatch
-set undolevels=10000
-
-imap <C-t>bi \begin{itemize}<CR><CR><CR><CR>\end{itemize}<CR><c-o>3k<tab>\item 
-imap <C-t>bn \begin{enumerate}<CR><CR><CR><CR>\end{enumerate}<CR><c-o>3k<tab>\item 
-
-imap <F8> <c-o>$ # DEBUG FIXME
-
-" Used for StillWeb.TeXPlugin
-imap <F9> <lt>p:m>
-
-set printoptions=paper:letter
-set ts=8 sw=4 sts=4 expandtab
-
-set title
-set sh=/bin/bash
-
-" Highlight trailing whitespace
-highlight WhitespaceEOL ctermbg=red guibg=red
-autocmd BufWinEnter,WinEnter * match WhitespaceEOL /\s\+$/
-
-" When "set list" is set, show tabs and EOL explicitly
+" misc default settings
+set backspace=2
+set hlsearch
+set ignorecase
+set incsearch
+set laststatus=2
 set listchars=eol:$,tab:>-
+set mouse=a
+set nomodeline
+set number
+set printfont=courier:h8
+set printoptions=paper:letter
+set ruler
+set showcmd
+set showmatch
+set smartcase
+set undolevels=10000
+set wildmenu
+set wildmode=longest:full
+
+" VimOrganizer
+au! BufRead,BufWrite,BufWritePost,BufNewFile *.org
+au BufEnter *.org            call org#SetOrgFileType()
