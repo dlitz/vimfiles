@@ -17,7 +17,7 @@ let python_highlight_all=1
 let python_space_error_highlight=1
 
 " highlight bad whitespace (this part must be after "syntax on")
-" We hightlight trailing spaces and spaces-before-tabs.
+" We highlight trailing spaces and spaces-before-tabs.
 autocmd Syntax * syntax match SpaceError display excludenl /\s\+$\| \+\t/ containedin=ALL
 
 " spaces and tabs
@@ -28,7 +28,7 @@ autocmd FileType haskell,ruby,tex,verilog setlocal ts=2 sw=2 sts=2 expandtab
 autocmd FileType python setlocal ts=4 sw=4 sts=4 expandtab
 
 " email editing
-autocmd BufNewFile,BufRead .letter,mutt*,nn.*,snd.* setlocal formatoptions=wantql
+autocmd BufNewFile,BufRead .letter,mutt*,nn.*,snd.* setlocal spell formatoptions=wantql
 
 " misc default settings
 set backspace=2
@@ -46,6 +46,8 @@ set ruler
 set showcmd
 set showmatch
 set smartcase
+set spell
+set spelllang=en_us,en_ca
 set undolevels=10000
 set wildmenu
 set wildmode=longest:full
