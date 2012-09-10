@@ -22,6 +22,7 @@ hi Question    ctermfg=Green        guifg=Green                                 
 hi Search      ctermbg=Yellow       guibg=Yellow                                                                term=reverse
 hi Special     ctermfg=DarkMagenta  guifg=DarkMagenta                                       term=bold
 hi SpecialKey  ctermfg=DarkBlue     guifg=Blue                                                                  term=bold
+hi SpellBad    ctermfg=NONE         guifg=NONE          ctermbg=NONE    guibg=NONE          cterm=undercurl gui=undercurl term=undercurl
 hi Statement   ctermfg=DarkGreen    guifg=Green                                             cterm=NONE gui=NONE term=bold
 hi StatusLine  ctermfg=Yellow       guifg=Yellow        ctermbg=Blue    guibg=DarkBlue      cterm=bold gui=bold term=reverse
 hi StatusLineNC ctermfg=Black       guifg=grey20        ctermbg=Yellow  guibg=DarkYellow    cterm=bold gui=bold term=bold
