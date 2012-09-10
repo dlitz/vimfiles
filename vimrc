@@ -1,6 +1,9 @@
 " Pathogen
 call pathogen#infect()      " Must be before filetype plugin indent on
 
+" Enable syntax highlighting (must before filetype plugin indent on, apparently, or VimOrganizer syntx highlighting breaks)
+syntax on
+
 " filetype-specific auto-indent
 filetype plugin indent on
 
@@ -8,7 +11,6 @@ filetype plugin indent on
 autocmd ColorScheme * highlight SpaceError ctermbg=red guibg=red
 
 " syntax highlighting - enable and basic options
-syntax on
 colorscheme dwon
 let java_highlight_all=1
 let java_highlight_debug=1
@@ -29,6 +31,9 @@ autocmd FileType python setlocal ts=4 sw=4 sts=4 expandtab
 
 " email editing
 autocmd BufNewFile,BufRead .letter,mutt*,nn.*,snd.* setlocal spell formatoptions=wantql
+
+" other file-specific settings
+autocmd FileType org setlocal nospell
 
 " misc default settings
 set backspace=2
