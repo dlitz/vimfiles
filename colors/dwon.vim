@@ -11,6 +11,7 @@ hi Delimiter   ctermfg=Red          guifg=Red                                   
 hi Directory   ctermfg=Blue         guifg=Blue                                              cterm=bold gui=bold term=bold
 hi Error       ctermfg=Red          guifg=#FF7777       ctermbg=DarkRed guibg=#DD0000       cterm=bold gui=bold term=standout
 hi ErrorMsg    ctermfg=Red          guifg=Red           ctermbg=NONE    guibg=NONE          cterm=bold gui=bold term=standout
+hi Folded      ctermfg=DarkGrey     guifg=#808080                       guibg=#101020       cterm=bold gui=bold term=standout
 hi Identifier  ctermfg=Cyan         guifg=Cyan                                              cterm=bold gui=bold term=underline
 hi LineNr      ctermfg=DarkYellow   guifg=DarkYellow                                        cterm=bold gui=bold term=underline
 hi ModeMsg     ctermfg=Yellow       guifg=Yellow        ctermbg=Red     guibg=Red           cterm=bold term=bold
