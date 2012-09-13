@@ -57,6 +57,19 @@ set undolevels=10000
 set wildmenu
 set wildmode=longest:full
 
+" Copy and paste in gui-mode like in gnome-terminal
+if has("gui_running")
+    " paste
+    noremap <c-s-v> "+gP
+    inoremap <c-s-v> <c-\><c-o>"+gP
+
+    " copy
+    vnoremap <c-s-c> "+y
+
+    " cut
+    vnoremap <c-s-x> "+d
+end
+
 " VimOrganizer
 au! BufRead,BufWrite,BufWritePost,BufNewFile *.org
 au BufEnter *.org            call org#SetOrgFileType()
