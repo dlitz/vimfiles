@@ -33,7 +33,7 @@ autocmd FileType python setlocal ts=4 sw=4 sts=4 expandtab
 autocmd BufNewFile,BufRead .letter,mutt*,nn.*,snd.* setlocal spell formatoptions=wantql
 
 " other file-specific settings
-autocmd FileType org setlocal nospell
+autocmd FileType text setlocal spell
 
 " misc default settings
 set backspace=2
@@ -51,7 +51,7 @@ set ruler
 set showcmd
 set showmatch
 set smartcase
-set spell
+set nospell
 set spelllang=en_us,en_ca
 set undolevels=10000
 set wildmenu
