@@ -60,6 +60,16 @@ set wildmode=longest:full
 " gvim font
 set guifont=Monospace\ 8
 
+" Copy and Paste (Linux GUI)
+if has("gui_running") && has("X11")
+    " paste (Ctrl-V/Ctrl-Shift-V).  (Ctrl-Q still works for visual select)
+    noremap <c-v> "+gP
+    inoremap <c-v> <c-\><c-o>"+gP
+
+    " copy
+    vnoremap <c-c> "+ygv
+endif
+
 " Host-specific settings
 if hostname() == 'mba415'
     " On this machine, I edit a lot of files in my Dropbox, and Vim .swp files
