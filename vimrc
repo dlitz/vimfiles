@@ -57,6 +57,13 @@ set undolevels=10000
 set wildmenu
 set wildmode=longest:full
 
+" Host-specific settings
+if hostname() == 'mba415'
+    " On this machine, I edit a lot of files in my Dropbox, and Vim .swp files
+    " normally create a lot of noise in Dropbox.
+    set directory^=~/.vim/swapfiles/
+endif
+
 " VimOrganizer
 au! BufRead,BufWrite,BufWritePost,BufNewFile *.org
 au BufEnter *.org            call org#SetOrgFileType()
