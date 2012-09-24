@@ -57,6 +57,9 @@ set undolevels=10000
 set wildmenu
 set wildmode=longest:full
 
+" gvim font
+set guifont=Monospace\ 8
+
 " Host-specific settings
 if hostname() == 'mba415'
     " On this machine, I edit a lot of files in my Dropbox, and Vim .swp files
