@@ -60,7 +60,11 @@ set wildmenu
 set wildmode=longest:full
 
 " gvim font
-set guifont=Monospace\ 8
+if has("gui_macvim")
+    set guifont=Menlo\ Regular:h11
+else
+    set guifont=Monospace\ 8
+endif
 
 " Copy and Paste (Linux GUI)
 if has("gui_running") && has("X11")
