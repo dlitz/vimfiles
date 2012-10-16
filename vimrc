@@ -86,3 +86,6 @@ endif
 " VimOrganizer
 au! BufRead,BufWrite,BufWritePost,BufNewFile *.org
 au BufEnter *.org            call org#SetOrgFileType()
+
+" Insert-mode autocompletion
+inoremap @#$DF <c-\><c-o>$<tab># DEBUG FIXME<space><space>
