@@ -53,9 +53,11 @@ set ruler
 set showcmd
 set showmatch
 set smartcase
+set t_vb=           " setting this blank when visualbell is set means we get no bell at all
 set nospell
 set spelllang=en_us,en_ca
 set undolevels=10000
+set visualbell
 set wildmenu
 set wildmode=longest:full
 
