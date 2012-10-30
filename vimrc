@@ -91,3 +91,11 @@ au BufEnter *.org            call org#SetOrgFileType()
 
 " Insert-mode autocompletion
 inoremap @#$DF <c-\><c-o>$<tab># DEBUG FIXME<space><space>
+
+" Create the :Retag command
+" requires exuberant-ctags
+function! Retag() abort
+    call system("ctags -R --languages=-TeX --python-kinds=-i .")
+    exec "redraw!"
+endfunction
+command! Retag call Retag()
