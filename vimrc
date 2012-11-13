@@ -4,6 +4,9 @@ call pathogen#infect()      " Must be before filetype plugin indent on
 " Enable syntax highlighting (must before filetype plugin indent on, apparently, or VimOrganizer syntx highlighting breaks)
 syntax on
 
+" VimOrganizer -- pre-filetype stuff
+let g:ft_ignore_pad = '\.org'
+
 " filetype-specific auto-indent
 filetype plugin indent on
 
@@ -85,9 +88,24 @@ if hostname() == 'mba415'
     set directory^=~/.vim/swapfiles/
 endif
 
-" VimOrganizer
+" VimOrganizer - a lot of this is copied from bundle/hsitz-VimOrganizer-*/_vimrc
 au! BufRead,BufWrite,BufWritePost,BufNewFile *.org
 au BufEnter *.org            call org#SetOrgFileType()
+command! OrgCapture :call org#CaptureBuffer()
+command! OrgCaptureFile :call org#OpenCaptureFile()
+let g:org_capture_file = '~/Dropbox/org-notes/gtd/captures.org'
+let g:org_todo_setup='TODO NEXT STARTED | DONE CANCELED'
+let g:org_agenda_select_dirs=["~/Dropbox/org-notes/gtd"]
+let g:agenda_files = split(glob("~/Dropbox/org-notes/gtd/*.org"),"\n")
+let g:org_custom_searches = [
+            \  { 'name':"Next week's agenda", 'type':'agenda',
+            \    'agenda_date':'+1w', 'agenda_duration':'w' }
+            \, { 'name':"Next week's TODOS", 'type':'agenda',
+            \    'agenda_date':'+1w', 'agenda_duration':'w',
+            \    'spec':'+UNFINISHED_TODOS' }
+            \, { 'name':'Home tags', 'type':'heading_list', 'spec':'+HOME' }
+            \, { 'name':'Home tags', 'type':'sparse_tree', 'spec':'+HOME' }
+            \  ]
 
 " Insert-mode autocompletion
 inoremap @#$DF <c-\><c-o>$<tab># DEBUG FIXME<space><space>
