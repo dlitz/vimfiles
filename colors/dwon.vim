@@ -36,3 +36,6 @@ hi Type        ctermfg=Yellow       guifg=Yellow                                
 hi Visual      ctermfg=DarkCyan     guifg=Cyan          ctermbg=DarkMagenta guibg=DarkMagenta cterm=bold        term=reverse
 "hi Visual      ctermfg=Yellow       guifg=Yellow        ctermbg=Blue    guibg=Blue          cterm=bold          term=reverse
 hi WarningMsg  ctermfg=Red          guifg=Red           ctermbg=Blue    guibg=Blue          cterm=bold gui=bold term=standout
+
+" User1 is used by the pythonhelper.vim plugin for information on the status line
+hi User1       ctermfg=Yellow       guifg=Yellow        ctermbg=Blue    guibg=DarkBlue      cterm=bold gui=bold term=reverse
