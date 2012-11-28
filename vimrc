@@ -1,3 +1,10 @@
+":" Run this file as "sh ~/.vim/vimrc" to set up the symlinks
+"[" -e ~/.vimrc ] && mv -v -f ~/.vimrc ~/.vimrc~ || true
+"[" -e ~/.gvimrc ] && mv -v -f ~/.gvimrc ~/.gvimrc~ || true
+"ln" -v -s .vim/vimrc ~/.vimrc
+"ln" -v -s .vim/vimrc ~/.gvimrc
+"exit" 0
+
 " Pathogen
 call pathogen#infect()      " Must be before filetype plugin indent on
 
