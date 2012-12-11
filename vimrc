@@ -33,12 +33,12 @@ let python_space_error_highlight=1
 autocmd Syntax * syntax match SpaceError display excludenl /\s\+$\| \+\t/ containedin=ALL
 
 " spaces and tabs
-set tabstop=4 shiftwidth=4 softtabstop=4 expandtab  " default
-autocmd FileType make setlocal ts=8 sw=8 sts=0 noexpandtab
-autocmd FileType html,mako,myt,php setlocal ts=2 sw=2 sts=2 expandtab
-autocmd FileType haskell,ruby,tex,verilog setlocal ts=2 sw=2 sts=2 expandtab
-autocmd FileType python setlocal ts=4 sw=4 sts=4 expandtab
-autocmd FileType objc setlocal ts=8 sw=2 sts=2 expandtab foldmethod=syntax
+set tabstop=8 shiftwidth=4 softtabstop=4 expandtab  " default
+autocmd FileType make setlocal sw=8 sts=0 noexpandtab
+autocmd FileType html,mako,myt,php setlocal sw=2 sts=2 expandtab
+autocmd FileType haskell,ruby,tex,verilog setlocal sw=2 sts=2 expandtab
+autocmd FileType python setlocal sw=4 sts=4 expandtab
+autocmd FileType objc setlocal sw=2 sts=2 expandtab foldmethod=syntax
 
 " email editing
 autocmd BufNewFile,BufRead .letter,mutt*,nn.*,snd.* setlocal spell formatoptions=wantql
