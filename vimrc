@@ -105,7 +105,7 @@ command! OrgCaptureFile :call org#OpenCaptureFile()
 let g:org_capture_file = '~/Dropbox/org-notes/gtd/captures.org'
 let g:org_todo_setup='TODO NEXT STARTED | DONE CANCELED'
 let g:org_agenda_select_dirs=["~/Dropbox/org-notes/gtd"]
-let g:agenda_files = split(glob("~/Dropbox/org-notes/gtd/*.org"),"\n")
+let g:agenda_files = split(glob("~/Dropbox/org-notes/gtd/*.org"),"\n") + ["~/Dropbox/org-notes/status.org"]
 let g:org_custom_searches = [
             \  { 'name':"Next week's agenda", 'type':'agenda',
             \    'agenda_date':'+1w', 'agenda_duration':'w' }
