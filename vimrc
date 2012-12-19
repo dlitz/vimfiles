@@ -104,7 +104,7 @@ au BufEnter *.org            call org#SetOrgFileType()
 command! OrgCapture :call org#CaptureBuffer()
 command! OrgCaptureFile :call org#OpenCaptureFile()
 let g:org_capture_file = '~/Dropbox/org-notes/gtd/captures.org'
-let g:org_todo_setup='TODO NEXT STARTED WAITING | DONE CANCELED'
+let g:org_todo_setup='TODO NEXT STARTED WAITING DELEG | DONE CANCELED'
 let g:org_agenda_select_dirs=["~/Dropbox/org-notes/gtd"]
 let g:agenda_files = split(glob("~/Dropbox/org-notes/gtd/*.org"),"\n") + ["~/Dropbox/org-notes/status.org"]
 let g:org_custom_searches = [
