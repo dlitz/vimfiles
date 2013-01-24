@@ -1,7 +1,7 @@
 " File: pythonhelper.vim
 " Author: Michal Vitecek <fuf-at-mageo-dot-cz>
 " Version: 0.83
-" Last Modified: Jan 4, 2010
+" Last Modified: Jan 24, 2013 by Dwayne Litzenberger
 "
 " Overview
 " --------
@@ -24,7 +24,8 @@
 "    to recompile it with --with-pythoninterp option to the configure script
 " 2. Copy script pythonhelper.vim to the $HOME/.vim/plugin directory
 " 3. Run Vim and open any python file.
-" 
+"
+if has("python")
 python << EOS
 
 # import of required modules {{{
@@ -755,5 +756,7 @@ set laststatus=2
 set stl=%-f%r\ %2*%m%*\ \ \ \ %1*%{TagInStatusLine()}%*%=[%l:%c]\ \ \ \ [buf\ %n]
 
 " }}}
+
+endif   " has("python")
 
 " vim:foldmethod=marker
