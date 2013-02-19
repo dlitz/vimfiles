@@ -127,7 +127,8 @@ function! Retag() abort
     exec "redraw!"
 endfunction
 function! RetagObjC() abort
-    call system("ctags -R --languages=-TeX --python-kinds=-i --langmap=ObjectiveC:.m.h .")
+    call system("ctags -R --languages=-TeX --python-kinds=-i --langmap=C:.m.h .")
+    call system("ctags -R --languages=-TeX --python-kinds=-i --langmap=ObjectiveC:.m.h --append .")
     exec "redraw!"
 endfunction
 command! Retag call Retag()
