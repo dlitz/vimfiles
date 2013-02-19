@@ -38,7 +38,7 @@ autocmd FileType make setlocal sw=8 sts=0 noexpandtab
 autocmd FileType html,mako,myt,php setlocal sw=2 sts=2 expandtab
 autocmd FileType haskell,ruby,tex,verilog setlocal sw=2 sts=2 expandtab
 autocmd FileType python setlocal sw=4 sts=4 expandtab
-autocmd FileType objc setlocal sw=2 sts=2 expandtab foldmethod=syntax
+autocmd FileType objc,objcpp setlocal sw=2 sts=2 expandtab foldmethod=syntax
 
 " email editing
 autocmd BufNewFile,BufRead .letter,mutt*,nn.*,snd.* setlocal spell formatoptions=wantql
