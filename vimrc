@@ -41,7 +41,8 @@ autocmd FileType python setlocal sw=4 sts=4 expandtab
 autocmd FileType objc,objcpp setlocal sw=2 sts=2 expandtab foldmethod=syntax
 
 " email editing
-autocmd BufNewFile,BufRead .letter,mutt*,nn.*,snd.* setlocal spell formatoptions=wantql
+"autocmd BufNewFile,BufRead .letter,mutt*,nn.*,snd.* setlocal spell formatoptions=wantql
+autocmd FileType mail setlocal spell formatoptions=wantql
 
 " other file-specific settings
 autocmd FileType text setlocal spell
