@@ -99,6 +99,13 @@ if hostname() == 'mba415'
     set directory^=~/.vim/swapfiles/
 endif
 
+" ack-grep plugin
+if has("win32")
+    let g:ackprg="C:\\\\Progra~2\\\\Git\\\\bin\\\\perl\\ $HOME\\vimfiles\\\\bin\\\\ack-1.96-single-file\\ -H\\ --nocolor\\ --nogroup"
+else
+    let g:ackprg="ack-grep\\ -H\\ --nocolor\\ --nogroup"
+endif
+
 " VimOrganizer - a lot of this is copied from bundle/hsitz-VimOrganizer-*/_vimrc
 au! BufRead,BufWrite,BufWritePost,BufNewFile *.org
 au BufEnter *.org            call org#SetOrgFileType()
