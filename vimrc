@@ -101,9 +101,19 @@ endif
 
 " ack-grep plugin
 if has("win32")
-    let g:ackprg="C:\\\\Progra~2\\\\Git\\\\bin\\\\perl\\ $HOME\\vimfiles\\\\bin\\\\ack-1.96-single-file\\ -H\\ --nocolor\\ --nogroup"
+    " This is insane:
+    " - The result of this gets passed to exec 'set grepprg=' . g:ackprg
+    " - The result of that gets passed to cmd /c
+    " - cmd /c handles a single double-quoted string as the command name, but
+    "   if you give it a double-quoted string as an argument, it suddenly says
+    "   that the *command* isn't found.  So we pass single-quoted $HOME into
+    "   that, and let the fact that the mingw perl knows how to parse
+    "   single-quotes.
+    let g:ackprg=fnameescape(
+        \ shellescape($ProgramFiles . '\Git\bin\perl') . " " .
+        \ "'$HOME\\vimfiles\\bin\\ack-1.96-single-file' -H --nocolor --nogroup")
 else
-    let g:ackprg="ack-grep\\ -H\\ --nocolor\\ --nogroup"
+    let g:ackprg=fnameescape('ack-grep -H --nocolor --nogroup')
 endif
 
 " Disable gitgutter on windows (it just repeatedly invokes vimrun.exe forever. Maybe it's just a high-DPI thing?)
