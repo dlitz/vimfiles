@@ -125,6 +125,18 @@ if !exists('g:org_loaded')
 " Load the checkbox plugin
 execute "runtime ftplugins/vo_checkbox.vim"
 
+" set calfunc depending on which calendar version installed
+if exists(':Calendar')==2 
+    if exists('*Calendar')>0 
+        let s:Calfunc=function('Calendar')
+    else " we have to assume it's more recent version
+        let s:Calfunc=function('calendar#show')
+    endif
+    if !exists('g:calendar_navi') 
+        let g:calendar_navi=''
+    endif    
+endif    
+
 function! s:SID()
     return matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze_SID$')
 endfun
@@ -535,10 +547,11 @@ function! OrgTodoSetup(todolist_str)
     let b:v.fulltodos = todolist
 
     syntax clear DONETODO
-    exec 'syntax match DONETODO /' . b:v.todoDoneMatch . '/ containedin=OL1,OL2,OL3,OL4,OL5,OL6'
+    exec 'syntax match DONETODO /' . b:v.todoDoneMatch[1:] . '/ containedin=OL1,OL2,OL3,OL4,OL5,OL6'
     syntax clear NOTDONETODO
-    exec 'syntax match NOTDONETODO /' . b:v.todoNotDoneMatch . '/ containedin=OL1,OL2,OL3,OL4,OL5,OL6'
+    exec 'syntax match NOTDONETODO /' . b:v.todoNotDoneMatch[1:] . '/ containedin=OL1,OL2,OL3,OL4,OL5,OL6'
 
+    call s:OrgCustomTodoHighlights()
     for item in keys( b:v.tododict )
         let item_char = tolower( b:v.tododict[item].todochar)
         if item_char ==# ''
@@ -2039,9 +2052,12 @@ function! s:DoFullFold(headline)
 endfunction
 function! s:OrgCycle(headline)
     let save_cursor = getpos(".")
+    let topline = line("w0")
+
     let end = foldclosedend(a:headline)
     if (end>0) && (s:Ind(end+1) <= s:Ind(a:headline))
         call s:OrgExpandHead(a:headline)
+        let endline = end
     elseif ((end == -1) && (s:Ind(s:OrgNextHead_l(a:headline)) > s:Ind(a:headline))          
                 \ && (foldclosed(s:OrgNextHead_l(a:headline)) > 0))
         let nextsamelevel = s:OrgNextHeadSameLevel_l(a:headline)
@@ -2062,7 +2078,13 @@ function! s:OrgCycle(headline)
     else
         call s:DoFullFold(a:headline)
     endif
+
+    exe "normal! " . topline . "G"
+    normal zt
     call setpos(".",save_cursor)
+    if exists('endline') && line('w$') < endline
+        normal ztkj
+    endif
 endfunction
 function! OrgCycle()
     if getline(line(".")) =~ b:v.headMatch
@@ -2074,9 +2096,6 @@ function! OrgCycle()
         exec "normal i\tl"
         return
     endif
-    " position to top of screen with cursor in col 0
-    "normal! z.
-    normal! ztkj
 endfunction
 let s:orgskipthirdcycle = 0
 function! OrgGlobalCycle()
@@ -4408,7 +4427,7 @@ function! CalEdit( sdate, stime )
 
         hi Cursor guibg=black
         let s:org_cal_date = newdate[1:10]
-        call Calendar(1,newdate[1:4],str2nr(newdate[6:7]))
+        call s:Calfunc(1,newdate[1:4],str2nr(newdate[6:7]))
         " highlight chosen dates in calendar
         hi Ag_Date guifg=red
         call matchadd('Ag_Date','+\s\{0,1}\d\+')
@@ -4480,7 +4499,7 @@ function! CalEdit( sdate, stime )
             endtry
             if g:org_use_calendar && (match(newdate,'\d\d\d\d-\d\d')>=0)
                 let s:org_cal_date = newdate[1:10]
-                call Calendar(1,newdate[1:4],str2nr(newdate[6:7]))
+                call s:Calfunc(1,newdate[1:4],str2nr(newdate[6:7]))
             endif
             echon repeat(' ',72)
             redraw
@@ -6192,11 +6211,13 @@ function! s:OrgAgendaToBufTest()
         "let g:tofile = matchlist(getline(line(".")),'^\d\+\s*\(\S\+\)')[1]
     endif
     let cur_buf = bufnr("%")
-    let g:org_folds=0
+    "let g:org_folds=0
     let newbuf = bufnr(g:tofile)
     execute "b"newbuf
+    set ft=org
     execute g:showndx
-    let g:org_folds=1
+    normal zv
+    "let g:org_folds=1
 endfunction
 function! s:OrgAgendaToBuf()
     let win = bufwinnr('Calendar')
@@ -7529,7 +7550,7 @@ function! s:OrgCustomTodoHighlights()
                 endif
             endfor
             "now put new match in
-            exec 'syntax match ' . item . ' ' .  '+\*\+ \zs' . item . ' + containedin=DONETODO,NOTDONETODO,OL1,OL2,OL3,OL4,OL5,OL6' 
+            exec 'syntax match ' . item . ' ' .  '+\*\+ \zs' . item . ' + containedin=OL1,OL2,OL3,OL4,OL5,OL6' 
         endif
         
     endfor
@@ -7595,14 +7616,14 @@ function! OrgSetColors()
 
     "hi agenda_dayline guifg=#44aa44 gui=underline
     "hi agenda_weekendline guifg=#55ee55 gui=underline
-    hi agenda_omitted_days guifg=#555555
-    hi agenda_todo guifg=lightred gui=bold
-    hi agenda_done guifg=lightgreen
-    hi agenda_date guifg=lightblue 
-    hi agenda_weekenddate guifg=lightblue gui=bold 
-    hi agenda_scheduled guifg=lightyellow
-    hi agenda_scheduled_previous guifg=lightmagenta
-    hi agenda_timegrid guifg=#666666
+    hi agenda_omitted_days guifg=#555555 ctermfg=gray
+    hi agenda_todo guifg=lightred gui=bold ctermfg=lightred cterm=bold
+    hi agenda_done guifg=lightgreen ctermfg=lightgreen
+    hi agenda_date guifg=lightblue ctermfg=lightblue
+    hi agenda_weekenddate guifg=lightblue gui=bold ctermfg=lightblue cterm=bold
+    hi agenda_scheduled guifg=lightyellow ctermfg=lightyellow
+    hi agenda_scheduled_previous guifg=lightmagenta ctermfg=lightmagenta
+    hi agenda_timegrid guifg=#666666 ctermfg=gray
     " end agenda highlights
   
     if has("conceal")
@@ -8353,6 +8374,7 @@ amenu <silent> &Org.R&e-read\ Config\ Lines :call OrgProcessConfigLines()<cr>
 "*********************************************************************
 "*********************************************************************
 endif
+
 let g:org_loaded=1
 let b:v.org_loaded=1
 "*********************************************************************
