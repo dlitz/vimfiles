@@ -1,0 +1,49 @@
+#!/bin/bash
+
+if [ "$*" = "" ] ; then
+    prefixes=(
+        bundle/cocoa.vim
+        bundle/pyxl
+        bundle/tagbar
+        bundle/vim-coffee-script
+        bundle/vim-gitgutter
+        bundle/VimOrganizer
+    )
+else
+    prefixes=( "$@" )
+fi
+
+for prefix in "${prefixes[@]}" ; do
+    case "$prefix" in
+        bundle/cocoa.vim)
+            repo=https://github.com/msanders/cocoa.vim
+            ref=master
+            ;;
+        bundle/pyxl)
+            repo=https://github.com/jboning/pyxl
+            ref=master
+            ;;
+        bundle/tagbar)
+            repo=https://github.com/majutsushi/tagbar
+            ref=master
+            ;;
+        bundle/vim-coffee-script)
+            repo=https://github.com/kchmck/vim-coffee-script
+            ref=master
+            ;;
+        bundle/vim-gitgutter)
+            repo=https://github.com/airblade/vim-gitgutter
+            ref=master
+            ;;
+        bundle/VimOrganizer)
+            repo=https://github.com/hsitz/VimOrganizer
+            ref=master
+            ;;
+        *)
+            echo >&2 "Unknown prefix: $prefix"
+            exit 1
+            ;;
+    esac
+    git subtree pull -P "$prefix" --squash --message "$prefix: Pulled new '$ref' from '$repo'" "$repo" "$ref"
+done
+
