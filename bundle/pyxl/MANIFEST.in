@@ -1,0 +1,2 @@
+include README pyxl.pth finish_install.py
+recursive-include emacs *.el
