@@ -61,6 +61,12 @@ Commands for turning Git Gutter on and off:
   :GitGutterToggle                                           *:GitGutterToggle*
       Explicitly turn Git Gutter on if it was off and vice versa.
 
+  :GitGutter                                                       *:GitGutter*
+      Update signs for the current buffer.
+
+  :GitGutterAll                                                 *:GitGutterAll*
+      Update signs across all buffers.
+
 Commands for turning line highlighting on and off (defaults to off):
 
   :GitGutterLineHighlightsEnable               *:GitGutterLineHighlightsEnable*
@@ -75,10 +81,10 @@ Commands for turning line highlighting on and off (defaults to off):
 Commands for jumping between marked hunks:
 
   :GitGutterNextHunk                                       *:GitGutterNextHunk*
-      Jump to the next marked hunk.
+      Jump to the next marked hunk.  Takes a count.
 
   :GitGutterPrevHunk                                       *:GitGutterPrevHunk*
-      Jump to the previous marked hunk.
+      Jump to the previous marked hunk.  Takes a count.
 
 ===============================================================================
 5. CUSTOMISATION                                       *GitGutterCustomisation*
@@ -86,10 +92,14 @@ Commands for jumping between marked hunks:
 You can customise:
 
 - The sign column's colours
-- The signs' colours
+- The signs' colours and symbols
 - Line highlights
+- Extra arguments for git-diff
+- Whether or not to escape grep (defaults to no)
 - Whether or not vim-gitgutter is on initially (defaults to on)
+- Whether or not signs are shown (defaults to yes)
 - Whether or not line highlighting is on initially (defaults to off)
+- Whether or not vim-gitgutter runs eagerly (defaults to yes)
 
 Please note that vim-gitgutter won't override any colours or highlights you've
 set in your colorscheme.
@@ -119,10 +129,10 @@ like this:
   User-defined (terminal Vim)         highlight SignColumn ctermbg={whatever}
   User-defined (graphical Vim)        highlight SignColumn guibg={whatever}
 
-SIGNS' COLOURS
+SIGNS' COLOURS AND SYMBOLS
 
-To customise these, set up the following highlight groups in your colorscheme
-or |vimrc|:
+To customise the colours, set up the following highlight groups in your
+colorscheme or |vimrc|:
 
 >
   GitGutterAdd          " an added line
@@ -137,11 +147,25 @@ them to existing highlight groups with, say:
   highlight link GitGutterAdd DiffAdd
 <
 
+To customise the symbols, add the following to your |vimrc|:
+>
+  let g:gitgutter_sign_added = 'xx'
+  let g:gitgutter_sign_modified = 'yy'
+  let g:gitgutter_sign_removed = 'zz'
+  let g:gitgutter_sign_modified_removed = 'ww'
+<
+
+SIGNS
+
+To never show signs, use this:
+>
+  let git:gitgutter_signs = 0
+<
+
 LINE HIGHLIGHTS
 
 Similarly to the signs' colours, set up the following highlight groups in your
 colorscheme or |vimrc|:
-
 >
   GitGutterAddLine          " default: links to DiffAdd
   GitGutterChangeLine       " default: links to DiffChange
@@ -149,13 +173,40 @@ colorscheme or |vimrc|:
   GitGutterChangeDeleteLine " default: links to GitGutterChangeLineDefault
 <
 
+EXTRA ARGUMENTS FOR GIT-DIFF
+
+To pass extra arguments to git-diff, add this to your |vimrc|:
+>
+  let g:gitgutter_diff_args = '-w'
+<
+
+TO ESCAPE GREP
+
+To avoid any alias you have for grep, use this:
+>
+  let g:gitgutter_escape_grep = 1
+<
+
 TO TURN OFF VIM-GITGUTTER BY DEFAULT
 
-Add `let g:gitgutter_enabled = 0` to your |vimrc|.
+Add to your |vimrc|
+>
+  let g:gitgutter_enabled = 0
+<
 
 TO TURN ON LINE HIGHLIGHTING BY DEFAULT
 
-Add `let g:gitgutter_highlight_lines = 1` to your |vimrc|.
+Add to your |vimrc|
+>
+  let g:gitgutter_highlight_lines = 1
+<
+
+TO STOP VIM-GITGUTTER RUNNING EAGERLY
+
+Add to your |vimrc|
+>
+  let g:gitgutter_eager = 0
+<
 
 
 ===============================================================================
