@@ -128,10 +128,13 @@ au! BufRead,BufWrite,BufWritePost,BufNewFile *.org
 au BufEnter *.org            call org#SetOrgFileType()
 command! OrgCapture :call org#CaptureBuffer()
 command! OrgCaptureFile :call org#OpenCaptureFile()
-let g:org_capture_file = '~/Dropbox/org-notes/gtd/captures.org'
-let g:org_todo_setup='TODO NEXT STARTED WAITING INREVIEW DELEG | DONE CANCELED'
-let g:org_agenda_select_dirs=["~/Dropbox/org-notes/gtd"]
-let g:agenda_files = split(glob("~/Dropbox/org-notes/gtd/*.org"),"\n") + ["~/Dropbox/org-notes/status.org"]
+"let g:org_todo_setup='TODO NEXT STARTED WAITING INREVIEW DELEG | DONE CANCELED'
+"let g:org_capture_file = '~/Dropbox/org-notes/gtd/captures.org'
+"let g:org_agenda_select_dirs=["~/Dropbox/org-notes/gtd"]
+"let g:agenda_files = split(glob("~/Dropbox/org-notes/gtd/*.org"),"\n") + ["~/Dropbox/org-notes/status.org"]
+let g:org_capture_file = '~/mnt/gtd-private/stuff.org'
+let g:org_agenda_select_dirs=["~/mnt/gtd-private"]
+let g:agenda_files = split(glob("~/mnt/gtd-private/*.org"),"\n")
 let g:org_custom_searches = [
             \  { 'name':"Next week's agenda", 'type':'agenda',
             \    'agenda_date':'+1w', 'agenda_duration':'w' }
