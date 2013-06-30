@@ -5,17 +5,19 @@
 "ln" -v -s .vim/vimrc ~/.gvimrc
 "exit" 0
 
+" Early initialization
+set nocompatible
+syntax off
+filetype off
+
 " Pathogen
 call pathogen#infect()      " Must be before filetype plugin indent on
 
-" Enable syntax highlighting (must before filetype plugin indent on, apparently, or VimOrganizer syntx highlighting breaks)
-syntax on
-
-" VimOrganizer -- pre-filetype stuff
-let g:ft_ignore_pad = '\.org'
-
 " filetype-specific auto-indent
 filetype plugin indent on
+
+" Enable syntax highlighting (must be after `filetype plugin indent on`, apparently, or VimOrganizer syntax highlighting breaks)
+syntax on
 
 " highlight bad whitespace (this part must be before colorscheme is loaded)
 autocmd ColorScheme * highlight SpaceError ctermbg=red guibg=red
