@@ -94,12 +94,6 @@ if has("gui_running") && has("X11")
     vnoremap <c-c> "+ygv
 endif
 
-" Host-specific settings
-if hostname() == 'mba415'
-    " On this machine, I edit a lot of files in my Dropbox, and Vim .swp files
-    " normally create a lot of noise in Dropbox.
-    set directory^=~/.vim/swapfiles/
-endif
 
 " ack-grep plugin
 if has("win32")
