@@ -94,6 +94,8 @@ if has("gui_running") && has("X11")
     vnoremap <c-c> "+ygv
 endif
 
+" The coding styleguide for the client recommends 120-column line length limit
+autocmd BufRead * if expand('<amatch>') =~ "^/Volumes/tcshared/dlitz/source/.*\.py$" | setl colorcolumn=121 | endif
 
 " ack-grep plugin
 if has("win32")
