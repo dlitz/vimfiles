@@ -83,7 +83,8 @@ set fileencodings=ucs-bom,utf-8,default,latin1
 if has("gui_macvim")
     set guifont=Menlo\ Regular:h11
 elseif has("gui_win32")
-    set guifont=Terminal:h9
+    "set guifont=Terminal:h9        " Terminal doesn't display Unicode
+    set guifont=Lucida_Console:h9:cANSI
 else
     set guifont=Monospace\ 8
 endif
