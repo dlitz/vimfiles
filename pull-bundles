@@ -4,6 +4,7 @@ if [ "$*" = "" ] ; then
     prefixes=(
         bundle/cocoa.vim
         bundle/pyxl
+        bundle/securemodelines
         bundle/tagbar
         bundle/vim-coffee-script
         bundle/vim-gitgutter
@@ -21,6 +22,10 @@ for prefix in "${prefixes[@]}" ; do
             ;;
         bundle/pyxl)
             repo=https://github.com/jboning/pyxl
+            ref=master
+            ;;
+        bundle/securemodelines)
+            repo=https://github.com/ciaranm/securemodelines
             ref=master
             ;;
         bundle/tagbar)
