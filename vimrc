@@ -75,6 +75,10 @@ set visualbell
 set wildmenu
 set wildmode=longest:full
 
+" This isn't the default on Windows for some reason
+set encoding=utf-8
+set fileencodings=ucs-bom,utf-8,default,latin1
+
 " gvim font
 if has("gui_macvim")
     set guifont=Menlo\ Regular:h11
