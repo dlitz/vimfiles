@@ -8,6 +8,7 @@ if [ "$*" = "" ] ; then
         bundle/tagbar
         bundle/vim-coffee-script
         bundle/vim-emacsmodeline
+        bundle/vim-signify
         bundle/VimOrganizer
     )
 else
@@ -38,6 +39,10 @@ for prefix in "${prefixes[@]}" ; do
             ;;
         bundle/vim-emacsmodeline)
             repo=https://github.com/sfiera/vim-emacsmodeline
+            ref=master
+            ;;
+        bundle/vim-signify)
+            repo=https://github.com/mhinz/vim-signify
             ref=master
             ;;
         bundle/VimOrganizer)
