@@ -8,7 +8,6 @@ if [ "$*" = "" ] ; then
         bundle/tagbar
         bundle/vim-coffee-script
         bundle/vim-emacsmodeline
-        bundle/vim-gitgutter
         bundle/VimOrganizer
     )
 else
@@ -39,10 +38,6 @@ for prefix in "${prefixes[@]}" ; do
             ;;
         bundle/vim-emacsmodeline)
             repo=https://github.com/sfiera/vim-emacsmodeline
-            ref=master
-            ;;
-        bundle/vim-gitgutter)
-            repo=https://github.com/airblade/vim-gitgutter
             ref=master
             ;;
         bundle/VimOrganizer)
