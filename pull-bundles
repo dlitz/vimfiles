@@ -1,5 +1,39 @@
 #!/bin/bash
 
+usage() {
+    echo "Usage: $0 [-hH] PREFIX..."
+    cat <<'EOF'
+Update the subtree bundles.
+
+PREFIX is something like 'bundle/securemodelines'.  You can specify more than
+one.
+
+Options:
+  -H                    Use HTTPS instead of SSH to access GitHub
+  -h                    display help and exit
+EOF
+}
+
+GITHUB=git@github.com:
+
+while getopts 'hH' opt ; do
+    case "$opt" in
+    'H')
+        GITHUB=https://github.com/
+        ;;
+    'h')
+        usage
+        exit 0
+        ;;
+    '?')
+        echo >&2 "Invalid option: -$OPTARG"
+        usage >&2
+        exit 2
+        ;;
+    esac
+done
+
+
 if [ "$*" = "" ] ; then
     prefixes=(
         bundle/cocoa.vim
@@ -18,35 +52,35 @@ fi
 for prefix in "${prefixes[@]}" ; do
     case "$prefix" in
         bundle/cocoa.vim)
-            repo=https://github.com/msanders/cocoa.vim
+            repo=${GITHUB}msanders/cocoa.vim
             ref=master
             ;;
         bundle/pyxl)
-            repo=https://github.com/jboning/pyxl
+            repo=${GITHUB}jboning/pyxl
             ref=master
             ;;
         bundle/securemodelines)
-            repo=https://github.com/ciaranm/securemodelines
+            repo=${GITHUB}ciaranm/securemodelines
             ref=master
             ;;
         bundle/tagbar)
-            repo=https://github.com/majutsushi/tagbar
+            repo=${GITHUB}majutsushi/tagbar
             ref=master
             ;;
         bundle/vim-coffee-script)
-            repo=https://github.com/kchmck/vim-coffee-script
+            repo=${GITHUB}kchmck/vim-coffee-script
             ref=master
             ;;
         bundle/vim-emacsmodeline)
-            repo=https://github.com/sfiera/vim-emacsmodeline
+            repo=${GITHUB}sfiera/vim-emacsmodeline
             ref=master
             ;;
         bundle/vim-signify)
-            repo=https://github.com/mhinz/vim-signify
+            repo=${GITHUB}mhinz/vim-signify
             ref=master
             ;;
         bundle/VimOrganizer)
-            repo=https://github.com/hsitz/VimOrganizer
+            repo=${GITHUB}hsitz/VimOrganizer
             ref=master
             ;;
         *)
