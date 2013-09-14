@@ -3093,7 +3093,7 @@ function! s:ResultsToAgenda( search_type )
         let msg = "Press <num>r to re-search: "
         let numstr= ''
         nmap <buffer> r :call OrgRunSearch(g:org_search_spec,'agenda_todo')<cr>
-        let tlist = ['ANY_TODO','UNFINISHED_TODOS', 'FINISHED_TODOS'] + s:Union(g:org_todoitems,[])
+        let tlist = ['ANY_TODO', 'UNFINISHED_TODOS', 'FINISHED_TODOS'] + s:Union(g:org_todoitems,[])
         for item in tlist
             let num = index(tlist,item)
             let numstr .= '('.num.')'.item.'  '

@@ -43,10 +43,10 @@ noremap <buffer> <localleader>b :call OrgTableDashboard()<cr>
 "noremap <silent> <buffer> <localleader>dd :call OrgDateEdit('DEADLINE')<cr>
 "noremap <silent> <buffer> <localleader>dc :call OrgDateEdit('CLOSED')<cr>
 "noremap <silent> <buffer> <localleader>ds :call OrgDateEdit('SCHEDULED')<cr>
-noremap <silent> <buffer> <localleader>a* :call OrgRunAgenda(strftime("%Y-%m-%d"),'w,'')<cr>
-noremap <silent> <buffer> <localleader>aa :call OrgRunAgenda(strftime("%Y-%m-%d"),'w,'+ANY_TODO')<cr>
-noremap <silent> <buffer> <localleader>at :call OrgRunAgenda(strftime("%Y-%m-%d"),'w,'+UNFINISHED_TODOS')<cr>
-noremap <silent> <buffer> <localleader>ad :call OrgRunAgenda(strftime("%Y-%m-%d"),'w,'+FINISHED_TODOS')<cr>
+noremap <silent> <buffer> <localleader>a* :call OrgRunAgenda(strftime("%Y-%m-%d"),'w','')<cr>
+noremap <silent> <buffer> <localleader>aa :call OrgRunAgenda(strftime("%Y-%m-%d"),'w','+ANY_TODO')<cr>
+noremap <silent> <buffer> <localleader>at :call OrgRunAgenda(strftime("%Y-%m-%d"),'w','+UNFINISHED_TODOS')<cr>
+noremap <silent> <buffer> <localleader>ad :call OrgRunAgenda(strftime("%Y-%m-%d"),'w','+FINISHED_TODOS')<cr>
 noremap <silent> <buffer> <localleader>ag :call OrgAgendaDashboard()<cr>
 noremap <silent> <buffer> <localleader>af :call OrgAgendaFilesDashboard()<cr>
 noremap <silent> <buffer> <localleader>ac :call OrgCustomSearchMenu()<cr>
