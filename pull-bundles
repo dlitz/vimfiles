@@ -30,6 +30,7 @@ while getopts 'hH' opt ; do
 done
 
 repos=(
+    git@github.com:rking/ag.vim
     git@github.com:msanders/cocoa.vim
     git@github.com:jboning/pyxl
     git@github.com:ciaranm/securemodelines
