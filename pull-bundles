@@ -1,12 +1,9 @@
 #!/bin/bash
 
 usage() {
-    echo "Usage: $0 [-hH] PREFIX..."
+    echo "Usage: $0 [-hH]"
     cat <<'EOF'
 Update the subtree bundles.
-
-PREFIX is something like 'bundle/securemodelines'.  You can specify more than
-one.
 
 Options:
   -H                    Use HTTPS instead of SSH to access GitHub
@@ -14,12 +11,11 @@ Options:
 EOF
 }
 
-GITHUB=git@github.com:
-
+github_https=
 while getopts 'hH' opt ; do
     case "$opt" in
     'H')
-        GITHUB=https://github.com/
+        github_https=1
         ;;
     'h')
         usage
@@ -33,61 +29,28 @@ while getopts 'hH' opt ; do
     esac
 done
 
+repos=(
+    git@github.com:msanders/cocoa.vim
+    git@github.com:jboning/pyxl
+    git@github.com:ciaranm/securemodelines
+    git@github.com:majutsushi/tagbar
+    git@github.com:kchmck/vim-coffee-script
+    git@github.com:sfiera/vim-emacsmodeline
+    git@github.com:mhinz/vim-signify
+    git@github.com:hsitz/VimOrganizer
+)
 
-if [ "$*" = "" ] ; then
-    prefixes=(
-        bundle/cocoa.vim
-        bundle/pyxl
-        bundle/securemodelines
-        bundle/tagbar
-        bundle/vim-coffee-script
-        bundle/vim-emacsmodeline
-        bundle/vim-signify
-        bundle/VimOrganizer
-    )
-else
-    prefixes=( "$@" )
-fi
-
-for prefix in "${prefixes[@]}" ; do
-    case "$prefix" in
-        bundle/cocoa.vim)
-            repo=${GITHUB}msanders/cocoa.vim
-            ref=master
-            ;;
-        bundle/pyxl)
-            repo=${GITHUB}jboning/pyxl
-            ref=master
-            ;;
-        bundle/securemodelines)
-            repo=${GITHUB}ciaranm/securemodelines
-            ref=master
-            ;;
-        bundle/tagbar)
-            repo=${GITHUB}majutsushi/tagbar
-            ref=master
-            ;;
-        bundle/vim-coffee-script)
-            repo=${GITHUB}kchmck/vim-coffee-script
-            ref=master
-            ;;
-        bundle/vim-emacsmodeline)
-            repo=${GITHUB}sfiera/vim-emacsmodeline
-            ref=master
-            ;;
-        bundle/vim-signify)
-            repo=${GITHUB}mhinz/vim-signify
-            ref=master
-            ;;
-        bundle/VimOrganizer)
-            repo=${GITHUB}hsitz/VimOrganizer
-            ref=master
-            ;;
-        *)
-            echo >&2 "Unknown prefix: $prefix"
-            exit 1
-            ;;
-    esac
-    git subtree pull -P "$prefix" --squash --message "$prefix: Pulled new '$ref' from '$repo'" "$repo" "$ref"
+for repo in "${repos[@]}" ; do
+    if [ -n "$github_https" ] ; then
+        repo=${repo/git@github.com:/https:\/\/github.com\/}
+    fi
+    ref=master
+    basename=`basename "$repo"`
+    prefix="bundle/`basename "$repo"`"
+    if [ -d "$prefix" ] ; then
+        git subtree pull -P "$prefix" --squash --message "$prefix: Pulled new '$ref' from '$repo'" "$repo" "$ref"
+    else
+        git subtree add  -P "$prefix" --squash --message "$prefix: Pulled new '$ref' from '$repo'" "$repo" "$ref"
+    fi
 done
 
