@@ -37,6 +37,7 @@ autocmd Syntax * syntax match SpaceError display excludenl /\s\+$\| \+\t/ contai
 " spaces and tabs
 set tabstop=8 shiftwidth=4 softtabstop=4 expandtab  " default
 autocmd FileType make setlocal sw=8 sts=0 noexpandtab
+autocmd FileType gitconfig setlocal sw=8 sts=0 noexpandtab
 autocmd FileType html,mako,myt,php setlocal sw=2 sts=2 expandtab
 autocmd FileType haskell,ruby,tex,verilog setlocal sw=2 sts=2 expandtab
 autocmd FileType python setlocal sw=4 sts=4 expandtab
