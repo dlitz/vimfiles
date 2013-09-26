@@ -25,7 +25,7 @@
 " 2. Copy script pythonhelper.vim to the $HOME/.vim/plugin directory
 " 3. Run Vim and open any python file.
 "
-if has("python")
+if has("python") && !has("gui_win32")	" XXX Doesn't work on Win32 gvim
 python << EOS
 
 # import of required modules {{{
@@ -758,6 +758,6 @@ set stl=%-f%r\ %2*%m%*\ \ \ \ %1*%{TagInStatusLine()}%*%=[%l:%c]\ %P\ \ \ \ [buf
 
 " }}}
 
-endif   " has("python")
+endif   " has("python") && !has("gui_win32")
 
 " vim:foldmethod=marker
