@@ -148,7 +148,8 @@ let g:org_custom_searches = [
             \  ]
 
 " Insert-mode autocompletion
-inoremap @#$DF <c-\><c-o>$<tab># DEBUG FIXME<space><space>
+noremap @#$%    $i<tab># DEBUG FIXME<space><space><esc>
+inoremap @#$% <c-\><c-o>$<tab># DEBUG FIXME<space><space>
 
 " Create the :Retag command
 " requires exuberant-ctags
