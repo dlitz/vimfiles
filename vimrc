@@ -150,7 +150,7 @@ let g:org_custom_searches = [
             \  ]
 
 " Insert-mode autocompletion
-noremap @#$%    $i<tab># DEBUG FIXME<space><space><esc>
+noremap @#$%    $a<tab># DEBUG FIXME<space><space><esc>
 inoremap @#$% <c-\><c-o>$<tab># DEBUG FIXME<space><space>
 
 " Create the :Retag command
