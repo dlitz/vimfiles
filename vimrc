@@ -101,7 +101,9 @@ if has("gui_running") && has("X11")
 endif
 
 " The coding styleguide for the client recommends 120-column line length limit
-autocmd BufRead * if expand('<amatch>') =~ "^/.*/source/.*\.py$" | setl colorcolumn=121 | endif
+if exists("&colorcolumn")   " old vim doesn't have colorcolumn
+    autocmd BufRead * if expand('<amatch>') =~ "^/.*/source/.*\.py$" | setl colorcolumn=121 | endif
+endif
 
 " ack-grep plugin
 if has("win32")
