@@ -1,0 +1,25 @@
+" Copy this to ~root/.vimrc (and make sure there's no ~root/.vim) in order to
+" load vim users' vim configuration instead of our own.
+
+" For root users logging in over SSH, you can put this into
+" ~root/.ssh/authorized_keys:
+"
+"    environment="SUDO_USER=ondrej" ssh-rsa ...
+"
+" (Note that you'll need "PermitUserEnvironment yes" for this to work.)
+
+" Set $SUDO_HOME if it's not already set.
+if !empty($SUDO_USER) && empty($SUDO_HOME)
+    let $SUDO_HOME = expand("~" . $SUDO_USER)
+endif
+
+" Based on the idea from
+" http://brablc.com/2011/06/17/how-to-use-own-vim-configuration-after-sudo-to-shared-account/
+" but modified
+if empty($VIMINIT) && empty($EXINIT) && !empty($SUDO_HOME)
+    " XXX(dlitz) is the vundle thing really needed?
+    "set runtimepath+=${SUDO_HOME}/.vim/bundle/vundle,${SUDO_HOME}/.vim
+    set runtimepath+=${SUDO_HOME}/.vim
+    let $MYVIMRC = $SUDO_HOME . '/.vimrc'
+    source $MYVIMRC
+endif
