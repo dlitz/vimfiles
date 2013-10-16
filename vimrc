@@ -124,7 +124,7 @@ endif
 
 " Disable gitgutter on windows (it just repeatedly invokes vimrun.exe forever. Maybe it's just a high-DPI thing?)
 if has("gui_running") && has("win32")
-  let g:gitgutter_enabled = 0
+    let g:gitgutter_enabled = 0
 end
 
 " VimOrganizer - a lot of this is copied from bundle/hsitz-VimOrganizer-*/_vimrc
