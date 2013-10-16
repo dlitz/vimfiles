@@ -149,9 +149,27 @@ let g:org_custom_searches = [
             \, { 'name':'Home tags', 'type':'sparse_tree', 'spec':'+HOME' }
             \  ]
 
+" Comment personalization tag.  For comments that specify things like
+" "XXX(yournamehere)".  Useful in projects with multiple people, where it's
+" helpful to know who wrote the comment without having to look at "git blame".
+if exists("$VIMUSER")
+    let g:me = $VIMUSER
+elseif has("win32")
+    let g:me = $USERNAME
+elseif exists("$SUDO_USER")
+    let g:me = $SUDO_USER
+elseif exists("$USER")
+    let g:me = $USER
+endif
+
+" I sometimes use a different username
+if g:me == "dwon"
+    let g:me = "dlitz"
+endif
+
 " Insert-mode autocompletion
-noremap @#$%    $a<tab># DEBUG FIXME<space><space><esc>
-inoremap @#$% <c-\><c-o>$<tab># DEBUG FIXME<space><space>
+inoremap @#$% <c-\><c-o>$<tab># DEBUG FIXME(<c-r>=g:me<cr>)<space><space>
+map      @#$% $a@#$%<esc>
 
 " Create the :Retag command
 " requires exuberant-ctags
