@@ -65,6 +65,7 @@ set number
 set printfont=courier:h8
 set printoptions=paper:letter
 set ruler
+set scrolloff=2
 set showcmd
 set showmatch
 set smartcase
