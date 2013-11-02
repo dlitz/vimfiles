@@ -191,6 +191,9 @@ command! RetagObjC call RetagObjC()
 "let g:tagbar_width=26
 noremap <silent> <Leader>y :TagbarToggle<cr>
 
+" <Leader>K
+noremap <silent> <Leader>K :<C-U>Ag<cr>
+
 "" BEGIN copied from http://www.daskrachen.com/2011/12/how-to-make-tagbar-work-with-objective.html
 " add a definition for Objective-C to tagbar
 let g:tagbar_type_objc = {
