@@ -60,6 +60,7 @@ set incsearch
 set laststatus=2
 set listchars=eol:$,tab:>-
 set mouse=a
+set nobackup
 set nomodeline
 set number
 set printfont=courier:h8
