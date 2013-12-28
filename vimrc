@@ -30,6 +30,9 @@ let java_highlight_functions=1
 let python_highlight_all=1
 let python_space_error_highlight=1
 
+" Texas Instruments PRU-ICSS assembly language
+autocmd FileType BufRead,BufNewFile *.p,*.hp setfiletype msp
+
 " highlight bad whitespace (this part must be after "syntax on")
 " We highlight trailing spaces and spaces-before-tabs.
 autocmd Syntax * syntax match SpaceError display excludenl /\s\+$\| \+\t/ containedin=ALL
