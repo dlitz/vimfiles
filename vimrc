@@ -97,12 +97,23 @@ endif
 
 " Copy and Paste (Linux GUI)
 if has("gui_running") && has("X11")
-    " paste (Ctrl-V/Ctrl-Shift-V).  (Ctrl-Q still works for visual select)
-    noremap <c-v> "+gP
-    inoremap <c-v> <c-\><c-o>"+gP
+    " OK, ideally, Ctrl-V would be for Visual Block mode, and Ctrl-Shift-V
+    " would paste from the CLIPBOARD, bit Vim can't distinguish between <C-V>
+    " and <C-S-V>.  Ctrl-Q also works in GUI mode, but not in many terminals
+    " (it's the XON software flow-control signal).  Argh.
 
-    " copy
-    vnoremap <c-c> "+ygv
+    " Shift-Insert : Paste from CLIPBOARD (default is <MiddleMouse>)
+    noremap <S-Insert> "+gP
+    inoremap <S-Insert> <C-\><C-O>"+gP
+
+    " Ctrl-C : Copy to CLIPBOARD
+    vnoremap <C-C> "+ygv
+
+    " Ctrl-Insert : Copy to CLIPBOARD
+    vnoremap <C-Insert> "+ygv
+
+    " Shift-Del : Cut to CLIPBOARD
+    vnoremap <S-Del> "+dgv
 endif
 
 " The coding styleguide for the client recommends 120-column line length limit
