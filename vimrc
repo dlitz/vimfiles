@@ -117,9 +117,10 @@ if has("gui_running") && has("X11")
     vnoremap <S-Del> "+dgv
 endif
 
-" The coding styleguide for the client recommends 120-column line length limit
+" Set colorcolumn to match coding styleguides of various source trees.
 if exists("&colorcolumn")   " old vim doesn't have colorcolumn
-    autocmd BufRead * if expand('<amatch>') =~ "^/.*/source/.*\.py$" | setl colorcolumn=121 | endif
+    autocmd BufRead * if expand('<amatch>') =~ "^/.*/source/client[^/]*/.*$" | setl colorcolumn=121 | endif
+    autocmd BufRead * if expand('<amatch>') =~ "^/.*/source/\\(server\\|go-server\\|configs\\)/.*$" | setl colorcolumn=101 | endif
 endif
 
 " ack-grep plugin
