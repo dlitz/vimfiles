@@ -12,6 +12,7 @@ hi Directory   ctermfg=Blue         guifg=Blue                                  
 hi Error       ctermfg=Red          guifg=#FF7777       ctermbg=DarkRed guibg=#DD0000       cterm=bold gui=bold term=standout
 hi ErrorMsg    ctermfg=Red          guifg=Red           ctermbg=NONE    guibg=NONE          cterm=bold gui=bold term=standout
 hi Folded      ctermfg=DarkGrey     guifg=#808080                       guibg=#101020       cterm=bold gui=bold term=standout
+hi IncSearch   ctermfg=DarkCyan     guifg=Cyan          ctermbg=DarkMagenta guibg=DarkMagenta cterm=bold        term=reverse
 hi Identifier  ctermfg=Cyan         guifg=Cyan                                              cterm=bold gui=bold term=underline
 hi LineNr      ctermfg=DarkYellow   guifg=DarkYellow                                        cterm=bold gui=bold term=underline
 hi ModeMsg     ctermfg=Yellow       guifg=Yellow        ctermbg=Red     guibg=Red           cterm=bold term=bold
@@ -20,7 +21,7 @@ hi NonText     ctermfg=DarkGreen    guifg=green3                                
 hi Normal      ctermfg=LightGrey    guifg=grey90        ctermbg=Black   guibg=#000020
 hi PreProc     ctermfg=DarkGreen    guifg=Green
 hi Question    ctermfg=Green        guifg=Green                                             cterm=bold gui=bold term=standout
-hi Search      ctermbg=Yellow       guibg=Yellow                                                                term=reverse
+hi Search      ctermfg=NONE         guifg=NONE          ctermbg=NONE    guibg=NONE          cterm=reverse gui=reverse term=reverse
 hi Special     ctermfg=DarkMagenta  guifg=DarkMagenta                                       term=bold
 hi SpecialKey  ctermfg=DarkBlue     guifg=Blue                                                                  term=bold
 hi SpellBad    ctermfg=NONE         guifg=NONE          ctermbg=NONE    guibg=NONE          cterm=undercurl gui=undercurl term=undercurl
