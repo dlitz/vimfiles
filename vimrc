@@ -54,6 +54,7 @@ autocmd FileType mail setlocal spell formatoptions=wantql
 autocmd FileType text setlocal spell
 
 " misc default settings
+set autoindent
 set backspace=2
 set foldlevelstart=99
 set foldmethod=indent
