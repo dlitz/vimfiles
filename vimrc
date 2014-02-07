@@ -50,6 +50,9 @@ autocmd FileType objc,objcpp,coffee setlocal sw=2 sts=2 expandtab foldmethod=syn
 "autocmd BufNewFile,BufRead .letter,mutt*,nn.*,snd.* setlocal spell formatoptions=wantql
 autocmd FileType mail setlocal spell formatoptions=wantql
 
+" auto-formatting comments when editing code
+autocmd FileType c,objc,objcpp,coffee,make,haskell,ruby,verilog,python,objc,objcpp,coffee setlocal formatoptions=croq
+
 " other file-specific settings
 autocmd FileType text setlocal spell
 
