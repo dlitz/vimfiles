@@ -8,11 +8,13 @@ Update the subtree bundles.
 Options:
   -H                    Use HTTPS instead of SSH to access GitHub
   -h                    display help and exit
+  -r PATTERN            Apply only to repos matching PATTERN
 EOF
 }
 
+repo_pattern=
 github_https=
-while getopts 'hH' opt ; do
+while getopts 'hHr:' opt ; do
     case "$opt" in
     'H')
         github_https=1
@@ -20,6 +22,9 @@ while getopts 'hH' opt ; do
     'h')
         usage
         exit 0
+        ;;
+    'r')
+        repo_pattern=$OPTARG
         ;;
     '?')
         echo >&2 "Invalid option: -$OPTARG"
@@ -44,6 +49,11 @@ repos=(
 )
 
 for repo in "${repos[@]}" ; do
+    if [ -n "$repo_pattern" ] ; then
+        if ! echo "$repo" | grep -q -e "$repo_pattern" ; then
+            continue
+        fi
+    fi
     if [ -n "$github_https" ] ; then
         repo=${repo/git@github.com:/https:\/\/github.com\/}
     fi
