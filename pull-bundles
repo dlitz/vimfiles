@@ -1,40 +1,20 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -eu -o pipefail
 
 usage() {
-    echo "Usage: $0 [-hH]"
+    echo "Usage: $0 [options] repository..."
     cat <<'EOF'
 Update the subtree bundles.
 
 Options:
-  -H                    Use HTTPS instead of SSH to access GitHub
-  -h                    display help and exit
+  -H, --https           Use HTTPS instead of SSH to access GitHub
+  -h, --help            display help and exit
+  -a, --all             Apply to all repos
   -r PATTERN            Apply only to repos matching PATTERN
 EOF
 }
 
-repo_pattern=
-github_https=
-while getopts 'hHr:' opt ; do
-    case "$opt" in
-    'H')
-        github_https=1
-        ;;
-    'h')
-        usage
-        exit 0
-        ;;
-    'r')
-        repo_pattern=$OPTARG
-        ;;
-    '?')
-        echo >&2 "Invalid option: -$OPTARG"
-        usage >&2
-        exit 2
-        ;;
-    esac
-done
-
-repos=(
+preset_repos=(
     git@github.com:yssl/QFEnter
     git@github.com:rking/ag.vim
     git@github.com:msanders/cocoa.vim
@@ -49,17 +29,63 @@ repos=(
     git@github.com:hsitz/VimOrganizer
 )
 
-for repo in "${repos[@]}" ; do
-    if [ -n "$repo_pattern" ] ; then
-        if ! echo "$repo" | grep -q -e "$repo_pattern" ; then
-            continue
+script_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+all=
+repo_pattern=
+github_https=
+while getopts 'ahHr:-:' opt ; do
+    if [[ "$opt" = "-" ]]; then opt="--$OPTARG"; unset OPTARG; fi
+
+    case "$opt" in
+    H|--https)
+        github_https=1
+        ;;
+    h|--help)
+        usage
+        exit 0
+        ;;
+    a)
+        all=1
+        ;;
+    r)
+        repo_pattern=$OPTARG
+        ;;
+    '?')
+        usage >&2
+        exit 2
+        ;;
+    *)
+        echo >&2 "$0: illegal option -- $opt"
+        exit 2
+        ;;
+    esac
+done
+shift $(( $OPTIND - 1 ))
+
+repos=()
+push_repos() { repos=( "${repos[@]:+${repos[@]}}" "$@" ) ; }
+
+if [ -n "$repo_pattern" ] ; then
+    for repo in "${preset_repos[@]}" ; do
+        if [ -n "$repo_pattern" ] ; then
+            if ! echo "$repo" | grep -q -e "$repo_pattern" ; then
+                continue
+            fi
         fi
-    fi
+        push_repos "$repo"
+    done
+elif [ -n "$all" ] ; then
+    push_repos "${preset_repos[@]:+${preset_repos[@]}}"
+fi
+push_repos "$@"
+
+for repo in "${repos[@]}" ; do
     if [ -n "$github_https" ] ; then
         repo=${repo/git@github.com:/https:\/\/github.com\/}
     fi
     ref=master
-    basename=`basename "$repo"`
+    basename=`basename "$repo" .git`
     prefix="bundle/`basename "$repo"`"
     if [ -d "$prefix" ] ; then
         git subtree pull -P "$prefix" --squash --message "$prefix: Pulled new '$ref' from '$repo'" "$repo" "$ref"
