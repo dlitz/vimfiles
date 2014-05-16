@@ -23,6 +23,7 @@ preset_repos=(
     git@github.com:majutsushi/tagbar
     git@github.com:kchmck/vim-coffee-script
     git@github.com:sfiera/vim-emacsmodeline
+    git@github.com:hunner/vim-plist
     git@github.com:mhinz/vim-signify
     git@github.com:tpope/vim-surround
     git@github.com:tpope/vim-repeat
