@@ -45,6 +45,7 @@ autocmd FileType html,mako,myt,php setlocal sw=2 sts=2 expandtab
 autocmd FileType haskell,ruby,tex,verilog setlocal sw=2 sts=2 expandtab
 autocmd FileType python setlocal sw=4 sts=4 expandtab
 autocmd FileType objc,objcpp,coffee setlocal sw=2 sts=2 expandtab foldmethod=syntax
+autocmd FileType zim setlocal tabstop=8 shiftwidth=8 softtabstop=8 noexpandtab foldmethod=indent
 
 " email editing
 "autocmd BufNewFile,BufRead .letter,mutt*,nn.*,snd.* setlocal spell formatoptions=wantql
