@@ -28,6 +28,7 @@ preset_repos=(
     git@github.com:tpope/vim-surround
     git@github.com:tpope/vim-repeat
     git@github.com:hsitz/VimOrganizer
+    git@github.com:vim-scripts/zim-syntax
 )
 
 script_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
