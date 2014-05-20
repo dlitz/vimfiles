@@ -226,6 +226,9 @@ noremap <silent> <Leader>p :setlocal paste!<cr>:setlocal paste?<cr>
 " <Leader>n -- toggle numbers
 noremap <silent> <Leader>n :setlocal number!<cr>:setlocal number?<cr>
 
+" <Leader>w -- toggle wrap
+noremap <silent> <Leader>w :setlocal wrap!<cr>:setlocal wrap?<cr>
+
 "" BEGIN copied from http://www.daskrachen.com/2011/12/how-to-make-tagbar-work-with-objective.html
 " add a definition for Objective-C to tagbar
 let g:tagbar_type_objc = {
