@@ -31,45 +31,61 @@ let python_highlight_all=1
 let python_space_error_highlight=1
 
 " Texas Instruments PRU-ICSS assembly language
-autocmd FileType BufRead,BufNewFile *.p,*.hp setfiletype msp
+" XXX - No longer needed?
+"autocmd FileType BufRead,BufNewFile *.p,*.hp setfiletype msp
 
 " highlight bad whitespace (this part must be after "syntax on")
 " We highlight trailing spaces and spaces-before-tabs.
 autocmd Syntax * syntax match SpaceError display excludenl /\s\+$\| \+\t/ containedin=ALL
 
-" spaces and tabs
-set tabstop=8 shiftwidth=4 softtabstop=4 expandtab  " default
-autocmd FileType make setlocal sw=8 sts=0 noexpandtab
-autocmd FileType gitconfig setlocal sw=8 sts=0 noexpandtab
-autocmd FileType html,mako,myt,php setlocal sw=2 sts=2 expandtab
-autocmd FileType haskell,ruby,tex,verilog setlocal sw=2 sts=2 expandtab
-autocmd FileType python setlocal sw=4 sts=4 expandtab
-autocmd FileType objc,objcpp,coffee setlocal sw=2 sts=2 expandtab foldmethod=syntax
-autocmd FileType zim setlocal tabstop=8 shiftwidth=8 softtabstop=8 noexpandtab foldmethod=indent
+" tab & indentation settings
+set expandtab       " use soft tabs by default
+set tabstop=8       " hard tabs are usually always 8 spaces
+set shiftwidth=4    " indent 4 spaces by default
+set softtabstop=-1  " use the value of 'shiftwidth'
+set autoindent
+set nocindent       " dumber than indentexpr=
+set copyindent
+set preserveindent
+set nosmartindent   " dumber than indentexpr=
+set nosmarttab
+au FileType make,gitconfig,zim              setlocal sw=0 noet   " always hard tabs
+au FileType html,mako,myt,php               setlocal sw=2   " 2-space tabs
+au FileType haskell,ruby,tex,verilog        setlocal sw=2
+au FileType objc,objcpp,coffee              setlocal sw=2
+au FileType python                          setlocal sw=4 ts=8
 
 " email editing
 "autocmd BufNewFile,BufRead .letter,mutt*,nn.*,snd.* setlocal spell formatoptions=wantql
 autocmd FileType mail setlocal spell formatoptions=wantql
 
 " auto-formatting comments when editing code
-autocmd FileType c,objc,objcpp,coffee,make,haskell,ruby,verilog,python,objc,objcpp,coffee setlocal formatoptions=croq
+autocmd FileType c,objc,objcpp,coffee,make,haskell,ruby,verilog,python,objc,objcpp,coffee
+    \ setlocal formatoptions=croq
 
 " other file-specific settings
 autocmd FileType text setlocal spell
 
+" default file encoding
+" This isn't the default on Windows for some reason
+set encoding=utf-8
+set fileencodings=ucs-bom,utf-8,default,latin1
+
+" search preferences
+
 " misc default settings
-set autoindent
 set backspace=2
+set nobackup
 set foldlevelstart=99
 set foldmethod=indent
-set hlsearch
-set ignorecase
-set incsearch
+set formatoptions=tcq   " vim default, modified by filetypes
+set hlsearch    " highlight all matches
+set ignorecase  " case-insensitive searches by default (see also 'smartcase' below)
+set incsearch   " incremental search while typing the pattern
 set laststatus=2
 set listchars=eol:$,tab:>-
+set nomodeline      " using the 'securemodelines' plugin instead
 set mouse=a
-set nobackup
-set nomodeline
 set number
 set printfont=courier:h8
 set printoptions=paper:letter
@@ -77,18 +93,14 @@ set ruler
 set scrolloff=2
 set showcmd
 set showmatch
-set smartcase
+set smartcase   " case-sensitive searches when pattern contains uppercase
 set t_vb=           " setting this blank when visualbell is set means we get no bell at all
+set textwidth=0
 set nospell
 set spelllang=en_us,en_ca
 set undolevels=10000
 set visualbell
-set wildmenu
-set wildmode=longest:full
-
-" This isn't the default on Windows for some reason
-set encoding=utf-8
-set fileencodings=ucs-bom,utf-8,default,latin1
+set wildmenu wildmode=list:longest  " more bash-like tab completion, except cursors enable menu mode
 
 " gvim font
 if has("gui_macvim")
@@ -123,9 +135,106 @@ endif
 
 " Set colorcolumn to match coding styleguides of various source trees.
 if exists("&colorcolumn")   " old vim doesn't have colorcolumn
-    autocmd BufRead * if expand('<amatch>') =~ "^/.*/source/client[^/]*/.*$" | setl colorcolumn=121 | endif
-    autocmd BufRead * if expand('<amatch>') =~ "^/.*/source/\\(server\\|go-server\\|configs\\)/.*$" | setl colorcolumn=101 | endif
+    set colorcolumn=+1  " highlight the column after 'textwidth'
+    au BufRead,BufNewFile,BufWritePost *
+      \ if expand('<amatch>') =~ '\v^/.*/(source|work/.*)/client[^/]*/.*$' | 
+      \     setl textwidth=80 colorcolumn=121 |
+      \ elseif expand('<amatch>') =~ '\v^/.*/(source|work/.*)/(server|go-server|configs)/.*$' |
+      \     setl textwidth=80 colorcolumn=101 |
+      \ endif
+    " Prefer not to aggressively line-wrap some file types
+    au FileType vim setl colorcolumn=
 endif
+
+" force * and # to always be case-sensitive
+function! <SID>Star(cmd, count, was_visualmode) abort
+    if a:was_visualmode
+        normal! gv
+    endif
+    let save_view = winsaveview()
+    let save_ic = &ignorecase
+    let save_search = @/
+    let &ignorecase = 0
+    try
+        let @/ = ""
+        try
+            try
+                silent execute 'normal! ' . (a:count ? a:count : '') . a:cmd
+            catch /\v^Vim\(normal\):(E384|E385):/
+                " E384: search hit TOP without match
+                " E385: search hit BOTTOM without match
+                let searchforward = v:searchforward
+                let @/ = '\C' . @/
+                call histdel('search', -1)
+                call histdel('search', @/)
+                call winrestview(save_view)
+                silent execute 'normal! ' . (a:count ? a:count : '') .  (searchforward ? '/' : '?') . "\n"
+            endtry
+        catch /\v^Vim\(normal\):(E348|E384|E385):/
+            " E348: No string under cursor
+            " E384: search hit TOP without match
+            " E385: search hit BOTTOM without match
+            let v:errmsg = substitute(v:exception, '\v^Vim\(normal\):', '', '')
+        endtry
+    finally
+        if @/ == ""
+            let @/ = save_search
+        else
+            let @/ = @/     " fixes hlsearch
+        endif
+        let &ignorecase = save_ic
+    endtry
+endfunction
+
+noremap  <silent> * :<C-U>let v:errmsg = "" \| call <SID>Star('*', v:count, 0) \| if v:errmsg != "" \| echoerr v:errmsg \| endif<cr>
+vnoremap <silent> * :<C-U>let v:errmsg = "" \| call <SID>Star('*', v:count, 1) \| if v:errmsg != "" \| echoerr v:errmsg \| endif<cr>
+noremap  <silent> # :<C-U>let v:errmsg = "" \| call <SID>Star('#', v:count, 0) \| if v:errmsg != "" \| echoerr v:errmsg \| endif<cr>
+vnoremap <silent> # :<C-U>let v:errmsg = "" \| call <SID>Star('#', v:count, 1) \| if v:errmsg != "" \| echoerr v:errmsg \| endif<cr>
+noremap  <silent> g* :<C-U>let v:errmsg = "" \| call <SID>Star('g*', v:count, 0) \| if v:errmsg != "" \| echoerr v:errmsg \| endif<cr>
+vnoremap <silent> g* :<C-U>let v:errmsg = "" \| call <SID>Star('g*', v:count, 1) \| if v:errmsg != "" \| echoerr v:errmsg \| endif<cr>
+noremap  <silent> g# :<C-U>let v:errmsg = "" \| call <SID>Star('g#', v:count, 0) \| if v:errmsg != "" \| echoerr v:errmsg \| endif<cr>
+vnoremap <silent> g# :<C-U>let v:errmsg = "" \| call <SID>Star('g#', v:count, 1) \| if v:errmsg != "" \| echoerr v:errmsg \| endif<cr>
+
+function! <SID>SelectParagraph(visual, exclusive)
+    " Fall back to regular definition, if we're not in a comment
+    if ! search('\v^\s*#', 'bcW', line("."))
+        if a:visual
+            normal! gv
+        endif
+        if a:exclusive
+            normal! ip
+        else
+            normal! ap
+        endif
+        return
+    endif
+
+    call s:MoveToStartOfCommentBlock()
+    normal! v
+    call s:MoveToEndOfCommentBlock(a:exclusive)
+endfunction
+
+function! s:MoveToStartOfCommentBlock()
+    call search('\v^\s*([^#]|$)', 'bW')
+    normal! j
+endfunction
+
+function! s:MoveToEndOfCommentBlock(exclusive)
+    call search('\v^\s*([^#]|$)', 'W')
+    if a:exclusive
+        normal! k$h
+    else
+        normal! k$
+    endif
+endfunction
+
+" Attempt to redefine paragraphs to be meaningful in code
+omap ap :call <SID>SelectParagraph(0, 0)<cr>
+vmap ap <Esc>:call <SID>SelectParagraph(1, 0)<cr>
+
+omap ip :call <SID>SelectParagraph(0, 1)<cr>
+vmap ip <Esc>:call <SID>SelectParagraph(1, 1)<cr>
+
 
 " ack-grep plugin
 if has("win32")
@@ -214,8 +323,11 @@ command! RetagObjC call RetagObjC()
 "let g:tagbar_width=26
 noremap <silent> <Leader>y :TagbarToggle<cr>
 
-" <Leader>K
+" <Leader>K -- search the source code for the word under the cursor
 noremap <silent> <Leader>K :<C-U>Ag<cr>
+
+" <Leader>i -- toggle ignorecase
+noremap <silent> <Leader>i :setlocal ignorecase!<cr>:setlocal ignorecase?<cr>
 
 " <Leader>l -- toggle list
 noremap <silent> <Leader>l :setlocal list!<cr>:setlocal list?<cr>
@@ -228,6 +340,9 @@ noremap <silent> <Leader>n :setlocal number!<cr>:setlocal number?<cr>
 
 " <Leader>w -- toggle wrap
 noremap <silent> <Leader>w :setlocal wrap!<cr>:setlocal wrap?<cr>
+
+" <Leader>/ -- clear the search pattern
+noremap <Leader>/ :let @/ = ""<cr>
 
 "" BEGIN copied from http://www.daskrachen.com/2011/12/how-to-make-tagbar-work-with-objective.html
 " add a definition for Objective-C to tagbar
