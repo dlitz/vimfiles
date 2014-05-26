@@ -31,10 +31,10 @@ let python_highlight_all=1
 let python_space_error_highlight=1
 
 " plugin/ctab.vim -- disable by default; we'll set it up ourselves
-let g:ctab_filetype_maps = 1
-let g:ctab_enable_default_filetype_maps = 0
-let g:ctab_disable_tab_maps = 1
-let g:ctab_disable_checkalign = 1
+"let g:ctab_filetype_maps = 1
+"let g:ctab_enable_default_filetype_maps = 0
+"let g:ctab_disable_tab_maps = 1
+"let g:ctab_disable_checkalign = 1
 
 " Texas Instruments PRU-ICSS assembly language
 " XXX - No longer needed?
@@ -63,7 +63,7 @@ set nosmarttab
 " Some filetypes screw up these values
 au FileType make let [&l:ts, &l:sw, &l:sts, &l:et] = [&g:ts, &g:sw, &g:sts, &g:et]
 
-au FileType make,gitconfig,zim              setlocal sw=0 noet | call ctab#SetFileTypeMaps()
+au FileType make,gitconfig,zim              setlocal sw=0 noet " | call ctab#SetFileTypeMaps()
 au FileType html,mako,myt,php               setlocal sw=2   " 2-space tabs
 au FileType haskell,ruby,tex,verilog        setlocal sw=2
 au FileType objc,objcpp,coffee              setlocal sw=2
