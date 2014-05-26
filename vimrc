@@ -44,6 +44,10 @@ let g:ctab_disable_checkalign = 1
 " We highlight trailing spaces and spaces-before-tabs.
 autocmd Syntax * syntax match SpaceError display excludenl /\s\+$\| \+\t/ containedin=ALL
 
+" Don't allow setting 'softtabstop'; We pin it to the value of 'shiftwidth'
+runtime plugin/securemodelines.vim
+call filter(g:secure_modelines_allowed_items, 'v:val !=# "softtabstop" && v:val !=# "sts"')
+
 " tab & indentation settings
 set expandtab       " use soft tabs by default
 set tabstop=8       " hard tabs are usually always 8 spaces
