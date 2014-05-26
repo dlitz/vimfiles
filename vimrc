@@ -239,11 +239,11 @@ function! s:MoveToEndOfCommentBlock(exclusive)
 endfunction
 
 " Attempt to redefine paragraphs to be meaningful in code
-omap ap :call <SID>SelectParagraph(0, 0)<cr>
-vmap ap <Esc>:call <SID>SelectParagraph(1, 0)<cr>
+"omap ap :call <SID>SelectParagraph(0, 0)<cr>
+"vmap ap <Esc>:call <SID>SelectParagraph(1, 0)<cr>
 
-omap ip :call <SID>SelectParagraph(0, 1)<cr>
-vmap ip <Esc>:call <SID>SelectParagraph(1, 1)<cr>
+"omap ip :call <SID>SelectParagraph(0, 1)<cr>
+"vmap ip <Esc>:call <SID>SelectParagraph(1, 1)<cr>
 
 
 " ack-grep plugin
