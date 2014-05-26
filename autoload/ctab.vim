@@ -1,9 +1,9 @@
 " Intelligent Indent
 " Author: Michael Geddes < vimmer at frog dot wheelycreek dot net >
-" Version: 2.6
-" Last Modified: December 2010
+" Version: 2.6.0dcl1
+" Last Modified: May 2014 by Dwayne Litzenberger <dlitz@dlitz.net>
 "
-" Histroy:
+" History:
 "   1.0: - Added RetabIndent command - similar to :retab, but doesn't cause
 "         internal tabs to be modified.
 "   1.1: - Added support for backspacing over spaced tabs 'smarttab' style
@@ -25,6 +25,7 @@
 "   2.4: - Fix bug in Retab
 "   2.5: - Fix issue with <CR> not aligning
 "   2.6: - Fix issue with alignment not disappearing.
+"   2.6.0dcl1: - Add support for loading as an autoload plugin
 
 " This is designed as a filetype plugin (originally a 'Buffoptions.vim' script).
 "
@@ -78,6 +79,20 @@ if exists('g:ctab_enable_default_filetype_maps') && ctab_enable_default_filetype
     au FileType c imap <expr> <silent> <buffer> <m-;> CTabAlignTo(10).'/*  */<left><left>'
   endif
 endif
+
+" To use this, place ctab.vim into ~/.vim/autoload/, then put these into your
+" .vimrc:
+"   let g:ctab_filetype_maps = 1
+"   let g:ctab_enable_default_filetype_maps = 0
+"   let g:ctab_disable_tab_maps = 1
+"   let g:ctab_disable_checkalign = 1
+"
+"   autocmd FileType make setlocal ts=8 sw=0 sts=-1 noet | call ctab#SetFileTypeMaps()
+
+function! ctab#SetFileTypeMaps()
+  exe  'imap <buffer> <silent> <expr> <tab> <SID>InsertSmartTab()'
+  exe  'inoremap <buffer> <silent> <expr> <BS> <SID>DoSmartDelete()."\<BS>"'
+endfunction
 
 if !exists('g:ctab_disable_tab_maps') || ! g:ctab_disable_tab_maps
   exe  'imap '.s:buff_map.'<silent> <expr> <tab> <SID>InsertSmartTab()'
