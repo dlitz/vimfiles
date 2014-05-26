@@ -59,6 +59,10 @@ set copyindent
 set preserveindent
 set nosmartindent   " dumber than indentexpr=
 set nosmarttab
+
+" Some filetypes screw up these values
+au FileType make let [&l:ts, &l:sw, &l:sts, &l:et] = [&g:ts, &g:sw, &g:sts, &g:et]
+
 au FileType make,gitconfig,zim              setlocal sw=0 noet | call ctab#SetFileTypeMaps()
 au FileType html,mako,myt,php               setlocal sw=2   " 2-space tabs
 au FileType haskell,ruby,tex,verilog        setlocal sw=2
