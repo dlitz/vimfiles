@@ -26,6 +26,7 @@
 "   2.5: - Fix issue with <CR> not aligning
 "   2.6: - Fix issue with alignment not disappearing.
 "   2.6.0dcl1: - Add support for loading as an autoload plugin
+"              - Fix handling of shiftwidth=0 softtabstop=-1
 
 " This is designed as a filetype plugin (originally a 'Buffoptions.vim' script).
 "
@@ -129,7 +130,7 @@ fun! s:InsertSmartTab()
     return "\<Tab>"
   endif
 
-  let sts=exists("b:insidetabs")?(b:insidetabs):((&sts==0)?&sw:&sts)
+  let sts=exists("b:insidetabs") ? b:insidetabs : (&sts==0) ? s:sw() : s:sts()
   let sp=(virtcol('.') % sts)
   if sp==0 | let sp=sts | endif
   return strpart("                  ",0,1+sts-sp)
@@ -139,6 +140,22 @@ fun! s:CheckLeaveLine(line)
   if ('cpo' !~ 'I') && exists('b:ctab_lastalign') && (a:line == b:ctab_lastalign)
     s/^\s*$//e
   endif
+endfun
+
+" from the Vim 7.4 docs for shiftwidth()
+if exists('*shiftwidth')
+  fun! s:sw()
+    return shiftwidth()
+  endfun
+else
+  fun! s:sw()
+    return &sw
+  endfun
+endif
+
+" improvising for softtabstop
+fun! s:sts()
+  return (&sts == -1) ? s:sw() : &sts
 endfun
 
 " Check on blanks
@@ -162,7 +179,7 @@ fun! s:DoSmartDelete()
   if lastchar != ' ' | return ((&digraph)?("\<BS>".lastchar): '')  | endif  " Delete non space at end / Maintain digraphs
 
   " Work out how many tabs to use
-  let sts=(exists("b:insidetabs")?(b:insidetabs):((&sts==0)?(&sw):(&sts)))
+  let sts=exists("b:insidetabs") ? b:insidetabs : (&sts==0) ? s:sw() : s:sts()
 
   let ovc=virtcol('.')              " Find where we are
   let sp=(ovc % sts)                " How many virtual characters to delete
