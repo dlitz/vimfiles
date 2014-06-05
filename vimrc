@@ -52,7 +52,11 @@ call filter(g:secure_modelines_allowed_items, 'v:val !=# "softtabstop" && v:val 
 set expandtab       " use soft tabs by default
 set tabstop=8       " hard tabs are usually always 8 spaces
 set shiftwidth=4    " indent 4 spaces by default
-set softtabstop=-1  " use the value of 'shiftwidth'
+try
+    let &softtabstop = -1  " use the value of 'shiftwidth' implicitly
+catch /^Vim:\(\a+\):E487:/  " 'Argument must be positive'
+    let &softtabstop = &shiftwidth  " use the value of 'shiftwidth' directly
+endtry
 set autoindent
 set nocindent       " dumber than indentexpr=
 set copyindent
