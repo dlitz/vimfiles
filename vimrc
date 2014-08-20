@@ -319,7 +319,7 @@ endif
 " Insert-mode autocompletion
 inoremap @#$% <c-\><c-o>$<tab><c-r>=printf(&commentstring, printf(" DEBUG FIXME(%s) ", g:me))<cr><space><space>
 map      @#$% $a@#$%<esc>
-inoremap !@#$ <c-\><c-o>$<tab><c-r>=printf(&commentstring, printf(" TODO FIXME(%s) ", g:me))<cr><space><space>
+inoremap !@#$ <c-\><c-o>$<tab><c-r>=printf(&commentstring, printf(" TODO(%s)", g:me))<cr>
 map      !@#$ $a!@#$<esc>
 
 " Create the :Retag command
