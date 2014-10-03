@@ -68,7 +68,7 @@ set nosmarttab
 au FileType make let [&l:ts, &l:sw, &l:sts, &l:et] = [&g:ts, &g:sw, &g:sts, &g:et]
 
 au FileType make,gitconfig,zim              setlocal sw=0 noet " | call ctab#SetFileTypeMaps()
-au FileType html,mako,myt,php               setlocal sw=2   " 2-space tabs
+au FileType html,mako,myt,php,yaml          setlocal sw=2   " 2-space tabs
 au FileType haskell,ruby,tex,verilog        setlocal sw=2
 au FileType objc,objcpp,coffee              setlocal sw=2
 au FileType python                          setlocal sw=4 ts=8
