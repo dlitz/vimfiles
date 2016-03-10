@@ -309,6 +309,8 @@ elseif exists("$SUDO_USER")
     let g:me = $SUDO_USER
 elseif exists("$USER")
     let g:me = $USER
+else
+    let g:me = system("whoami")
 endif
 
 " I sometimes use a different username
