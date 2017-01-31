@@ -21,6 +21,7 @@ preset_repos=(
     git@github.com:jboning/pyxl
     git@github.com:ciaranm/securemodelines
     git@github.com:majutsushi/tagbar
+    git@github.com:martinlroth/vim-acpi-asl
     git@github.com:kchmck/vim-coffee-script
     git@github.com:sfiera/vim-emacsmodeline
     git@github.com:hunner/vim-plist
