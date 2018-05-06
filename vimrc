@@ -72,6 +72,7 @@ au FileType html,mako,myt,php,yaml          setlocal sw=2   " 2-space tabs
 au FileType haskell,ruby,tex,verilog        setlocal sw=2
 au FileType objc,objcpp,coffee              setlocal sw=2
 au FileType python                          setlocal sw=4 ts=8
+au FileType yaml                            setlocal sw=2
 
 " email editing
 "autocmd BufNewFile,BufRead .letter,mutt*,nn.*,snd.* setlocal spell formatoptions=wantql
