@@ -1,5 +1,5 @@
 " Vim color file
-" by Dwayne Litzenberger
+" by Darsey Litzenberger
 " Based loosely on Tillman's .vimrc (2000-03-05)
 
 set background=dark

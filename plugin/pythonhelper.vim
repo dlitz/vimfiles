@@ -1,7 +1,7 @@
 " File: pythonhelper.vim
 " Author: Michal Vitecek <fuf-at-mageo-dot-cz>
 " Version: 0.83
-" Last Modified: Jan 24, 2013 by Dwayne Litzenberger
+" Last Modified: Jan 24, 2013 by Darsey Litzenberger
 "
 " Overview
 " --------

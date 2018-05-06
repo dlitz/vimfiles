@@ -1,7 +1,7 @@
 " Intelligent Indent
 " Author: Michael Geddes < vimmer at frog dot wheelycreek dot net >
 " Version: 2.6.0dcl1
-" Last Modified: May 2014 by Dwayne Litzenberger <dlitz@dlitz.net>
+" Last Modified: May 2014 by Darsey Litzenberger <dlitz@dlitz.net>
 "
 " History:
 "   1.0: - Added RetabIndent command - similar to :retab, but doesn't cause
