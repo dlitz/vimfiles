@@ -277,8 +277,8 @@ if has("gui_running") && has("win32")
 end
 
 " VimOrganizer - a lot of this is copied from bundle/hsitz-VimOrganizer-*/_vimrc
-au! BufRead,BufWrite,BufWritePost,BufNewFile *.org
-au BufEnter *.org            call org#SetOrgFileType()
+"au! BufRead,BufWrite,BufWritePost,BufNewFile *.org
+"au BufEnter *.org            call org#SetOrgFileType()
 command! OrgCapture :call org#CaptureBuffer()
 command! OrgCaptureFile :call org#OpenCaptureFile()
 "let g:org_todo_setup='TODO NEXT STARTED WAITING INREVIEW DELEG | DONE CANCELED'
