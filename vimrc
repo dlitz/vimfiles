@@ -5,6 +5,24 @@
 "ln" -v -s .vim/vimrc ~/.gvimrc
 "exit" 0
 
+" See :help defaults.vim
+" This might make things less predictable between vim versions, I dunno.  Some
+" part of this was new in Vim 8.
+"
+" This was added later, so it might make sense to remove some other things.
+"
+" The main reason for doing this was that my timeoutlen & ttimeoutlen values
+" were unreasonable and annoying.  (The default is 1000ms or 100ms if using
+" defaults.vim)
+"
+" In theory, setting a short timeout could break escape sequences over a
+" delayed connection, but I'd bet that terminal escape sequences typically
+" stay together inside their own TCP segment, so problems should be
+" rare---much rarer than the difficulty I'm having when I habitually press ESC
+" extra times to get back to a known state.
+unlet! skip_defaults_vim
+source $VIMRUNTIME/defaults.vim
+
 " Early initialization
 set nocompatible
 syntax off
