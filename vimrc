@@ -38,7 +38,15 @@ filetype plugin indent on
 syntax on
 
 " highlight bad whitespace (this part must be before colorscheme is loaded)
-autocmd ColorScheme * highlight SpaceError ctermbg=red guibg=red
+augroup spaceerror
+    autocmd!
+    " highlight bad whitespace (this part must be after "syntax on")
+    " We highlight trailing spaces and spaces-before-tabs.
+    autocmd Syntax * syntax match SpaceError display excludenl /\s\+$\| \+\t/ containedin=ALL
+    autocmd ColorScheme * highlight default SpaceError ctermbg=red guibg=red
+    " Don't lose the syntax highlighting when vimrc is reloaded
+    doautoall spaceerror Syntax
+augroup END
 
 " syntax highlighting - enable and basic options
 colorscheme dwon
@@ -57,10 +65,6 @@ let python_space_error_highlight=1
 " Texas Instruments PRU-ICSS assembly language
 " XXX - No longer needed?
 "autocmd FileType BufRead,BufNewFile *.p,*.hp setfiletype msp
-
-" highlight bad whitespace (this part must be after "syntax on")
-" We highlight trailing spaces and spaces-before-tabs.
-autocmd Syntax * syntax match SpaceError display excludenl /\s\+$\| \+\t/ containedin=ALL
 
 " Don't allow setting 'softtabstop'; We pin it to the value of 'shiftwidth'
 runtime plugin/securemodelines.vim
