@@ -18,7 +18,6 @@ preset_repos=(
     git@github.com:yssl/QFEnter
     git@github.com:rking/ag.vim
     git@github.com:msanders/cocoa.vim
-    git@github.com:jboning/pyxl
     git@github.com:ciaranm/securemodelines
     git@github.com:majutsushi/tagbar
     git@github.com:martinlroth/vim-acpi-asl
