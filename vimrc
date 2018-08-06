@@ -5,6 +5,13 @@
 "ln" -v -s .vim/vimrc ~/.gvimrc
 "exit" 0
 
+" Trust termcap before builtin
+if has("gui_running")
+    set nottybuiltin
+else
+    set nottybuiltin term=$TERM
+endif
+
 " See :help defaults.vim
 " This might make things less predictable between vim versions, I dunno.  Some
 " part of this was new in Vim 8.
@@ -33,6 +40,20 @@ call pathogen#infect()      " Must be before filetype plugin indent on
 
 " filetype-specific auto-indent
 filetype plugin indent on
+
+" Terminal workarounds
+if has("gui_running")
+    " do nothing
+elseif match(&term, "^konsole") != -1
+    " Enable true-color
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+    " Enable better mouse emulation
+    set ttym=sgr
+endif
+
+" Use RGB colors in text mode if supported by the terminal (see :help xterm-true-color)
+set termguicolors
 
 " Enable syntax highlighting (must be after `filetype plugin indent on`, apparently, or VimOrganizer syntax highlighting breaks)
 syntax on

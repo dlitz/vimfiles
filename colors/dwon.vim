@@ -10,7 +10,9 @@ endif
 
 let colors_name = "dwon"
 
-hi Comment     ctermfg=DarkYellow   guifg=DarkYellow
+hi Normal      ctermfg=LightGrey    guifg=grey90        ctermbg=Black   guibg=#000020
+
+hi Comment     ctermfg=DarkYellow   guifg=#B26818
 hi Constant    ctermfg=DarkCyan     guifg=DarkCyan                                          term=underline
 hi Delimiter   ctermfg=Red          guifg=Red                                               cterm=bold gui=bold term=bold
 hi Directory   ctermfg=Blue         guifg=Blue                                              cterm=bold gui=bold term=bold
@@ -23,7 +25,6 @@ hi LineNr      ctermfg=DarkYellow   guifg=DarkYellow                            
 hi ModeMsg     ctermfg=Yellow       guifg=Yellow        ctermbg=Red     guibg=Red           cterm=bold term=bold
 hi MoreMsg     ctermfg=Green        guifg=Green                                             cterm=bold gui=bold term=bold
 hi NonText     ctermfg=DarkGreen    guifg=green3                                                                term=bold
-hi Normal      ctermfg=LightGrey    guifg=grey90        ctermbg=Black   guibg=#000020
 hi PreProc     ctermfg=DarkGreen    guifg=Green
 hi Question    ctermfg=Green        guifg=Green                                             cterm=bold gui=bold term=standout
 hi Search      ctermfg=NONE         guifg=NONE          ctermbg=NONE    guibg=NONE          cterm=reverse gui=reverse term=reverse
@@ -35,7 +36,7 @@ hi SpellRare   ctermfg=NONE         guifg=NONE          ctermbg=NONE    guibg=NO
 hi SpellLocal  ctermfg=NONE         guifg=NONE          ctermbg=NONE    guibg=NONE          cterm=undercurl gui=undercurl term=undercurl
 hi Statement   ctermfg=DarkGreen    guifg=Green                                             cterm=NONE gui=NONE term=bold
 hi StatusLine  ctermfg=Yellow       guifg=Yellow        ctermbg=Blue    guibg=DarkBlue      cterm=bold gui=bold term=reverse
-hi StatusLineNC ctermfg=Black       guifg=grey20        ctermbg=Yellow  guibg=DarkYellow    cterm=bold gui=bold term=bold
+hi StatusLineNC ctermfg=Black       guifg=grey20        ctermbg=Yellow  guibg=DarkYellow    cterm=NONE gui=bold term=bold
 hi Title       ctermfg=Blue         guifg=Blue                                              cterm=bold gui=bold term=bold
 hi Todo        ctermfg=Red          guifg=Red           ctermbg=Yellow  guibg=Yellow        cterm=bold gui=bold term=bold
 hi Type        ctermfg=Yellow       guifg=Yellow                                            cterm=bold gui=bold term=underline
