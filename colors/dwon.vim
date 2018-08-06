@@ -4,6 +4,11 @@
 
 set background=dark
 hi clear
+if exists("syntax_on")
+    syntax reset
+endif
+
+let colors_name = "dwon"
 
 hi Comment     ctermfg=DarkYellow   guifg=DarkYellow
 hi Constant    ctermfg=DarkCyan     guifg=DarkCyan                                          term=underline
