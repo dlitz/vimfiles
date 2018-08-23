@@ -5,6 +5,11 @@
 "ln" -v -s .vim/vimrc ~/.gvimrc
 "exit" 0
 
+" This has side effects, so only do it if it isn't already done
+if &compatible
+    set nocompatible
+endif
+
 " Trust termcap before builtin
 if has("gui_running")
     set nottybuiltin
@@ -27,11 +32,15 @@ endif
 " stay together inside their own TCP segment, so problems should be
 " rare---much rarer than the difficulty I'm having when I habitually press ESC
 " extra times to get back to a known state.
-unlet! skip_defaults_vim
-source $VIMRUNTIME/defaults.vim
+if version >= 800
+    unlet! skip_defaults_vim
+    source $VIMRUNTIME/defaults.vim
+else
+    " For earlier versions, fix the ESC key, at least
+    set timeoutlen=1000 ttimeoutlen=100
+endif
 
 " Early initialization
-set nocompatible
 syntax off
 filetype off
 
@@ -53,7 +62,9 @@ elseif match(&term, "^konsole") != -1
 endif
 
 " Use RGB colors in text mode if supported by the terminal (see :help xterm-true-color)
-set termguicolors
+if exists("&termguicolors")     " true-color support doesn't exist in vim 7.4? (before vim 8 maybe?)
+  set termguicolors
+endif
 
 " Enable syntax highlighting (must be after `filetype plugin indent on`, apparently, or VimOrganizer syntax highlighting breaks)
 syntax on
