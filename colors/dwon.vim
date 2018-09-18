@@ -46,3 +46,7 @@ hi WarningMsg  ctermfg=Red          guifg=Red           ctermbg=Blue    guibg=Bl
 
 " User1 is used by the pythonhelper.vim plugin for information on the status line
 hi User1       ctermfg=Yellow       guifg=Yellow        ctermbg=Blue    guibg=DarkBlue      cterm=bold gui=bold term=reverse
+
+" fstab coloring: Improves readability when fstab columns are not aligned
+hi fsMountPoint     ctermfg=Blue    guifg=#5454FF                                           cterm=bold gui=bold
+hi fsTypeKeyword    ctermfg=Magenta guifg=Violet                                            cterm=bold gui=bold term=underline
