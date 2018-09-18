@@ -56,7 +56,8 @@ syn keyword fsMountPointKeyword contained none swap
 " Type
 syn cluster fsTypeCluster contains=fsTypeKeyword,fsTypeUnknown
 syn match fsTypeUnknown /\s\+\zs\w\+/ contained
-syn keyword fsTypeKeyword contained adfs ados affs anon_inodefs atfs audiofs auto autofs bdev befs bfs btrfs binfmt_misc cd9660 cfs cgroup cifs coda configfs cpuset cramfs devfs devpts devtmpfs e2compr efs ext2 ext2fs ext3 ext4 fdesc ffs filecore fuse fuseblk fusectl hfs hpfs hugetlbfs iso9660 jffs jffs2 jfs kernfs lfs linprocfs mfs minix mqueue msdos ncpfs nfs nfsd nilfs2 none ntfs null nwfs overlay ovlfs pipefs portal proc procfs pstore ptyfs qnx4 reiserfs ramfs romfs securityfs shm smbfs squashfs sockfs sshfs std subfs swap sysfs sysv tcfs tmpfs udf ufs umap umsdos union usbfs userfs vfat vs3fs vxfs wrapfs wvfs xenfs xfs zisofs
+syn match fsTypeKeyword /\<\%(lowntfs-3g\|ntfs-3g\|ntfs\)\>/ contained
+syn keyword fsTypeKeyword contained adfs ados affs anon_inodefs atfs audiofs auto autofs bdev befs bfs btrfs binfmt_misc cd9660 cfs cgroup cifs coda configfs cpuset cramfs devfs devpts devtmpfs e2compr efs ext2 ext2fs ext3 ext4 fdesc ffs filecore fuse fuseblk fusectl hfs hpfs hugetlbfs iso9660 jffs jffs2 jfs kernfs lfs linprocfs mfs minix mqueue msdos ncpfs nfs nfsd nilfs2 none null nwfs overlay ovlfs pipefs portal proc procfs pstore ptyfs qnx4 reiserfs ramfs romfs securityfs shm smbfs squashfs sockfs sshfs std subfs swap sysfs sysv tcfs tmpfs udf ufs umap umsdos union usbfs userfs vfat vs3fs vxfs wrapfs wvfs xenfs xfs zisofs
 
 " Options
 " -------
@@ -165,6 +166,14 @@ syn keyword fsOptionsKeywords contained bg fg soft hard intr cto ac tcp udp lock
 " Options: ntfs
 syn match fsOptionsKeywords contained /\<\%(posix=*\|uni_xlate=\)/ nextgroup=fsOptionsNumber
 syn keyword fsOptionsKeywords contained utf8
+
+" Options: ntfs-3g
+syn match fsOptionsKeywords contained /\<delay_mtime\>/
+syn match fsOptionsKeywords contained /\<\%(delay_mtime=\|dmask=\|fmask=\|max_read=\|uid=\|umask=\)/ nextgroup=fsOptionsNumber
+syn match fsOptionsKeywords contained /\<\%(locale=\|usermapping=\)/ nextgroup=fsOptionsString
+syn match fsOptionsKeywords contained /\<streams-interface=/ nextgroup=fsOptionsNtfsStreamsInterface
+syn keyword fsOptionsNtfsStreamsInterface contained none windows xattr
+syn keyword fsOptionsKeywords contained acl allow_other big_writes compression debug efs_raw force hide_dot_files hide_hid_files ignore_case inherit nocompression no_def_opts no_detach norecover permissions recover remove_hiberfile show_sys_files silent user_xattr windows_names
 
 " Options: proc
 " -- everything already defined
