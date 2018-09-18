@@ -65,7 +65,7 @@ syn keyword fsTypeKeyword contained adfs ados affs anon_inodefs atfs audiofs aut
 syn cluster fsOptionsCluster contains=fsOperator,fsOptionsGeneral,fsOptionsKeywords,fsTypeUnknown
 syn match fsOptionsNumber /\d\+/
 syn match fsOptionsNumberOctal /[0-8]\+/
-syn match fsOptionsString /[a-zA-Z0-9_-]\+/
+syn match fsOptionsString /[a-zA-Z0-9\/._~-]\+/
 syn keyword fsOptionsYesNo yes no
 syn cluster fsOptionsCheckCluster contains=fsOptionsExt2Check,fsOptionsFatCheck
 syn keyword fsOptionsSize 512 1024 2048
