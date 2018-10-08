@@ -57,12 +57,17 @@ elseif match(&term, "^konsole") != -1
     " Enable true-color
     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-    " Enable better mouse emulation
+endif
+
+" Better mouse protocol
+if match(&ttym, "^xterm") != -1
     set ttym=sgr
 endif
 
-" Use RGB colors in text mode if supported by the terminal (see :help xterm-true-color)
-if exists("&termguicolors")     " true-color support doesn't exist in vim 7.4? (before vim 8 maybe?)
+" true-color support doesn't exist in vim 7.4? (before vim 8 maybe?)
+" also we don't want to set this unless we have the actual escape codes
+if exists("&termguicolors") && !empty(&t_8f) && !empty(&t_8b)
+    " Use RGB colors in text mode if supported by the terminal (see :help xterm-true-color)
   set termguicolors
 endif
 
