@@ -425,6 +425,9 @@ noremap <silent> <Leader>l :setlocal list!<cr>:setlocal list?<cr>
 " <Leader>p -- toggle paste
 noremap <silent> <Leader>p :setlocal paste!<cr>:setlocal paste?<cr>
 
+" <Leader>t -- toggle expandtab
+noremap <silent> <Leader>t :setlocal expandtab!<cr>:setlocal expandtab?<cr>
+
 " <Leader>n -- toggle numbers
 noremap <silent> <Leader>n :setlocal number!<cr>:setlocal number?<cr>
 
@@ -433,6 +436,16 @@ noremap <silent> <Leader>w :setlocal wrap!<cr>:setlocal wrap?<cr>
 
 " <Leader>/ -- clear the search pattern
 noremap <Leader>/ :let @/ = ""<cr>
+
+" Custom status line
+let &g:statusline = '%<%f %h%m%r%=' .
+    \   '%{&paste ? "paste " : ""}' .
+    \   '%{&et ? "spaces" : "tabs"} ' .
+    \   '%{&sts == 0 ? "nosts " : &sts > 0 && &sts != &sw ? "sts:".&sts." " : ""}' .
+    \   '%{&sw && &sw != &ts ? "sw:".&sw." " : ""}' .
+    \   'ts:%{&ts} ' .
+    \   'tw:%{&tw} ' .
+    \   ' %-14.(%l,%c%V%) %P'
 
 "" BEGIN copied from http://www.daskrachen.com/2011/12/how-to-make-tagbar-work-with-objective.html
 " add a definition for Objective-C to tagbar
