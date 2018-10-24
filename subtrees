@@ -1,0 +1,99 @@
+#!/usr/bin/env bash
+# The main purpose of this script is to store a list of the subtree upstreams
+# (see the end of the file) and to automatically generate a commit message when
+# pulling subtrees.
+
+set -eu -o pipefail
+
+# get OPTS_SPEC from /usr/lib/git-core/git-subtree
+eval "$( sed -nEe '/^OPTS_SPEC=/,/^"$/p' "$(git --exec-path)"/git-subtree )"
+
+get_subtree_lines() {
+    datafile=$(readlink -f "$0")
+    sed -nEe '1,/^__DATA__\s*$/d;p' < "$datafile"
+}
+
+extract_from_args() {
+    if [ "$#" -eq 0 ]; then
+	    set -- -h
+    fi
+    eval "$(echo "$OPTS_SPEC" | git rev-parse --parseopt --stuck-long -- "$@" || echo exit $?)"
+
+    local opt
+    cmd=
+    prefix=
+    message=
+    repo=
+    ref=
+    while [ "$#" -gt 0 ]; do
+        opt="$1"
+        shift
+
+        case "$opt" in
+            --prefix=*)
+                prefix="${opt#--prefix=}"
+                prefix="${prefix%/}"
+                ;;
+            --message=*)
+                message="${opt#--message=}"
+                ;;
+            --)
+                break
+                ;;
+            *)
+                ;;
+        esac
+    done
+    cmd="$1"
+    repo="$2"
+    ref="$3"
+}
+
+generate_message() {
+    local prefix repo ref
+    prefix="$1"
+    repo="$2"
+    ref="$3"
+    echo "$prefix: Pulled new '$ref' from '$repo'"
+}
+
+get_subtree_commands() {
+    ( echo "$0" ; get_subtree_lines ) | sed -nEe '1h;2,${G;s/^(.*)\n(.*)$/\2\n\1/;s/^(.*)\n(\S*)/\1/p}'
+}
+
+usage() {
+    echo "Usage: $0"
+    get_subtree_commands | sed -e 's/^/  or: /'
+}
+
+
+if [ "$#" -gt 0 ] && [ "$1" = "git" ] && [ "$2" = "subtree" ] && [ "$3" = "pull" ]; then
+    shift 2
+    extract_from_args $@
+    exec git subtree --message="$(generate_message "$prefix" "$repo" "$ref")" "$@"
+elif [ "$#" -eq 0 ]; then
+    get_subtree_commands
+else
+    echo "$0: error: invalid arguments"
+    usage 2>&1
+    exit 2
+fi
+
+
+exit 0
+
+__DATA__
+./subtrees git subtree pull --squash -P bundle/ag.vim               https://github.com/rking/ag.vim             master
+./subtrees git subtree pull --squash -P bundle/cocoa.vim            https://github.com/msanders/cocoa.vim       master
+./subtrees git subtree pull --squash -P bundle/QFEnter              https://github.com/yssl/QFEnter             master
+./subtrees git subtree pull --squash -P bundle/securemodelines      https://github.com/ciaranm/securemodelines  master
+./subtrees git subtree pull --squash -P bundle/tagbar               https://github.com/majutsushi/tagbar        master
+./subtrees git subtree pull --squash -P bundle/vim-acpi-asl         https://github.com/martinlroth/vim-acpi-asl master
+./subtrees git subtree pull --squash -P bundle/vim-coffee-script    https://github.com/kchmck/vim-coffee-script master
+./subtrees git subtree pull --squash -P bundle/vim-emacsmodeline    https://github.com/sfiera/vim-emacsmodeline master
+./subtrees git subtree pull --squash -P bundle/VimOrganizer         https://github.com/hsitz/VimOrganizer       master
+./subtrees git subtree pull --squash -P bundle/vim-plist            https://github.com/hunner/vim-plist         master
+./subtrees git subtree pull --squash -P bundle/vim-repeat           https://github.com/tpope/vim-repeat         master
+./subtrees git subtree pull --squash -P bundle/vim-signify          https://github.com/mhinz/vim-signify        master
+./subtrees git subtree pull --squash -P bundle/vim-surround         https://github.com/tpope/vim-surround       master
+./subtrees git subtree pull --squash -P bundle/zim-syntax           https://github.com/vim-scripts/zim-syntax   master
