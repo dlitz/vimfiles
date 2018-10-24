@@ -1,15 +1,15 @@
 " Language:    CoffeeScript
-" Maintainer:  Mick Koch <kchmck@gmail.com>
+" Maintainer:  Mick Koch <mick@kochm.co>
 " URL:         http://github.com/kchmck/vim-coffee-script
 " License:     WTFPL
 
 " Load the coffee and html indent functions.
-unlet b:did_indent
+silent! unlet b:did_indent
 runtime indent/coffee.vim
 let s:coffeeIndentExpr = &l:indentexpr
 
 " Load html last so it can overwrite coffee settings.
-unlet b:did_indent
+silent! unlet b:did_indent
 runtime indent/html.vim
 let s:htmlIndentExpr = &l:indentexpr
 
@@ -18,7 +18,7 @@ setlocal indentexpr=GetCoffeeHtmlIndent(v:lnum)
 
 function! GetCoffeeHtmlIndent(curlinenum)
   " See if we're inside a coffeescript block.
-  let scriptlnum = searchpair('<script [^>]*type="text/coffeescript"[^>]*>', '',
+  let scriptlnum = searchpair('<script [^>]*type=[''"]\?text/coffeescript[''"]\?[^>]*>', '',
   \                           '</script>', 'bWn')
   let prevlnum = prevnonblank(a:curlinenum)
 
