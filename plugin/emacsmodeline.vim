@@ -2,8 +2,8 @@
 "
 " emacsmodeline.vim
 " Brief: Parse emacs mode line and setlocal in vim
-" Version: 1.1
-" Date: Feb 20, 2013
+" Version: 1.2
+" Date: Jun 07, 2015
 " Maintainer: Chris Pickel <sfiera@gmail.com>
 "
 " Installation: put this file under your ~/.vim/plugin/
@@ -14,7 +14,7 @@
 " -*- tab-width: 4 -*-
 "
 " Which is the same meaning as:
-" vim:shiftwidth=4:softtabstob=4:tabstop=4:
+" vim:tabstop=4:
 "
 " Revisions:
 "
@@ -25,6 +25,8 @@
 "  * Maintainership taken up by Chris Pickel <sfiera@gmail.com>.
 " 1.1, Feb 20, 2013
 "  * Prevent an exploit.  Not seen in the wild, but likely to be used by vengeful emacs users.
+" 1.2, Jun 07, 2015:
+"  * More file support.  Let vim provide defaults.
 "
 
 " No attempt is made to support vim versions before 7.0.
@@ -36,17 +38,21 @@ if (!exists("g:emacs_modelines"))
     let g:emacs_modelines=5
 endif
 
+" Note: Entries to emacsModeDict must be lowercase. E. g. 'makefile' instead of 'Makefile'.
+let s:emacsModeDictDefault = {
+    \ 'c++':          'cpp',
+    \ 'shell-script': 'sh',
+    \ 'makefile':     'make',
+    \ 'js':           'javascript',
+    \ 'protobuf':     'proto',
+\ }
+
 if (!exists('g:emacsModeDict'))
     let g:emacsModeDict = {}
 endif
 
-if (!has_key(g:emacsModeDict, 'c++'))
-    let g:emacsModeDict['c++'] = 'cpp'
-endif
-
-if (!has_key(g:emacsModeDict, 'shell-script'))
-    let g:emacsModeDict['shell-script'] = 'sh'
-endif
+" Add all default entries to the mode dict, keeping any user-defined entries
+call extend(g:emacsModeDict, s:emacsModeDictDefault, "keep")
 
 function! <SID>FindParameterValue(modeline, emacs_name, value)
     let pattern = '\c' . '\(^\|.*;\)\s*' . a:emacs_name . ':\s*\(' . a:value . '\)\s*\($\|;.*\)'
@@ -71,11 +77,13 @@ function! <SID>SetVimNumberOption(modeline, emacs_name, vim_name)
     let value = <SID>FindParameterValue(a:modeline, a:emacs_name, '\d\+')
     if strlen(value)
         exec 'setlocal ' . a:vim_name . '=' . value
+        return 1
     endif
+    return 0
 endfunc
 
 function! <SID>SetVimToggleOption(modeline, emacs_name, vim_name, nil_value)
-    let value = <SID>FindParameterValue(a:modeline, a:emacs_name, '\S\+')
+    let value = <SID>FindParameterValue(a:modeline, a:emacs_name, '[^;[:space:]]\+')
     if strlen(value)
         if (value == 'nil') == a:nil_value
             exec 'setlocal ' . a:vim_name
@@ -103,9 +111,13 @@ function! ParseEmacsModeLine()
             call <SID>SetVimModeOption(modeline)
 
             call <SID>SetVimNumberOption(modeline, 'fill-column',        'textwidth')
-            call <SID>SetVimNumberOption(modeline, 'tab-width',          'shiftwidth')
-            call <SID>SetVimNumberOption(modeline, 'tab-width',          'softtabstop')
-            call <SID>SetVimNumberOption(modeline, 'tab-width',          'tabstop')
+            if <SID>SetVimNumberOption(modeline,   'tab-width',          'tabstop')
+                " - When shiftwidth is zero, the 'tabstop' value is used.
+                "   Use the shiftwidth() function to get the effective shiftwidth value.
+                " - When 'sts' is negative, the value of 'shiftwidth' is used.
+                setlocal shiftwidth=0
+                setlocal softtabstop=-1
+            endif
 
             call <SID>SetVimToggleOption(modeline, 'buffer-read-only',   'readonly',     0)
             call <SID>SetVimToggleOption(modeline, 'indent-tabs-mode',   'expandtab',    1)
