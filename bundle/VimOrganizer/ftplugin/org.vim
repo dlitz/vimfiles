@@ -1015,37 +1015,15 @@ function! s:NextTodo(curtodo)
     let curtodo = a:curtodo
     " check whether word is in todoitems and make appropriate
     " substitution
-    let j = -1
-    let newi = -1
-    let i = index(b:v.fulltodos,curtodo)
-    if i == -1 
-        let i = 0
-        while i < len(b:v.fulltodos)
-            if type(b:v.fulltodos[i]) == type([])
-                let j = index(b:v.fulltodos[i],curtodo)
-                if j > -1
-                    break
-                endif
-            endif
-            let i += 1
-        endwhile
-    endif
-
-    if i == len(b:v.fulltodos)-1
+    let i = index(b:v.todoitems, curtodo)
+    if i == -1
+        " Not found -> start with first todo
+        let newtodo = b:v.todoitems[0]
+    elseif i == len(b:v.todoitems) - 1
+        " All cycled -> next is empty
         let newtodo = ''
     else
-        if (i == len(b:v.fulltodos))
-            " not found, newtodo is index 0
-            let newi = 0
-        elseif (i >= 0) 
-            let newi = i+1
-        endif
-
-        if type(b:v.fulltodos[newi]) == type([])
-            let newtodo = b:v.fulltodos[newi][0]
-        else
-            let newtodo = b:v.fulltodos[newi]
-        endif
+        let newtodo = b:v.todoitems[i+1]
     endif
     return newtodo
 endfunction
@@ -1053,38 +1031,16 @@ function! s:PreviousTodo(curtodo)
     let curtodo = a:curtodo
     " check whether word is in todoitems and make appropriate
     " substitution
-    let j = -1
-    let newi = -1
-    let i = index(b:v.fulltodos,curtodo)
-    if i == -1 
-        let i = 0
-        while i < len(b:v.fulltodos)
-            if type(b:v.fulltodos[i]) == type([])
-                let j = index(b:v.fulltodos[i],curtodo)
-                if j > -1
-                    break
-                endif
-            endif
-            let i += 1
-        endwhile
-    endif
-
-    "if i == len(b:v.fulltodos)-1
-    if i == 0
+    let i = index(b:v.todoitems, curtodo)
+    if i == -1
+        " Not found -> Start with last todo
+        let last = len(b:v.todoitems) - 1
+        let newtodo = b:v.todoitems[last]
+    elseif i == 0
+        " All cycled -> next is empty
         let newtodo = ''
     else
-        if (i == len(b:v.fulltodos))
-            " not found, newtodo is index 0
-            let newi = len(b:v.fulltodos) - 1
-        elseif (i > 0) 
-            let newi = i-1
-        endif
-
-        if type(b:v.fulltodos[newi]) == type([])
-            let newtodo = b:v.fulltodos[newi][0]
-        else
-            let newtodo = b:v.fulltodos[newi]
-        endif
+        let newtodo = b:v.todoitems[i-1]
     endif
     return newtodo
 endfunction
@@ -5146,7 +5102,7 @@ function! s:GetOpenClock()
     let file = ''
     if !exists('g:agenda_files') || (g:agenda_files == [])
         unsilent call confirm("No agenda files defined, will search only this buffer for open clocks.")
-        let found = search('CLOCK: \[\d\d\d\d-\d\d-\d\d \S\S\S \d\d:\d\d\]\($\|\s\)','w')
+        let found_line = search('CLOCK: \[\d\d\d\d-\d\d-\d\d \S\S\S \d\d:\d\d\]\($\|\s\)','w')
     else
         let g:in_agenda_search = 1
         for file in g:agenda_files
