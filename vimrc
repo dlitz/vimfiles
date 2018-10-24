@@ -326,6 +326,16 @@ else
     let g:ackprg=fnameescape('ack-grep -H --nocolor --nogroup')
 endif
 
+if executable("ag")
+    let g:ackprg = 'ag --vimgrep --smart-case'
+    "" BEGIN copied from https://github.com/rking/ag.vim/issues/124#issuecomment-227038003
+    cnoreabbrev ag Ack
+    cnoreabbrev aG Ack
+    cnoreabbrev Ag Ack
+    cnoreabbrev AG Ack
+    "" END copied from https://github.com/rking/ag.vim/issues/124#issuecomment-227038003
+endif
+
 " Disable gitgutter on windows (it just repeatedly invokes vimrun.exe forever. Maybe it's just a high-DPI thing?)
 if has("gui_running") && has("win32")
     let g:gitgutter_enabled = 0
@@ -399,7 +409,7 @@ command! RetagObjC call RetagObjC()
 noremap <silent> <Leader>y :TagbarToggle<cr>
 
 " <Leader>K -- search the source code for the word under the cursor
-noremap <silent> <Leader>K :<C-U>Ag<cr>
+noremap <silent> <Leader>K :<C-U>Ack<cr>
 
 " <Leader>i -- toggle ignorecase
 noremap <silent> <Leader>i :setlocal ignorecase!<cr>:setlocal ignorecase?<cr>

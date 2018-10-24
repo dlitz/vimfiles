@@ -83,7 +83,7 @@ fi
 exit 0
 
 __DATA__
-./subtrees git subtree pull --squash -P bundle/ag.vim               https://github.com/rking/ag.vim             master
+./subtrees git subtree pull --squash -P bundle/ack.vim              https://github.com/mileszs/ack.vim          master
 ./subtrees git subtree pull --squash -P bundle/cocoa.vim            https://github.com/msanders/cocoa.vim       master
 ./subtrees git subtree pull --squash -P bundle/QFEnter              https://github.com/yssl/QFEnter             master
 ./subtrees git subtree pull --squash -P bundle/securemodelines      https://github.com/ciaranm/securemodelines  master
