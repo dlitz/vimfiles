@@ -7,7 +7,6 @@ usage() {
 Update the subtree bundles.
 
 Options:
-  -H, --https           Use HTTPS instead of SSH to access GitHub
   -h, --help            display help and exit
   -a, --all             Apply to all repos
   -r PATTERN            Apply only to repos matching PATTERN
@@ -15,34 +14,30 @@ EOF
 }
 
 preset_repos=(
-    git@github.com:yssl/QFEnter
-    git@github.com:rking/ag.vim
-    git@github.com:msanders/cocoa.vim
-    git@github.com:ciaranm/securemodelines
-    git@github.com:majutsushi/tagbar
-    git@github.com:martinlroth/vim-acpi-asl
-    git@github.com:kchmck/vim-coffee-script
-    git@github.com:sfiera/vim-emacsmodeline
-    git@github.com:hunner/vim-plist
-    git@github.com:mhinz/vim-signify
-    git@github.com:tpope/vim-surround
-    git@github.com:tpope/vim-repeat
-    git@github.com:hsitz/VimOrganizer
-    git@github.com:vim-scripts/zim-syntax
+    https://github.com/yssl/QFEnter
+    https://github.com/rking/ag.vim
+    https://github.com/msanders/cocoa.vim
+    https://github.com/ciaranm/securemodelines
+    https://github.com/majutsushi/tagbar
+    https://github.com/martinlroth/vim-acpi-asl
+    https://github.com/kchmck/vim-coffee-script
+    https://github.com/sfiera/vim-emacsmodeline
+    https://github.com/hunner/vim-plist
+    https://github.com/mhinz/vim-signify
+    https://github.com/tpope/vim-surround
+    https://github.com/tpope/vim-repeat
+    https://github.com/hsitz/VimOrganizer
+    https://github.com/vim-scripts/zim-syntax
 )
 
 script_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 all=
 repo_pattern=
-github_https=
-while getopts 'ahHr:-:' opt ; do
+while getopts 'ahr:-:' opt ; do
     if [[ "$opt" = "-" ]]; then opt="--$OPTARG"; unset OPTARG; fi
 
     case "$opt" in
-    H|--https)
-        github_https=1
-        ;;
     h|--help)
         usage
         exit 0
@@ -83,9 +78,6 @@ fi
 push_repos "$@"
 
 for repo in "${repos[@]}" ; do
-    if [ -n "$github_https" ] ; then
-        repo=${repo/git@github.com:/https:\/\/github.com\/}
-    fi
     ref=master
     basename=`basename "$repo" .git`
     prefix="bundle/`basename "$repo"`"
