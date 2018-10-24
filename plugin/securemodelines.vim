@@ -25,7 +25,7 @@ if (! exists("g:secure_modelines_allowed_items"))
                 \ "cindent",     "cin",  "nocindent", "nocin",
                 \ "smartindent", "si",   "nosmartindent", "nosi",
                 \ "autoindent",  "ai",   "noautoindent", "noai",
-                \ "spell",
+                \ "spell", "nospell",
                 \ "spelllang"
                 \ ]
 endif
@@ -50,16 +50,11 @@ if (! exists("g:secure_modelines_leave_modeline"))
 endif
 
 fun! <SID>IsInList(list, i) abort
-    for l:item in a:list
-        if a:i == l:item
-            return 1
-        endif
-    endfor
-    return 0
+    return index(a:list, a:i) != -1
 endfun
 
 fun! <SID>DoOne(item) abort
-    let l:matches = matchlist(a:item, '^\([a-z]\+\)\%([-+^]\?=[a-zA-Z0-9_\-.]\+\)\?$')
+    let l:matches = matchlist(a:item, '^\([a-z]\+\)\%([-+^]\?=[a-zA-Z0-9_\-,.]\+\)\?$')
     if len(l:matches) > 0
         if <SID>IsInList(g:secure_modelines_allowed_items, l:matches[1])
             exec "setlocal " . a:item
