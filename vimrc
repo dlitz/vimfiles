@@ -133,6 +133,8 @@ au FileType objc,objcpp,coffee              setlocal sw=2
 au FileType python                          setlocal sw=4 ts=8
 au FileType yaml                            setlocal sw=2 indentexpr=
 
+au BufRead,BufWrite,BufWritePost,BufNewFile *.tac setlocal ft=python
+
 " email editing
 "autocmd BufNewFile,BufRead .letter,mutt*,nn.*,snd.* setlocal spell formatoptions=wantql
 autocmd FileType mail setlocal spell formatoptions=wantql
@@ -332,7 +334,7 @@ else
 endif
 
 if executable("ag")
-    let g:ackprg = 'ag --vimgrep --smart-case'
+    let g:ackprg = 'ag --vimgrep --smart-case --ignore=tags'
     "" BEGIN copied from https://github.com/rking/ag.vim/issues/124#issuecomment-227038003
     cnoreabbrev ag Ack
     cnoreabbrev aG Ack
