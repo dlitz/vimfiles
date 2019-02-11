@@ -1,0 +1,4 @@
+augroup localvimrc
+    autocmd!
+    autocmd BufNewFile,BufRead */usbutils*/*.[ch] call LinuxCodingStyle()
+augroup END

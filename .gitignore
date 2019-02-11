@@ -2,3 +2,4 @@
 /sessions/*
 /swapfiles/*
 /bundle/*/doc/tags
+/plugin/_local.vim
