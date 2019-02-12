@@ -11,10 +11,12 @@ if &compatible
 endif
 
 " Trust termcap before builtin
-if has("gui_running")
-    set nottybuiltin
-else
-    set nottybuiltin term=$TERM
+if has("unix")
+    if has("gui_running")
+        set nottybuiltin
+    elseif exists('$TERM')
+        set nottybuiltin term=$TERM
+    endif
 endif
 
 " See :help defaults.vim
@@ -105,7 +107,9 @@ let python_space_error_highlight=1
 
 " Don't allow setting 'softtabstop'; We pin it to the value of 'shiftwidth'
 runtime plugin/securemodelines.vim
-call filter(g:secure_modelines_allowed_items, 'v:val !=# "softtabstop" && v:val !=# "sts"')
+if exists('g:loaded_securemodelines')
+    call filter(g:secure_modelines_allowed_items, 'v:val !=# "softtabstop" && v:val !=# "sts"')
+endif
 
 " tab & indentation settings
 set expandtab       " use soft tabs by default
