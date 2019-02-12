@@ -316,31 +316,60 @@ endfunction
 "vmap ip <Esc>:call <SID>SelectParagraph(1, 1)<cr>
 
 
-" ack-grep plugin
-if has("win32")
-    " This is insane:
-    " - The result of this gets passed to exec 'set grepprg=' . g:ackprg
-    " - The result of that gets passed to cmd /c
-    " - cmd /c handles a single double-quoted string as the command name, but
-    "   if you give it a double-quoted string as an argument, it suddenly says
-    "   that the *command* isn't found.  So we pass single-quoted $HOME into
-    "   that, and let the fact that the mingw perl knows how to parse
-    "   single-quotes.
-    let g:ackprg=fnameescape(
-        \ shellescape($ProgramFiles . '\Git\bin\perl') . " " .
-        \ "'$HOME\\vimfiles\\bin\\ack-1.96-single-file' -H --nocolor --nogroup")
-else
-    let g:ackprg=fnameescape('ack-grep -H --nocolor --nogroup')
-endif
+" ag.vim is deprecated; we can just use ack.vim
+"" BEGIN copied from https://github.com/rking/ag.vim/issues/124#issuecomment-227038003
+cnoreabbrev ag Ack
+cnoreabbrev aG Ack
+cnoreabbrev Ag Ack
+cnoreabbrev AG Ack
+"" END copied from https://github.com/rking/ag.vim/issues/124#issuecomment-227038003
 
-if executable("ag")
-    let g:ackprg = 'ag --vimgrep --smart-case --ignore=tags'
-    "" BEGIN copied from https://github.com/rking/ag.vim/issues/124#issuecomment-227038003
-    cnoreabbrev ag Ack
-    cnoreabbrev aG Ack
-    cnoreabbrev Ag Ack
-    cnoreabbrev AG Ack
-    "" END copied from https://github.com/rking/ag.vim/issues/124#issuecomment-227038003
+" ack.vim configuration
+unlet! g:ackprg
+if executable('ag')
+    " thesilversearcher; like ack but faster.
+    let g:ackprg = 'ag'
+    let g:ack_default_options = '--vimgrep --silent'
+elseif executable('ack-grep') || executable('ack')
+    " ack.vim will find ack-grep or ack on its own in the PATH, so we do
+    " nothing in this case.
+elseif version < 800 && has('unix')
+    let g:ackprg = shellescape(globpath(&rtp, 'bin/ack-2.24-single-file'))
+elseif version < 800 && has('win32')
+    if executable('C:\Progra~1\Git\usr\bin\perl.exe')
+        let s:perl_exe = 'C:\Progra~1\Git\usr\bin\perl.exe'
+    elseif executable('C:\Progra~2\Git\usr\bin\perl.exe')
+        let s:perl_exe = 'C:\Progra~2\Git\usr\bin\perl.exe'
+    else
+    endif
+    if !empty(s:perl_exe)
+        let g:ackprg = printf('"%s" "%s"', s:perl_exe, globpath(&rtp, 'bin/ack-2.24-single-file'))
+    endif
+else
+    " Use bundled ack script, if possible.  It's a perl script.
+    let s:bundled_ack = globpath(&rtp, 'bin/ack-2.24-single-file', 0, 1)[0]
+    if has('unix')      " this includes win32unix (cygwin/mingw)
+        " Unix probably has perl.  It's likely enough that I'm not going to
+        " waste time searching the filesystem at vim startup.
+        let g:ackprg = shellescape(s:bundled_ack)
+    elseif has('win32')     " *deep sigh*
+        " Windows won't respect the #! and doesn't usually come with perl
+        " installed, but it can be installed with various things, so let's
+        " try.
+        let s:perl_exe = exepath('perl')
+        if empty(s:perl_exe)
+            " Git for Windows
+            let s:git_exe = exepath('git')  " Probably something like 'C:\Program Files\Git\cmd\git.EXE'
+            if !empty(s:git_exe)
+                let s:git_install_path = substitute(s:git_exe, '\v\c\\cmd\\git(\.EXE)?$', '', '')   " 'C:\Program Files\Git'
+                let s:perl_exe = exepath(s:git_install_path . '\usr\bin\perl')       " 'C:\Program Files\Git\usr\bin\perl.EXE'
+            endif
+        endif
+        if !empty(s:perl_exe)
+            " Found perl!
+            let g:ackprg = shellescape(s:perl_exe) . ' ' . shellescape(s:bundled_ack)
+        endif
+    endif
 endif
 
 " Disable gitgutter on windows (it just repeatedly invokes vimrun.exe forever. Maybe it's just a high-DPI thing?)
