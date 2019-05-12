@@ -105,20 +105,20 @@ let python_space_error_highlight=1
 " XXX - No longer needed?
 "autocmd FileType BufRead,BufNewFile *.p,*.hp setfiletype msp
 
-" Don't allow setting 'softtabstop'; We pin it to the value of 'shiftwidth'
-runtime plugin/securemodelines.vim
-if exists('g:loaded_securemodelines')
-    call filter(g:secure_modelines_allowed_items, 'v:val !=# "softtabstop" && v:val !=# "sts"')
-endif
-
 " tab & indentation settings
 set expandtab       " use soft tabs by default
 set tabstop=8       " hard tabs are usually always 8 spaces
 set shiftwidth=4    " indent 4 spaces by default
 try
+    let s:need_update_softtabstop = 0
     let &softtabstop = -1  " use the value of 'shiftwidth' implicitly
 catch /^Vim:\(\a+\):E487:/  " 'Argument must be positive'
-    let &softtabstop = &shiftwidth  " use the value of 'shiftwidth' directly
+    let s:need_update_softtabstop = 1
+    " Use the value of 'shiftwidth' directly (old vim versions).
+    function! <SID>UpdateSoftTabStop() abort
+        let &l:softtabstop = &shiftwidth
+    endfunction
+    call <SID>UpdateSoftTabStop()
 endtry
 set autoindent
 set nocindent       " dumber than indentexpr=
@@ -550,4 +550,19 @@ augroup linuxcodingstyle
     autocmd BufNewFile,BufRead * call MaybeLinuxCodingStyle()
     autocmd FileType c,cpp call MaybeLinuxCodingStyle()
     autocmd FileType kconfig,gitconfig call LinuxCodingStyle()
+augroup END
+
+" We need to load the secure-modelines plugin after other things, because
+" otherwise the modelines get overriden by the options set above (e.g. tabstop).
+runtime plugin/securemodelines.vim
+" Don't allow setting 'softtabstop'; We pin it to the value of 'shiftwidth'.
+if exists('g:loaded_securemodelines')
+    call filter(g:secure_modelines_allowed_items, 'v:val !=# "softtabstop" && v:val !=# "sts"')
+endif
+augroup SecureModeLines
+    " We are APPENDING to the SecureModeLinues augroup here.
+    if s:need_update_softtabstop
+        " Simulates set softtabstop=-1
+        autocmd BufRead,StdinReadPost * :call <SID>UpdateSoftTabStop()
+    endif
 augroup END
