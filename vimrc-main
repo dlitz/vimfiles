@@ -1,9 +1,4 @@
-":" Run this file as "sh ~/.vim/vimrc" to set up the symlinks
-"[" -e ~/.vimrc ] && mv -v -f ~/.vimrc ~/.vimrc~ || true
-"[" -e ~/.gvimrc ] && mv -v -f ~/.gvimrc ~/.gvimrc~ || true
-"ln" -v -s .vim/vimrc ~/.vimrc
-"ln" -v -s .vim/vimrc ~/.gvimrc
-"exit" 0
+" Main vimrc file
 
 " This has side effects, so only do it if it isn't already done
 if &compatible
