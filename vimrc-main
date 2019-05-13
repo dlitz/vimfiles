@@ -1,3 +1,5 @@
+scriptencoding utf-8
+
 " Main vimrc file
 
 " This has side effects, so only do it if it isn't already done
@@ -85,7 +87,6 @@ augroup spaceerror
 augroup END
 
 " syntax highlighting - enable and basic options
-colorscheme dwon
 let java_highlight_all=1
 let java_highlight_debug=1
 let java_highlight_functions=1
@@ -102,24 +103,14 @@ let python_space_error_highlight=1
 " XXX - No longer needed?
 "autocmd FileType BufRead,BufNewFile *.p,*.hp setfiletype msp
 
+" Load all of our basic settings
+runtime rc/options-tiny.vim
+
 " Vim < 7.3.693 fails with 'E487: Argument must be positive' if we try to set softtabstop=-1
 let s:vim_supports_negative_softtabstop = has('patch-7.3.693')
-
-" tab & indentation settings
-set expandtab       " use soft tabs by default
-set tabstop=8       " hard tabs are usually always 8 spaces
-set shiftwidth=4    " indent 4 spaces by default
-if s:vim_supports_negative_softtabstop
-    set softtabstop=-1
-else
-    set softtabstop=4
+if ! s:vim_supports_negative_softtabstop
+    let &softtabstop = &shiftwidth
 endif
-set autoindent
-set nocindent       " dumber than indentexpr=
-set copyindent
-set preserveindent
-set nosmartindent   " dumber than indentexpr=
-set nosmarttab
 
 " Some filetypes screw up these values
 au FileType make let [&l:ts, &l:sw, &l:sts, &l:et] = [&g:ts, &g:sw, &g:sts, &g:et]
@@ -145,51 +136,8 @@ autocmd FileType c,objc,objcpp,coffee,make,haskell,ruby,verilog,python,objc,objc
 " other file-specific settings
 autocmd FileType text setlocal spell
 
-" default file encoding
-" This isn't the default on Windows for some reason
-set encoding=utf-8
-set fileencodings=ucs-bom,utf-8,default,latin1
-
-" search preferences
-
-" misc default settings
-set backspace=2
-set nobackup
-set foldlevelstart=99
-set foldmethod=indent
-set formatoptions=tcq   " vim default, modified by filetypes
-set hlsearch    " highlight all matches
-set ignorecase  " case-insensitive searches by default (see also 'smartcase' below)
-set incsearch   " incremental search while typing the pattern
-set laststatus=2
-set listchars=eol:$,tab:>-
-set nomodeline      " using the 'securemodelines' plugin instead
-set mouse=a
-set number
-set printfont=courier:h8
-set printoptions=paper:letter
-set ruler
-set scrolloff=2
-set showcmd
-set showmatch
-set smartcase   " case-sensitive searches when pattern contains uppercase
-set t_vb=           " setting this blank when visualbell is set means we get no bell at all
-set textwidth=0
-set nospell
-set spelllang=en_us,en_ca
-set undolevels=10000
-set visualbell
-set wildmenu wildmode=list:longest  " more bash-like tab completion, except cursors enable menu mode
-
-" gvim font
-if has("gui_macvim")
-    set guifont=Menlo\ Regular:h11
-elseif has("gui_win32")
-    "set guifont=Terminal:h9        " Terminal doesn't display Unicode
-    set guifont=Lucida_Console:h9:cANSI
-else
-    set guifont=Monospace\ 8
-endif
+" Prefer not to aggressively line-wrap some file types
+autocmd FileType vim setlocal colorcolumn=
 
 " Copy and Paste (Linux GUI)
 if has("gui_running") && has("X11")
@@ -212,20 +160,8 @@ if has("gui_running") && has("X11")
     vnoremap <S-Del> "+dgv
 endif
 
-" Set colorcolumn to match coding styleguides of various source trees.
-if exists("&colorcolumn")   " old vim doesn't have colorcolumn
-    set colorcolumn=+1  " highlight the column after 'textwidth'
-    au BufRead,BufNewFile,BufWritePost *
-      \ if expand('<amatch>') =~ '\v^/.*/(source|work/.*)/client[^/]*/.*$' | 
-      \     setl textwidth=80 colorcolumn=121 |
-      \ elseif expand('<amatch>') =~ '\v^/.*/(source|work/.*)/(server|go-server|configs)/.*$' |
-      \     setl textwidth=80 colorcolumn=101 |
-      \ endif
-    " Prefer not to aggressively line-wrap some file types
-    au FileType vim setl colorcolumn=
-endif
-
 " force * and # to always be case-sensitive
+" XXX: Is there a simpler way to do this?
 function! <SID>Star(cmd, count, was_visualmode) abort
     if a:was_visualmode
         normal! gv
@@ -436,31 +372,13 @@ command! RetagObjC call RetagObjC()
 " tagbar configuration -- thanks http://thomashunter.name/blog/installing-vim-tagbar-with-macvim-in-os-x/
 "let g:tagbar_ctags_bin='/usr/local/bin/ctags'
 "let g:tagbar_width=26
-noremap <silent> <Leader>y :TagbarToggle<cr>
+noremap <silent> \y :TagbarToggle<cr>
 
 " <Leader>K -- search the source code for the word under the cursor
-noremap <silent> <Leader>K :<C-U>Ack<cr>
-
-" <Leader>i -- toggle ignorecase
-noremap <silent> <Leader>i :setlocal ignorecase!<cr>:setlocal ignorecase?<cr>
-
-" <Leader>l -- toggle list
-noremap <silent> <Leader>l :setlocal list!<cr>:setlocal list?<cr>
-
-" <Leader>p -- toggle paste
-noremap <silent> <Leader>p :setlocal paste!<cr>:setlocal paste?<cr>
-
-" <Leader>t -- toggle expandtab
-noremap <silent> <Leader>t :setlocal expandtab!<cr>:setlocal expandtab?<cr>
-
-" <Leader>n -- toggle numbers
-noremap <silent> <Leader>n :setlocal number!<cr>:setlocal number?<cr>
-
-" <Leader>w -- toggle wrap
-noremap <silent> <Leader>w :setlocal wrap!<cr>:setlocal wrap?<cr>
+noremap <silent> \K :<C-U>Ack<cr>
 
 " <Leader>/ -- clear the search pattern
-noremap <Leader>/ :let @/ = ""<cr>
+noremap \/ :let @/ = ""<cr>
 
 " Custom status line
 let &g:statusline = '%<%f %h%m%r%=' .

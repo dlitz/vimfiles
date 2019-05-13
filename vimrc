@@ -5,19 +5,21 @@
 "ln" -v -s .vim/vimrc ~/.gvimrc
 "exit" 0
 
+scriptencoding utf-8
+
 " This is a stub vimrc, used to prevent tiny builds of vim from trying to
 " parse my main vimrc.
 
 if version >= 700
     " Note, this won't be executed if has('eval') wouldn't return TRUE.
     runtime vimrc-main
+else
+    runtime rc/options-tiny.vim
 endif
 
 " The following is for vim.tiny, which is built without +eval support.  See :help no-eval-feature
 " Without +eval support, if..else..endif blocks are ignored.
 silent! while 0
-
 set nocompatible
-set backspace=2
-
+runtime rc/options-tiny.vim
 silent! endwhile
