@@ -34,6 +34,8 @@ endif
 " stay together inside their own TCP segment, so problems should be
 " rare---much rarer than the difficulty I'm having when I habitually press ESC
 " extra times to get back to a known state.
+"
+" Implementation note: has("patch-x.y.z") syntax was broken prior to patch 7.4.1660
 if version >= 800
     unlet! skip_defaults_vim
     source $VIMRUNTIME/defaults.vim
@@ -105,21 +107,18 @@ let python_space_error_highlight=1
 " XXX - No longer needed?
 "autocmd FileType BufRead,BufNewFile *.p,*.hp setfiletype msp
 
+" Vim < 7.3.693 fails with 'E487: Argument must be positive' if we try to set softtabstop=-1
+let s:vim_supports_negative_softtabstop = has('patch-7.3.693')
+
 " tab & indentation settings
 set expandtab       " use soft tabs by default
 set tabstop=8       " hard tabs are usually always 8 spaces
 set shiftwidth=4    " indent 4 spaces by default
-try
-    let s:need_update_softtabstop = 0
-    let &softtabstop = -1  " use the value of 'shiftwidth' implicitly
-catch /^Vim:\(\a+\):E487:/  " 'Argument must be positive'
-    let s:need_update_softtabstop = 1
-    " Use the value of 'shiftwidth' directly (old vim versions).
-    function! <SID>UpdateSoftTabStop() abort
-        let &l:softtabstop = &shiftwidth
-    endfunction
-    call <SID>UpdateSoftTabStop()
-endtry
+if s:vim_supports_negative_softtabstop
+    set softtabstop=-1
+else
+    set softtabstop=4
+endif
 set autoindent
 set nocindent       " dumber than indentexpr=
 set copyindent
@@ -552,17 +551,42 @@ augroup linuxcodingstyle
     autocmd FileType kconfig,gitconfig call LinuxCodingStyle()
 augroup END
 
+" modeline processing:
+"
 " We need to load the secure-modelines plugin after other things, because
 " otherwise the modelines get overriden by the options set above (e.g. tabstop).
+"
+" Also, this forbids setting 'softtabstop' here, because I like it pinned to
+" the value of 'shiftwidth' (using softtabstop=-1, or using this emulation in
+" older versions of vim)
 runtime plugin/securemodelines.vim
-" Don't allow setting 'softtabstop'; We pin it to the value of 'shiftwidth'.
 if exists('g:loaded_securemodelines')
     call filter(g:secure_modelines_allowed_items, 'v:val !=# "softtabstop" && v:val !=# "sts"')
 endif
-augroup SecureModeLines
-    " We are APPENDING to the SecureModeLinues augroup here.
-    if s:need_update_softtabstop
-        " Simulates set softtabstop=-1
-        autocmd BufRead,StdinReadPost * :call <SID>UpdateSoftTabStop()
-    endif
-augroup END
+" If vim doesn't support softtabstop=-1, we'll emulate it.
+if ! s:vim_supports_negative_softtabstop
+    " Implementation note: These patches are also in the source repo and
+    " potentially relevant:
+    "   patch 8.1.0138: negative value of 'softtabstop' not used correctly
+    "   patch 8.1.0154: crash with "set smarttab shiftwidth=0 softtabstop=-1"
+    "   patch 8.1.0479: failure when setting 'varsofttabstop' to end in a comma
+    function! <SID>EmulateNegativeSoftTabStop() abort
+	let p = &paste      " note: 'paste' is always global
+	if p
+            set nopaste    " disable paste so that our change to shiftwidth actually sticks
+        endif
+        let &l:softtabstop = &l:shiftwidth
+        let &g:softtabstop = &g:shiftwidth
+	if p
+	    set paste
+	endif
+    endfunction
+    augroup emulate_negative_softtabstop
+        autocmd!
+        autocmd BufEnter * :call <SID>EmulateNegativeSoftTabStop()
+    augroup END
+else
+    augroup emulate_negative_softtabstop
+        autocmd!
+    augroup END
+endif
