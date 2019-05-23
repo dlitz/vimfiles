@@ -54,13 +54,6 @@ set undolevels=10000
 set visualbell
 set wildmenu wildmode=list:longest  " more bash-like tab completion, except cursors enable menu mode
 
-" gvim font priority:
-" - Menlo\ Regular:h11 (Macintosh)
-" - Terminal:h9 would be cool, but it doesn't doesn't display Unicode
-" - Lucida_Console:h9:cANSI (Windows)
-" - Monospace\ 8 (Linux)
-set guifont=Menlo\ Regular:h11,Lucida_Console:h9:cANSI,Monospace\ 8
-
 " colorscheme
 silent! colorscheme dwon
 

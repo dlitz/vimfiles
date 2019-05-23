@@ -106,6 +106,21 @@ let python_space_error_highlight=1
 " Load all of our basic settings
 runtime rc/options-tiny.vim
 
+" gvim font priority:
+" Needs to be per-platform because it gets parsed differently
+" gvim font
+if has("gui_running")
+    if has("gui_macvim")
+        set guifont=Menlo\ Regular:h11
+    elseif has("gui_win32")
+        "set guifont=Terminal:h9        " Terminal doesn't display Unicode
+        set guifont=Lucida_Console:h9:cANSI
+    else
+        "set guifont=Monospace\ 8        " DejaVu Sans Mono 8
+        set guifont=Monospace            " DejaVu Sans Mono 10
+    endif
+endif
+
 " Vim < 7.3.693 fails with 'E487: Argument must be positive' if we try to set softtabstop=-1
 let s:vim_supports_negative_softtabstop = has('patch-7.3.693')
 if ! s:vim_supports_negative_softtabstop
