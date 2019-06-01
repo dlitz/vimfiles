@@ -136,6 +136,7 @@ au FileType haskell,ruby,tex,verilog        setlocal sw=2
 au FileType objc,objcpp,coffee              setlocal sw=2
 au FileType python                          setlocal sw=4 ts=8
 au FileType yaml                            setlocal sw=2 indentexpr=
+au FileType arduino                         setlocal sw=2
 
 au BufRead,BufWrite,BufWritePost,BufNewFile *.tac setlocal ft=python
 
