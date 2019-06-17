@@ -57,8 +57,44 @@ generate_message() {
     echo "$prefix: Pulled new '$ref' from '$repo'"
 }
 
+replace_pull_with_add_if_directory_missing() {
+    # If prefix directory doesn't exist, replace "git subtree pull" with "git subtree add"
+    while read -r line; do
+        (
+            set -- $line
+            local prefix=
+            while [ "$#"  -gt 0 ]; do
+                case "$1" in
+                    --prefix=* )
+                        prefix="${opt#--prefix=}"
+                        shift
+                        break
+                        ;;
+                    "-P" | "--prefix" )
+                        prefix="$2"
+                        shift 2
+                        ;;
+                    *)
+                        shift
+                        ;;
+                esac
+            done
+            if [ -n "$prefix" ] && ! [ -d "$prefix" ]; then
+                echo "$line" | sed -Ee 's/(\s+git\s+subtree\s+)pull(\s)/\1add\2/'
+            else
+                echo "$line"
+            fi
+        )
+    done | replace_program_name
+}
+
+replace_program_name() {
+    # Replace ./subtrees with $0 in the output
+    ( echo "$0" ; cat ) | sed -nEe '1h;2,${G;s/^(.*)\n(.*)$/\2\n\1/;s/^(.*)\n(\S*)/\1/p}'
+}
+
 get_subtree_commands() {
-    ( echo "$0" ; get_subtree_lines ) | sed -nEe '1h;2,${G;s/^(.*)\n(.*)$/\2\n\1/;s/^(.*)\n(\S*)/\1/p}'
+    get_subtree_lines | replace_pull_with_add_if_directory_missing | replace_program_name
 }
 
 usage() {
@@ -67,7 +103,7 @@ usage() {
 }
 
 
-if [ "$#" -gt 0 ] && [ "$1" = "git" ] && [ "$2" = "subtree" ] && [ "$3" = "pull" ]; then
+if [ "$#" -gt 0 ] && [ "$1" = "git" ] && [ "$2" = "subtree" ] && [ "$3" = "pull" -o "$3" = "add" ]; then
     shift 2
     extract_from_args $@
     exec git subtree --message="$(generate_message "$prefix" "$repo" "$ref")" "$@"
