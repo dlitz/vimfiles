@@ -1,0 +1,39 @@
+# These files can be made by the makefile
+#########################################
+*.tar.gz
+*.work
+*.uu
+*-stamp
+*.stripped
+*.configured
+*.sh
+*.pm
+html/
+man/
+standalone/
+tmp/
+*.[0-9]
+
+# Test files
+#####################
+*.txt
+*.ans
+*.out
+*.bak
+
+# Vim temp files
+#####################
+.*.sw?
+.sw?
+.*.un~
+
+# Logs and databases #
+######################
+*.log
+
+# OS generated files #
+######################
+.DS_Store*
+ehthumbs.db
+Icon?
+Thumbs.db
