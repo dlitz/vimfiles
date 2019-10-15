@@ -1,0 +1,12 @@
+sudo: required
+
+services:
+    - docker
+
+before_install:
+    - docker build -t vimpager/vimpager:travis .
+
+script:
+    - docker run -t vimpager/vimpager:travis /bin/sh -c "cd /vimpager; sh scripts/run-ci-tests"
+
+# vim: sw=4

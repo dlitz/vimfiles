@@ -1,0 +1,6 @@
+# we'll do that in 2.07
+vimpager binary: new-package-should-close-itp-bug
+# also for trusty
+vimpager binary: copyright-should-refer-to-common-license-file-for-gpl
+# for xenial
+vimpager binary: unused-override
