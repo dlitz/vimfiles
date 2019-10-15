@@ -134,5 +134,5 @@ __DATA__
 ./subtrees git subtree pull --squash -P bundle/vim-repeat           https://github.com/tpope/vim-repeat         master
 ./subtrees git subtree pull --squash -P bundle/vim-signify          https://github.com/mhinz/vim-signify        master
 ./subtrees git subtree pull --squash -P bundle/vim-surround         https://github.com/tpope/vim-surround       master
-./subtrees git subtree pull --squash -P bundle/zim-syntax           https://github.com/vim-scripts/zim-syntax   master
 ./subtrees git subtree pull --squash -P bundle/vimpager             https://github.com/rkitover/vimpager        master
+./subtrees git subtree pull --squash -P pack/vendor/start/vim-zim               https://github.com/jakykong/vim-zim         master
