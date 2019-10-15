@@ -1,0 +1,70 @@
+#!/bin/bash
+# dlitz 2019
+# subtree-mv srcdir destdir
+#
+# Moves a subtree while preserving git-subtree's ability to pull in changes.
+
+set -e -o pipefail
+src="$1"
+dest="$2"
+
+if ! [ -d "$src" ]; then
+    echo >&2 "$0: error: not found or is not a directory: $src"
+    exit 1
+fi
+if [ -e "$dest" ]; then
+    echo >&2 "$0: error: already exists: $dest"
+    exit 1
+fi
+
+# Check that there are no changes staged in the index
+if [ -n "$(git status --porcelain --untracked-files=no)" ] ; then
+    echo >&2 "$0: error: there are staged or unstaged changes. stash them before using this"
+    exit 1
+fi
+if git show-ref --quiet --verify MERGE_HEAD ; then
+    echo >&2 "$0: error: a merge is in progress. (MERGE_HEAD is present). finish or abort it before continuing"
+    exit 1
+fi
+
+# Backup the index.  We don't do anything with this (it's just a dangling commit) but it may help if this fucks up.
+index_backup=$( git commit-tree -p HEAD -m 'automatic index backup' "$( git write-tree )" )
+
+# Find the latest subtree-squash commit
+squash_commit=$( git log -n 1 --grep="^git-subtree-dir: $src/*\$" --no-show-signature --pretty=format:'%H%n' HEAD )
+if [ -z "$squash_commit" ]; then
+    echo >&2 "$0: error: commit found with git-subtree-dir: $src"
+    exit 1
+fi
+
+# Generate a new commit with the same git-subtree-* lines as the old, except change git-subtree-dir to the new directory
+commitmsgfile=$(mktemp)
+printf 'Moving git subtree\n\n' "$src" "$dest" >"$commitmsgfile"
+printf 'git-subtree-dir: %s\n' "$dest" >> "$commitmsgfile"
+git cat-file commit "$squash_commit" | sed -nEe '1,/^$/d;/^git-subtree-dir:/d;/^git-subtree-\S+:/p'>> "$commitmsgfile"
+subtree_commit=$( git commit-tree -p "$squash_commit" -F "$commitmsgfile" "$squash_commit^{tree}" )
+
+# XXX This feels kludgy. It might be better to use git-merge somehow?
+
+# Make sure there's no merge commit (empty final argument) and make the next commit behave like a merge commit
+git update-ref -m "subtree-mv merge '$src' -> '$dst'" MERGE_HEAD "$subtree_commit" ""
+
+# Double-check that the destination is still missing
+if [ -e "$dest" ] ; then
+    echo >&2 "$0: error: already exists: $dest"
+    git update-ref -m "undo subtree-mv merge" -d MERGE_HEAD "$subtree_commit"
+    exit 1
+fi
+
+# Move the subtree
+git mv "$src" "$dest" || {
+    rc=$?
+    git update-ref -m "undo subtree-mv merge" -d MERGE_HEAD "$subtree_commit"
+    exit "$rc"
+}
+
+# New commit message
+printf 'Moving git subtree from %s to %s\n' "$src" "$dest" >"$commitmsgfile"
+
+# Commit
+git commit -F "$commitmsgfile" --edit
