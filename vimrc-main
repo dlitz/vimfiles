@@ -138,7 +138,7 @@ au FileType python                          setlocal sw=4 ts=8
 au FileType yaml                            setlocal sw=2 indentexpr=
 au FileType arduino                         setlocal sw=2
 
-au BufRead,BufWrite,BufWritePost,BufNewFile *.tac setlocal ft=python
+au BufNewFile,BufRead *.tac setfiletype python
 
 " email editing
 "autocmd BufNewFile,BufRead .letter,mutt*,nn.*,snd.* setlocal spell formatoptions=wantql
@@ -153,6 +153,12 @@ autocmd FileType text setlocal spell
 
 " Prefer not to aggressively line-wrap some file types
 autocmd FileType vim setlocal colorcolumn=
+
+" Be more specific about some filetypes
+augroup filetype_overrides
+    autocmd!
+    autocmd BufNewFile,BufRead ~/Arduino/**    if &filetype =~ '\v^(c|cpp)$' | setlocal filetype=arduino | endif
+augroup END
 
 " Copy and Paste (Linux GUI)
 if has("gui_running") && has("X11")
@@ -393,7 +399,7 @@ noremap <silent> \y :TagbarToggle<cr>
 noremap <silent> \K :<C-U>Ack<cr>
 
 " <Leader>/ -- clear the search pattern
-noremap \/ :let @/ = ""<cr>
+noremap <silent> \/ :let @/ = ""<cr>
 
 " Custom status line
 let &g:statusline = '%<%f %h%m%r%=' .

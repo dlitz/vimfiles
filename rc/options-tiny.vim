@@ -63,6 +63,9 @@ silent! set colorcolumn=+1  " highlight the column after 'textwidth' (requires V
 " <Leader>i -- toggle ignorecase
 noremap <silent> \i :setlocal ignorecase!<cr>:setlocal ignorecase?<cr>
 
+" <Leader>h -- toggle hlsearch
+noremap <silent> \h :setlocal hlsearch!<cr>:setlocal hlsearch?<cr>
+
 " <Leader>l -- toggle list
 "noremap <silent> <Leader>l :setlocal list!<cr>:setlocal list?<cr>
 noremap <silent> \l :setlocal list!<cr>:setlocal list?<cr>
