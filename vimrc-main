@@ -410,7 +410,7 @@ let &g:statusline = '%<%f %h%m%r%=' .
     \   '%{&sw && &sw != &ts ? "sw:".&sw." " : ""}' .
     \   'ts:%{&ts} ' .
     \   'tw:%{&tw} ' .
-    \   ' %-14.(%l,%c%V%) %P'
+    \   ' %-14.(%l,%c%V (%o)%) %P'
 
 "" BEGIN copied from http://www.daskrachen.com/2011/12/how-to-make-tagbar-work-with-objective.html
 " add a definition for Objective-C to tagbar
