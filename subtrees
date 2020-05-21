@@ -138,3 +138,4 @@ __DATA__
 ./subtrees git subtree pull --squash -P pack/vendor/start/vim-qml               https://github.com/peterhoeg/vim-qml        master
 ./subtrees git subtree pull --squash -P pack/vendor/start/vim-surround          https://github.com/tpope/vim-surround       master
 ./subtrees git subtree pull --squash -P pack/vendor/start/vim-zim               https://github.com/jakykong/vim-zim         master
+./subtrees git subtree pull --squash -P pack/vendor/start/vim-smali             https://github.com/mzlogin/vim-smali        master
