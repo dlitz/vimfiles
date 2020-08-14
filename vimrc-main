@@ -138,6 +138,7 @@ au FileType python                          setlocal sw=4 ts=8
 au FileType yaml                            setlocal sw=2 indentexpr=
 au FileType arduino                         setlocal sw=2
 au FileType go                              setlocal sw=8 noet
+au FileType ninja                           setlocal sw=2
 
 au BufNewFile,BufRead *.tac setfiletype python
 
