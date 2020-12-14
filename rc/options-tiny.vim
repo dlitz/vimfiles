@@ -34,6 +34,7 @@ set formatoptions=tcq   " vim default, modified by filetypes
 set hlsearch    " highlight all matches
 set ignorecase  " case-insensitive searches by default (see also 'smartcase' below)
 set incsearch   " incremental search while typing the pattern
+set isfname-==      " make auto-completion work after '=' sign
 set laststatus=2
 set listchars=eol:$,tab:>-
 set nomodeline      " using the 'securemodelines' plugin instead
