@@ -404,7 +404,9 @@ noremap <silent> \K :<C-U>Ack<cr>
 noremap <silent> \/ :let @/ = ""<cr>
 
 " Custom status line
-let &g:statusline = '%<%f %h%m%r%=' .
+let &g:statusline = '%<%f %h%m%r' .
+    \   ' %1*%{taghelper#curtag()}%*' .
+    \   '%=' .
     \   '%{&paste ? "paste " : ""}' .
     \   '%{&et ? "spaces" : "tabs"} ' .
     \   '%{&sts == 0 ? "nosts " : &sts > 0 && &sts != &sw ? "sts:".&sts." " : ""}' .
