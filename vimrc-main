@@ -403,6 +403,9 @@ noremap <silent> \K :<C-U>Ack<cr>
 " <Leader>/ -- clear the search pattern
 noremap <silent> \/ :let @/ = ""<cr>
 
+" Do netrw transfers silently
+let g:netrw_silent = 1
+
 " Custom status line
 let &g:statusline = '%<%f %h%m%r' .
     \   ' %1*%{taghelper#curtag()}%*' .
