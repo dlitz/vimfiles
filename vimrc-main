@@ -403,6 +403,12 @@ noremap <silent> \K :<C-U>Ack<cr>
 " <Leader>/ -- clear the search pattern
 noremap <silent> \/ :let @/ = ""<cr>
 
+" <Leader>!s -- sort (used for python imports)
+" TODO: see help :map-operator  and help :omap to see how to enter
+" operator-pending mode
+" See also: https://stackoverflow.com/questions/7642746/is-there-any-way-to-view-the-currently-mapped-keys-in-vim
+vnoremap \!s :!LC_ALL=C.UTF-8 sort<cr>
+
 " Do netrw transfers silently
 let g:netrw_silent = 1
 
