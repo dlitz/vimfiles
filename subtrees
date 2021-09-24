@@ -135,6 +135,8 @@ __DATA__
 ./subtrees git subtree pull --squash -P bundle/vim-signify          https://github.com/mhinz/vim-signify        master
 ./subtrees git subtree pull --squash -P bundle/vimpager             https://github.com/rkitover/vimpager        master
 ./subtrees git subtree pull --squash -P pack/cespare/start/vim-toml             https://github.com/cespare/vim-toml         master
+./subtrees git subtree pull --squash -P pack/inkarkat/start/vim-ingo-library    https://github.com/inkarkat/vim-ingo-library HEAD
+./subtrees git subtree pull --squash -P pack/inkarkat/start/vim-SyntaxRange     https://github.com/inkarkat/vim-SyntaxRange HEAD
 ./subtrees git subtree pull --squash -P pack/jvirtanen/start/vim-hcl            https://github.com/jvirtanen/vim-hcl        master
 #./subtrees git subtree pull --squash -P pack/nfnty/start/vim-nftables          https://github.com/nfnty/vim-nftables       master
 ./subtrees git subtree pull --squash -P pack/nfnty/start/vim-nftables           https://github.com/dlitz/vim-nftables       dev
