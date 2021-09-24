@@ -90,7 +90,7 @@ replace_pull_with_add_if_directory_missing() {
 
 replace_program_name() {
     # Replace ./subtrees with $0 in the output
-    ( echo "$0" ; cat ) | sed -nEe '1h;2,${G;s/^(.*)\n(.*)$/\2\n\1/;s/^(.*)\n(\S*)/\1/p}'
+    ( echo "$0" ; cat ) | sed -nEe '1h;2,${G;s/^(#\s*)?(.*)\n(.*)$/\1\3\n\2/;s/^(.*)\n(\S*)/\1/p}'
 }
 
 get_subtree_commands() {
