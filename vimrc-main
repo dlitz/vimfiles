@@ -162,6 +162,10 @@ augroup filetype_overrides
     autocmd BufNewFile,BufRead ~/Arduino/* if &filetype =~ '\v^(c|cpp)$' | setlocal filetype=arduino | endif
 augroup END
 
+" For the vim-linux-coding-style plugin
+" These are regexps matched with path =~ pattern
+let g:linuxsty_patterns = [ "/kernel", "/linux" ]
+
 " Copy and Paste (Linux GUI)
 if has("gui_running") && has("X11")
     " OK, ideally, Ctrl-V would be for Visual Block mode, and Ctrl-Shift-V
