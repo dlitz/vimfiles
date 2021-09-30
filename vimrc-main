@@ -464,8 +464,6 @@ let g:tagbar_type_objc = {
 \ }
 "" END copied from http://www.daskrachen.com/2011/12/how-to-make-tagbar-work-with-objective.html
 
-runtime rc/linux-coding-style.vim
-
 " modeline processing:
 "
 " We need to load the secure-modelines plugin after other things, because
