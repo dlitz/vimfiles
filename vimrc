@@ -11,10 +11,10 @@ scriptencoding utf-8
 " parse my main vimrc.
 
 if version >= 700
-    " Note, this won't be executed if has('eval') wouldn't return TRUE.
-    runtime vimrc-main
+  " Note, this won't be executed if has('eval') wouldn't return TRUE.
+  runtime vimrc-main
 else
-    runtime rc/options-tiny.vim
+  runtime rc/options-tiny.vim
 endif
 
 " The following is for vim.tiny, which is built without +eval support.  See :help no-eval-feature

@@ -4,16 +4,16 @@ scriptencoding utf-8
 
 " This has side effects, so only do it if it isn't already done
 if &compatible
-    set nocompatible
+  set nocompatible
 endif
 
 " Trust termcap before builtin
 if has("unix")
-    if has("gui_running")
-        set nottybuiltin
-    elseif exists('$TERM')
-        set nottybuiltin term=$TERM
-    endif
+  if has("gui_running")
+    set nottybuiltin
+  elseif exists('$TERM')
+    set nottybuiltin term=$TERM
+  endif
 endif
 
 " See :help defaults.vim
@@ -34,11 +34,11 @@ endif
 "
 " Implementation note: has("patch-x.y.z") syntax was broken prior to patch 7.4.1660
 if version >= 800
-    unlet! skip_defaults_vim
-    source $VIMRUNTIME/defaults.vim
+  unlet! skip_defaults_vim
+  source $VIMRUNTIME/defaults.vim
 else
-    " For earlier versions, fix the ESC key, at least
-    set timeoutlen=1000 ttimeoutlen=100
+  " For earlier versions, fix the ESC key, at least
+  set timeoutlen=1000 ttimeoutlen=100
 endif
 
 " Early initialization
@@ -53,22 +53,22 @@ filetype plugin indent on
 
 " Terminal workarounds
 if has("gui_running")
-    " do nothing
+  " do nothing
 elseif match(&term, "^konsole") != -1
-    " Enable true-color
-    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  " Enable true-color
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
 
 " Better mouse protocol
 if match(&ttym, "^xterm") != -1
-    set ttym=sgr
+  set ttym=sgr
 endif
 
 " true-color support doesn't exist in vim 7.4? (before vim 8 maybe?)
 " also we don't want to set this unless we have the actual escape codes
 if exists("&termguicolors") && !empty(&t_8f) && !empty(&t_8b)
-    " Use RGB colors in text mode if supported by the terminal (see :help xterm-true-color)
+  " Use RGB colors in text mode if supported by the terminal (see :help xterm-true-color)
   set termguicolors
 endif
 
@@ -77,13 +77,13 @@ syntax on
 
 " highlight bad whitespace (this part must be before colorscheme is loaded)
 augroup spaceerror
-    autocmd!
-    " highlight bad whitespace (this part must be after "syntax on")
-    " We highlight trailing spaces and spaces-before-tabs.
-    autocmd Syntax * syntax match SpaceError display excludenl /\s\+$\| \+\t/ containedin=ALL
-    autocmd ColorScheme * highlight default SpaceError ctermbg=red guibg=red
-    " Don't lose the syntax highlighting when vimrc is reloaded
-    doautoall spaceerror Syntax
+  autocmd!
+  " highlight bad whitespace (this part must be after "syntax on")
+  " We highlight trailing spaces and spaces-before-tabs.
+  autocmd Syntax * syntax match SpaceError display excludenl /\s\+$\| \+\t/ containedin=ALL
+  autocmd ColorScheme * highlight default SpaceError ctermbg=red guibg=red
+  " Don't lose the syntax highlighting when vimrc is reloaded
+  doautoall spaceerror Syntax
 augroup END
 
 " syntax highlighting - enable and basic options
@@ -104,59 +104,59 @@ runtime rc/options-tiny.vim
 " Needs to be per-platform because it gets parsed differently
 " gvim font
 if has("gui_running")
-    if has("gui_macvim")
-        set guifont=Menlo\ Regular:h11
-    elseif has("gui_win32")
-        "set guifont=Terminal:h9        " Terminal doesn't display Unicode
-        set guifont=Lucida_Console:h9:cANSI
-    else
-        "set guifont=Monospace\ 8        " DejaVu Sans Mono 8
-        set guifont=Monospace            " DejaVu Sans Mono 10
-    endif
+  if has("gui_macvim")
+    set guifont=Menlo\ Regular:h11
+  elseif has("gui_win32")
+    "set guifont=Terminal:h9        " Terminal doesn't display Unicode
+    set guifont=Lucida_Console:h9:cANSI
+  else
+    "set guifont=Monospace\ 8        " DejaVu Sans Mono 8
+    set guifont=Monospace            " DejaVu Sans Mono 10
+  endif
 endif
 
 " Vim < 7.3.693 fails with 'E487: Argument must be positive' if we try to set softtabstop=-1
 let s:vim_supports_negative_softtabstop = has('patch-7.3.693')
 if ! s:vim_supports_negative_softtabstop
-    let &softtabstop = &shiftwidth
+  let &softtabstop = &shiftwidth
 endif
 
 " Most filetype specific customizations go here.
 augroup vimrc_main_autocmds
-    autocmd!
+  autocmd!
 
-    " Some filetypes screw up these values
-    au FileType make let [&l:ts, &l:sw, &l:sts, &l:et] = [&g:ts, &g:sw, &g:sts, &g:et]
+  " Some filetypes screw up these values
+  au FileType make let [&l:ts, &l:sw, &l:sts, &l:et] = [&g:ts, &g:sw, &g:sts, &g:et]
 
-    au FileType make,gitconfig,zim              setlocal sw=0 noet
-    au FileType html,mako,myt,php,vim,yaml      setlocal sw=2   " 2-space tabs
-    au FileType haskell,ruby,tex,verilog        setlocal sw=2
-    au FileType objc,objcpp,coffee,arduino      setlocal sw=2
-    au FileType python                          setlocal sw=4 ts=8
-    au FileType yaml                            setlocal sw=2 indentexpr=
-    au FileType arduino                         setlocal sw=2
-    au FileType go                              setlocal sw=8 noet
-    au FileType ninja                           setlocal sw=2
+  au FileType make,gitconfig,zim              setlocal sw=0 noet
+  au FileType html,mako,myt,php,vim,yaml      setlocal sw=2   " 2-space tabs
+  au FileType haskell,ruby,tex,verilog        setlocal sw=2
+  au FileType objc,objcpp,coffee,arduino      setlocal sw=2
+  au FileType python                          setlocal sw=4 ts=8
+  au FileType yaml                            setlocal sw=2 indentexpr=
+  au FileType arduino                         setlocal sw=2
+  au FileType go                              setlocal sw=8 noet
+  au FileType ninja                           setlocal sw=2
 
-    " 'setfiletype' sets filetype when no other type is detected
-    au BufNewFile,BufRead *.tac setfiletype python
-    au BufNewFile,BufRead /etc/kea/*.conf setfiletype javascript        " json with comments
+  " 'setfiletype' sets filetype when no other type is detected
+  au BufNewFile,BufRead *.tac setfiletype python
+  au BufNewFile,BufRead /etc/kea/*.conf setfiletype javascript        " json with comments
 
-    " email editing
-    autocmd FileType mail setlocal spell formatoptions=wantql
+  " email editing
+  autocmd FileType mail setlocal spell formatoptions=wantql
 
-    " auto-formatting comments when editing code
-    autocmd FileType c,objc,objcpp,coffee,make,haskell,ruby,verilog,python,objc,objcpp,coffee
-        \ setlocal formatoptions=croq
+  " auto-formatting comments when editing code
+  autocmd FileType c,objc,objcpp,coffee,make,haskell,ruby,verilog,python,objc,objcpp,coffee
+    \ setlocal formatoptions=croq
 
-    " other file-specific settings
-    autocmd FileType text setlocal spell
+  " other file-specific settings
+  autocmd FileType text setlocal spell
 
-    " Prefer not to aggressively line-wrap some file types
-    autocmd FileType vim setlocal colorcolumn=
+  " Prefer not to aggressively line-wrap some file types
+  autocmd FileType vim setlocal colorcolumn=
 
-    " Be more specific about some filetypes
-    autocmd BufNewFile,BufRead ~/Arduino/* if &filetype =~ '\v^(c|cpp)$' | setlocal filetype=arduino | endif
+  " Be more specific about some filetypes
+  autocmd BufNewFile,BufRead ~/Arduino/* if &filetype =~ '\v^(c|cpp)$' | setlocal filetype=arduino | endif
 augroup END
 
 " For the vim-linux-coding-style plugin
@@ -165,64 +165,64 @@ let g:linuxsty_patterns = [ "/kernel", "/linux" ]
 
 " Copy and Paste (Linux GUI)
 if has("gui_running") && has("X11")
-    " OK, ideally, Ctrl-V would be for Visual Block mode, and Ctrl-Shift-V
-    " would paste from the CLIPBOARD, bit Vim can't distinguish between <C-V>
-    " and <C-S-V>.  Ctrl-Q also works in GUI mode, but not in many terminals
-    " (it's the XON software flow-control signal).  Argh.
+  " OK, ideally, Ctrl-V would be for Visual Block mode, and Ctrl-Shift-V
+  " would paste from the CLIPBOARD, bit Vim can't distinguish between <C-V>
+  " and <C-S-V>.  Ctrl-Q also works in GUI mode, but not in many terminals
+  " (it's the XON software flow-control signal).  Argh.
 
-    " Shift-Insert : Paste from CLIPBOARD (default is <MiddleMouse>)
-    noremap <S-Insert> "+gP
-    inoremap <S-Insert> <C-\><C-O>"+gP
+  " Shift-Insert : Paste from CLIPBOARD (default is <MiddleMouse>)
+  noremap <S-Insert> "+gP
+  inoremap <S-Insert> <C-\><C-O>"+gP
 
-    " Ctrl-C : Copy to CLIPBOARD
-    vnoremap <C-C> "+ygv
+  " Ctrl-C : Copy to CLIPBOARD
+  vnoremap <C-C> "+ygv
 
-    " Ctrl-Insert : Copy to CLIPBOARD
-    vnoremap <C-Insert> "+ygv
+  " Ctrl-Insert : Copy to CLIPBOARD
+  vnoremap <C-Insert> "+ygv
 
-    " Shift-Del : Cut to CLIPBOARD
-    vnoremap <S-Del> "+dgv
+  " Shift-Del : Cut to CLIPBOARD
+  vnoremap <S-Del> "+dgv
 endif
 
 " force * and # to always be case-sensitive
 " XXX: Is there a simpler way to do this?
 function! <SID>Star(cmd, count, was_visualmode) abort
-    if a:was_visualmode
-        normal! gv
-    endif
-    let save_view = winsaveview()
-    let save_ic = &ignorecase
-    let save_search = @/
-    let &ignorecase = 0
+  if a:was_visualmode
+    normal! gv
+  endif
+  let save_view = winsaveview()
+  let save_ic = &ignorecase
+  let save_search = @/
+  let &ignorecase = 0
+  try
+    let @/ = ""
     try
-        let @/ = ""
-        try
-            try
-                silent execute 'normal! ' . (a:count ? a:count : '') . a:cmd
-            catch /\v^Vim\(normal\):(E384|E385):/
-                " E384: search hit TOP without match
-                " E385: search hit BOTTOM without match
-                let searchforward = v:searchforward
-                let @/ = '\C' . @/
-                call histdel('search', -1)
-                call histdel('search', @/)
-                call winrestview(save_view)
-                silent execute 'normal! ' . (a:count ? a:count : '') .  (searchforward ? '/' : '?') . "\n"
-            endtry
-        catch /\v^Vim\(normal\):(E348|E384|E385):/
-            " E348: No string under cursor
-            " E384: search hit TOP without match
-            " E385: search hit BOTTOM without match
-            let v:errmsg = substitute(v:exception, '\v^Vim\(normal\):', '', '')
-        endtry
-    finally
-        if @/ == ""
-            let @/ = save_search
-        else
-            let @/ = @/     " fixes hlsearch
-        endif
-        let &ignorecase = save_ic
+      try
+        silent execute 'normal! ' . (a:count ? a:count : '') . a:cmd
+      catch /\v^Vim\(normal\):(E384|E385):/
+        " E384: search hit TOP without match
+        " E385: search hit BOTTOM without match
+        let searchforward = v:searchforward
+        let @/ = '\C' . @/
+        call histdel('search', -1)
+        call histdel('search', @/)
+        call winrestview(save_view)
+        silent execute 'normal! ' . (a:count ? a:count : '') .  (searchforward ? '/' : '?') . "\n"
+      endtry
+    catch /\v^Vim\(normal\):(E348|E384|E385):/
+      " E348: No string under cursor
+      " E384: search hit TOP without match
+      " E385: search hit BOTTOM without match
+      let v:errmsg = substitute(v:exception, '\v^Vim\(normal\):', '', '')
     endtry
+  finally
+    if @/ == ""
+      let @/ = save_search
+    else
+      let @/ = @/     " fixes hlsearch
+    endif
+    let &ignorecase = save_ic
+  endtry
 endfunction
 
 noremap  <silent> * :<C-U>let v:errmsg = "" \| call <SID>Star('*', v:count, 0) \| if v:errmsg != "" \| echoerr v:errmsg \| endif<cr>
@@ -235,36 +235,36 @@ noremap  <silent> g# :<C-U>let v:errmsg = "" \| call <SID>Star('g#', v:count, 0)
 vnoremap <silent> g# :<C-U>let v:errmsg = "" \| call <SID>Star('g#', v:count, 1) \| if v:errmsg != "" \| echoerr v:errmsg \| endif<cr>
 
 function! <SID>SelectParagraph(visual, exclusive)
-    " Fall back to regular definition, if we're not in a comment
-    if ! search('\v^\s*#', 'bcW', line("."))
-        if a:visual
-            normal! gv
-        endif
-        if a:exclusive
-            normal! ip
-        else
-            normal! ap
-        endif
-        return
+  " Fall back to regular definition, if we're not in a comment
+  if ! search('\v^\s*#', 'bcW', line("."))
+    if a:visual
+      normal! gv
     endif
+    if a:exclusive
+      normal! ip
+    else
+      normal! ap
+    endif
+    return
+  endif
 
-    call s:MoveToStartOfCommentBlock()
-    normal! v
-    call s:MoveToEndOfCommentBlock(a:exclusive)
+  call s:MoveToStartOfCommentBlock()
+  normal! v
+  call s:MoveToEndOfCommentBlock(a:exclusive)
 endfunction
 
 function! s:MoveToStartOfCommentBlock()
-    call search('\v^\s*([^#]|$)', 'bW')
-    normal! j
+  call search('\v^\s*([^#]|$)', 'bW')
+  normal! j
 endfunction
 
 function! s:MoveToEndOfCommentBlock(exclusive)
-    call search('\v^\s*([^#]|$)', 'W')
-    if a:exclusive
-        normal! k$h
-    else
-        normal! k$
-    endif
+  call search('\v^\s*([^#]|$)', 'W')
+  if a:exclusive
+    normal! k$h
+  else
+    normal! k$
+  endif
 endfunction
 
 " Attempt to redefine paragraphs to be meaningful in code
@@ -286,49 +286,49 @@ cnoreabbrev AG Ack
 " ack.vim configuration
 unlet! g:ackprg
 if executable('ag')
-    " thesilversearcher; like ack but faster.
-    let g:ackprg = 'ag'
-    let g:ack_default_options = '--vimgrep --silent'
+  " thesilversearcher; like ack but faster.
+  let g:ackprg = 'ag'
+  let g:ack_default_options = '--vimgrep --silent'
 elseif executable('ack-grep') || executable('ack')
-    " ack.vim will find ack-grep or ack on its own in the PATH, so we do
-    " nothing in this case.
+  " ack.vim will find ack-grep or ack on its own in the PATH, so we do
+  " nothing in this case.
 elseif version < 800 && has('unix')
-    let g:ackprg = shellescape(globpath(&rtp, 'bin/ack-2.24-single-file'))
+  let g:ackprg = shellescape(globpath(&rtp, 'bin/ack-2.24-single-file'))
 elseif version < 800 && has('win32')
-    if executable('C:\Progra~1\Git\usr\bin\perl.exe')
-        let s:perl_exe = 'C:\Progra~1\Git\usr\bin\perl.exe'
-    elseif executable('C:\Progra~2\Git\usr\bin\perl.exe')
-        let s:perl_exe = 'C:\Progra~2\Git\usr\bin\perl.exe'
-    else
+  if executable('C:\Progra~1\Git\usr\bin\perl.exe')
+    let s:perl_exe = 'C:\Progra~1\Git\usr\bin\perl.exe'
+  elseif executable('C:\Progra~2\Git\usr\bin\perl.exe')
+    let s:perl_exe = 'C:\Progra~2\Git\usr\bin\perl.exe'
+  else
+  endif
+  if !empty(s:perl_exe)
+    let g:ackprg = printf('"%s" "%s"', s:perl_exe, globpath(&rtp, 'bin/ack-2.24-single-file'))
+  endif
+else
+  " Use bundled ack script, if possible.  It's a perl script.
+  let s:bundled_ack = globpath(&rtp, 'bin/ack-2.24-single-file', 0, 1)[0]
+  if has('unix')      " this includes win32unix (cygwin/mingw)
+    " Unix probably has perl.  It's likely enough that I'm not going to
+    " waste time searching the filesystem at vim startup.
+    let g:ackprg = shellescape(s:bundled_ack)
+  elseif has('win32')     " *deep sigh*
+    " Windows won't respect the #! and doesn't usually come with perl
+    " installed, but it can be installed with various things, so let's
+    " try.
+    let s:perl_exe = exepath('perl')
+    if empty(s:perl_exe)
+      " Git for Windows
+      let s:git_exe = exepath('git')  " Probably something like 'C:\Program Files\Git\cmd\git.EXE'
+      if !empty(s:git_exe)
+        let s:git_install_path = substitute(s:git_exe, '\v\c\\cmd\\git(\.EXE)?$', '', '')   " 'C:\Program Files\Git'
+        let s:perl_exe = exepath(s:git_install_path . '\usr\bin\perl')       " 'C:\Program Files\Git\usr\bin\perl.EXE'
+      endif
     endif
     if !empty(s:perl_exe)
-        let g:ackprg = printf('"%s" "%s"', s:perl_exe, globpath(&rtp, 'bin/ack-2.24-single-file'))
+      " Found perl!
+      let g:ackprg = shellescape(s:perl_exe) . ' ' . shellescape(s:bundled_ack)
     endif
-else
-    " Use bundled ack script, if possible.  It's a perl script.
-    let s:bundled_ack = globpath(&rtp, 'bin/ack-2.24-single-file', 0, 1)[0]
-    if has('unix')      " this includes win32unix (cygwin/mingw)
-        " Unix probably has perl.  It's likely enough that I'm not going to
-        " waste time searching the filesystem at vim startup.
-        let g:ackprg = shellescape(s:bundled_ack)
-    elseif has('win32')     " *deep sigh*
-        " Windows won't respect the #! and doesn't usually come with perl
-        " installed, but it can be installed with various things, so let's
-        " try.
-        let s:perl_exe = exepath('perl')
-        if empty(s:perl_exe)
-            " Git for Windows
-            let s:git_exe = exepath('git')  " Probably something like 'C:\Program Files\Git\cmd\git.EXE'
-            if !empty(s:git_exe)
-                let s:git_install_path = substitute(s:git_exe, '\v\c\\cmd\\git(\.EXE)?$', '', '')   " 'C:\Program Files\Git'
-                let s:perl_exe = exepath(s:git_install_path . '\usr\bin\perl')       " 'C:\Program Files\Git\usr\bin\perl.EXE'
-            endif
-        endif
-        if !empty(s:perl_exe)
-            " Found perl!
-            let g:ackprg = shellescape(s:perl_exe) . ' ' . shellescape(s:bundled_ack)
-        endif
-    endif
+  endif
 endif
 
 " VimOrganizer - a lot of this is copied from bundle/hsitz-VimOrganizer-*/_vimrc
@@ -344,33 +344,33 @@ let g:org_capture_file = '~/mnt/gtd-private/stuff.org'
 let g:org_agenda_select_dirs=["~/mnt/gtd-private"]
 let g:agenda_files = split(glob("~/mnt/gtd-private/*.org"),"\n")
 let g:org_custom_searches = [
-            \  { 'name':"Next week's agenda", 'type':'agenda',
-            \    'agenda_date':'+1w', 'agenda_duration':'w' }
-            \, { 'name':"Next week's TODOS", 'type':'agenda',
-            \    'agenda_date':'+1w', 'agenda_duration':'w',
-            \    'spec':'+UNFINISHED_TODOS' }
-            \, { 'name':'Home tags', 'type':'heading_list', 'spec':'+HOME' }
-            \, { 'name':'Home tags', 'type':'sparse_tree', 'spec':'+HOME' }
-            \  ]
+      \  { 'name':"Next week's agenda", 'type':'agenda',
+      \    'agenda_date':'+1w', 'agenda_duration':'w' }
+      \, { 'name':"Next week's TODOS", 'type':'agenda',
+      \    'agenda_date':'+1w', 'agenda_duration':'w',
+      \    'spec':'+UNFINISHED_TODOS' }
+      \, { 'name':'Home tags', 'type':'heading_list', 'spec':'+HOME' }
+      \, { 'name':'Home tags', 'type':'sparse_tree', 'spec':'+HOME' }
+      \  ]
 
 " Comment personalization tag.  For comments that specify things like
 " "XXX(yournamehere)".  Useful in projects with multiple people, where it's
 " helpful to know who wrote the comment without having to look at "git blame".
 if exists("$VIMUSER")
-    let g:me = $VIMUSER
+  let g:me = $VIMUSER
 elseif has("win32")
-    let g:me = $USERNAME
+  let g:me = $USERNAME
 elseif exists("$SUDO_USER")
-    let g:me = $SUDO_USER
+  let g:me = $SUDO_USER
 elseif exists("$USER")
-    let g:me = $USER
+  let g:me = $USER
 else
-    let g:me = system("whoami")
+  let g:me = system("whoami")
 endif
 
 " I sometimes use a different username
 if g:me == "dwon"
-    let g:me = "dlitz"
+  let g:me = "dlitz"
 endif
 
 " Insert-mode autocompletion
@@ -382,13 +382,13 @@ map      !@#$ $a!@#$<esc>
 " Create the :Retag command
 " requires exuberant-ctags
 function! Retag() abort
-    call system("ctags -R --languages=-TeX --python-kinds=-i .")
-    exec "redraw!"
+  call system("ctags -R --languages=-TeX --python-kinds=-i .")
+  exec "redraw!"
 endfunction
 function! RetagObjC() abort
-    call system("ctags -R --languages=-TeX --python-kinds=-i --langmap=C:.m.h .")
-    call system("ctags -R --languages=-TeX --python-kinds=-i --langmap=ObjectiveC:.m.h --append .")
-    exec "redraw!"
+  call system("ctags -R --languages=-TeX --python-kinds=-i --langmap=C:.m.h .")
+  call system("ctags -R --languages=-TeX --python-kinds=-i --langmap=ObjectiveC:.m.h --append .")
+  exec "redraw!"
 endfunction
 command! Retag call Retag()
 command! RetagObjC call RetagObjC()
@@ -418,50 +418,50 @@ let g:netrw_silent = 1
 
 " Custom status line
 let &g:statusline = '%<%f %h%m%r' .
-    \   ' %1*%{taghelper#curtag()}%*' .
-    \   '%=' .
-    \   '%{&paste ? "paste " : ""}' .
-    \   '%{&et ? "spaces" : "tabs"} ' .
-    \   '%{&sts == 0 ? "nosts " : &sts > 0 && &sts != &sw ? "sts:".&sts." " : ""}' .
-    \   '%{&sw && &sw != &ts ? "sw:".&sw." " : ""}' .
-    \   'ts:%{&ts} ' .
-    \   'tw:%{&tw} ' .
-    \   ' %-14.(%l,%c%V (%o)%) %P'
+  \   ' %1*%{taghelper#curtag()}%*' .
+  \   '%=' .
+  \   '%{&paste ? "paste " : ""}' .
+  \   '%{&et ? "spaces" : "tabs"} ' .
+  \   '%{&sts == 0 ? "nosts " : &sts > 0 && &sts != &sw ? "sts:".&sts." " : ""}' .
+  \   '%{&sw && &sw != &ts ? "sw:".&sw." " : ""}' .
+  \   'ts:%{&ts} ' .
+  \   'tw:%{&tw} ' .
+  \   ' %-14.(%l,%c%V (%o)%) %P'
 
 "" BEGIN copied from http://www.daskrachen.com/2011/12/how-to-make-tagbar-work-with-objective.html
 " add a definition for Objective-C to tagbar
 let g:tagbar_type_objc = {
-    \ 'ctagstype' : 'ObjectiveC',
-    \ 'kinds'     : [
-        \ 'i:interface',
-        \ 'I:implementation',
-        \ 'p:Protocol',
-        \ 'm:Object_method',
-        \ 'c:Class_method',
-        \ 'v:Global_variable',
-        \ 'F:Object field',
-        \ 'f:function',
-        \ 'p:property',
-        \ 't:type_alias',
-        \ 's:type_structure',
-        \ 'e:enumeration',
-        \ 'M:preprocessor_macro',
-    \ ],
-    \ 'sro'        : ' ',
-    \ 'kind2scope' : {
-        \ 'i' : 'interface',
-        \ 'I' : 'implementation',
-        \ 'p' : 'Protocol',
-        \ 's' : 'type_structure',
-        \ 'e' : 'enumeration'
-    \ },
-    \ 'scope2kind' : {
-        \ 'interface'      : 'i',
-        \ 'implementation' : 'I',
-        \ 'Protocol'       : 'p',
-        \ 'type_structure' : 's',
-        \ 'enumeration'    : 'e'
-    \ }
+  \ 'ctagstype' : 'ObjectiveC',
+  \ 'kinds'     : [
+    \ 'i:interface',
+    \ 'I:implementation',
+    \ 'p:Protocol',
+    \ 'm:Object_method',
+    \ 'c:Class_method',
+    \ 'v:Global_variable',
+    \ 'F:Object field',
+    \ 'f:function',
+    \ 'p:property',
+    \ 't:type_alias',
+    \ 's:type_structure',
+    \ 'e:enumeration',
+    \ 'M:preprocessor_macro',
+  \ ],
+  \ 'sro'        : ' ',
+  \ 'kind2scope' : {
+    \ 'i' : 'interface',
+    \ 'I' : 'implementation',
+    \ 'p' : 'Protocol',
+    \ 's' : 'type_structure',
+    \ 'e' : 'enumeration'
+  \ },
+  \ 'scope2kind' : {
+    \ 'interface'      : 'i',
+    \ 'implementation' : 'I',
+    \ 'Protocol'       : 'p',
+    \ 'type_structure' : 's',
+    \ 'enumeration'    : 'e'
+  \ }
 \ }
 "" END copied from http://www.daskrachen.com/2011/12/how-to-make-tagbar-work-with-objective.html
 
@@ -475,32 +475,32 @@ let g:tagbar_type_objc = {
 " older versions of vim)
 runtime plugin/securemodelines.vim
 if exists('g:loaded_securemodelines')
-    call filter(g:secure_modelines_allowed_items, 'v:val !=# "softtabstop" && v:val !=# "sts"')
+  call filter(g:secure_modelines_allowed_items, 'v:val !=# "softtabstop" && v:val !=# "sts"')
 endif
 " If vim doesn't support softtabstop=-1, we'll emulate it.
 if ! s:vim_supports_negative_softtabstop
-    " Implementation note: These patches are also in the source repo and
-    " potentially relevant:
-    "   patch 8.1.0138: negative value of 'softtabstop' not used correctly
-    "   patch 8.1.0154: crash with "set smarttab shiftwidth=0 softtabstop=-1"
-    "   patch 8.1.0479: failure when setting 'varsofttabstop' to end in a comma
-    function! <SID>EmulateNegativeSoftTabStop() abort
-	let p = &paste      " note: 'paste' is always global
-	if p
-            set nopaste    " disable paste so that our change to shiftwidth actually sticks
-        endif
-        let &l:softtabstop = &l:shiftwidth
-        let &g:softtabstop = &g:shiftwidth
-	if p
-	    set paste
-	endif
-    endfunction
-    augroup emulate_negative_softtabstop
-        autocmd!
-        autocmd BufEnter * :call <SID>EmulateNegativeSoftTabStop()
-    augroup END
+  " Implementation note: These patches are also in the source repo and
+  " potentially relevant:
+  "   patch 8.1.0138: negative value of 'softtabstop' not used correctly
+  "   patch 8.1.0154: crash with "set smarttab shiftwidth=0 softtabstop=-1"
+  "   patch 8.1.0479: failure when setting 'varsofttabstop' to end in a comma
+  function! <SID>EmulateNegativeSoftTabStop() abort
+    let p = &paste      " note: 'paste' is always global
+    if p
+      set nopaste    " disable paste so that our change to shiftwidth actually sticks
+    endif
+    let &l:softtabstop = &l:shiftwidth
+    let &g:softtabstop = &g:shiftwidth
+    if p
+      set paste
+    endif
+  endfunction
+  augroup emulate_negative_softtabstop
+    autocmd!
+    autocmd BufEnter * :call <SID>EmulateNegativeSoftTabStop()
+  augroup END
 else
-    augroup emulate_negative_softtabstop
-        autocmd!
-    augroup END
+  augroup emulate_negative_softtabstop
+    autocmd!
+  augroup END
 endif
