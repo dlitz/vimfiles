@@ -140,7 +140,9 @@ au FileType arduino                         setlocal sw=2
 au FileType go                              setlocal sw=8 noet
 au FileType ninja                           setlocal sw=2
 
+" 'setfiletype' sets filetype when no other type is detected
 au BufNewFile,BufRead *.tac setfiletype python
+au BufNewFile,BufRead /etc/kea/*.conf setfiletype javascript        " json with comments
 
 " email editing
 "autocmd BufNewFile,BufRead .letter,mutt*,nn.*,snd.* setlocal spell formatoptions=wantql
