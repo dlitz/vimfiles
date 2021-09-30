@@ -127,40 +127,41 @@ if ! s:vim_supports_negative_softtabstop
     let &softtabstop = &shiftwidth
 endif
 
-" Some filetypes screw up these values
-au FileType make let [&l:ts, &l:sw, &l:sts, &l:et] = [&g:ts, &g:sw, &g:sts, &g:et]
-
-au FileType make,gitconfig,zim              setlocal sw=0 noet " | call ctab#SetFileTypeMaps()
-au FileType html,mako,myt,php,yaml          setlocal sw=2   " 2-space tabs
-au FileType haskell,ruby,tex,verilog        setlocal sw=2
-au FileType objc,objcpp,coffee,arduino      setlocal sw=2
-au FileType python                          setlocal sw=4 ts=8
-au FileType yaml                            setlocal sw=2 indentexpr=
-au FileType arduino                         setlocal sw=2
-au FileType go                              setlocal sw=8 noet
-au FileType ninja                           setlocal sw=2
-
-" 'setfiletype' sets filetype when no other type is detected
-au BufNewFile,BufRead *.tac setfiletype python
-au BufNewFile,BufRead /etc/kea/*.conf setfiletype javascript        " json with comments
-
-" email editing
-"autocmd BufNewFile,BufRead .letter,mutt*,nn.*,snd.* setlocal spell formatoptions=wantql
-autocmd FileType mail setlocal spell formatoptions=wantql
-
-" auto-formatting comments when editing code
-autocmd FileType c,objc,objcpp,coffee,make,haskell,ruby,verilog,python,objc,objcpp,coffee
-    \ setlocal formatoptions=croq
-
-" other file-specific settings
-autocmd FileType text setlocal spell
-
-" Prefer not to aggressively line-wrap some file types
-autocmd FileType vim setlocal colorcolumn=
-
-" Be more specific about some filetypes
-augroup filetype_overrides
+" Most filetype specific customizations go here.
+augroup vimrc_main_autocmds
     autocmd!
+
+    " Some filetypes screw up these values
+    au FileType make let [&l:ts, &l:sw, &l:sts, &l:et] = [&g:ts, &g:sw, &g:sts, &g:et]
+
+    au FileType make,gitconfig,zim              setlocal sw=0 noet " | call ctab#SetFileTypeMaps()
+    au FileType html,mako,myt,php,yaml          setlocal sw=2   " 2-space tabs
+    au FileType haskell,ruby,tex,verilog        setlocal sw=2
+    au FileType objc,objcpp,coffee,arduino      setlocal sw=2
+    au FileType python                          setlocal sw=4 ts=8
+    au FileType yaml                            setlocal sw=2 indentexpr=
+    au FileType arduino                         setlocal sw=2
+    au FileType go                              setlocal sw=8 noet
+    au FileType ninja                           setlocal sw=2
+
+    " 'setfiletype' sets filetype when no other type is detected
+    au BufNewFile,BufRead *.tac setfiletype python
+    au BufNewFile,BufRead /etc/kea/*.conf setfiletype javascript        " json with comments
+
+    " email editing
+    autocmd FileType mail setlocal spell formatoptions=wantql
+
+    " auto-formatting comments when editing code
+    autocmd FileType c,objc,objcpp,coffee,make,haskell,ruby,verilog,python,objc,objcpp,coffee
+        \ setlocal formatoptions=croq
+
+    " other file-specific settings
+    autocmd FileType text setlocal spell
+
+    " Prefer not to aggressively line-wrap some file types
+    autocmd FileType vim setlocal colorcolumn=
+
+    " Be more specific about some filetypes
     autocmd BufNewFile,BufRead ~/Arduino/* if &filetype =~ '\v^(c|cpp)$' | setlocal filetype=arduino | endif
 augroup END
 
