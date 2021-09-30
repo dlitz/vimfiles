@@ -17,8 +17,6 @@ endif
 " http://brablc.com/2011/06/17/how-to-use-own-vim-configuration-after-sudo-to-shared-account/
 " but modified
 if empty($VIMINIT) && empty($EXINIT) && !empty($SUDO_HOME)
-  " XXX(dlitz) is the vundle thing really needed?
-  "set runtimepath+=${SUDO_HOME}/.vim/bundle/vundle,${SUDO_HOME}/.vim
   set runtimepath+=${SUDO_HOME}/.vim
   let $MYVIMRC = $SUDO_HOME . '/.vimrc'
   source $MYVIMRC
