@@ -159,7 +159,7 @@ autocmd FileType vim setlocal colorcolumn=
 " Be more specific about some filetypes
 augroup filetype_overrides
     autocmd!
-    autocmd BufNewFile,BufRead ~/Arduino/**    if &filetype =~ '\v^(c|cpp)$' | setlocal filetype=arduino | endif
+    autocmd BufNewFile,BufRead ~/Arduino/* if &filetype =~ '\v^(c|cpp)$' | setlocal filetype=arduino | endif
 augroup END
 
 " Copy and Paste (Linux GUI)
