@@ -1,3 +1,3 @@
-augroup filetypedetect
-    au! BufRead,BufNewFile *.p,*.hp setfiletype msp
-augroup end
+"augroup filetypedetect
+"    au! BufRead,BufNewFile *.p,*.hp setfiletype msp
+"augroup end
