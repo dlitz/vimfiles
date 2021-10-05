@@ -50,3 +50,7 @@ hi User1       ctermfg=Yellow       guifg=Yellow        ctermbg=Blue    guibg=Da
 " fstab coloring: Improves readability when fstab columns are not aligned
 hi fsMountPoint     ctermfg=Blue    guifg=#5454FF                                           cterm=bold gui=bold
 hi fsTypeKeyword    ctermfg=Magenta guifg=Violet                                            cterm=bold gui=bold term=underline
+
+" The FROM clause in dockerfiles is special and I want to highlight it even more than usual
+hi dockerfileFromKeyword ctermfg=Yellow guifg=Yellow                                         cterm=bold gui=bold
+hi dockerfileAsKeyword ctermfg=Yellow guifg=Yellow                                           cterm=bold gui=bold
