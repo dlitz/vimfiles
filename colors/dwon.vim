@@ -28,8 +28,8 @@ hi NonText     ctermfg=DarkGreen    guifg=green3                                
 hi PreProc     ctermfg=DarkGreen    guifg=Green
 hi Question    ctermfg=Green        guifg=Green                                             cterm=bold gui=bold term=standout
 hi Search      ctermfg=NONE         guifg=NONE          ctermbg=NONE    guibg=NONE          cterm=reverse gui=reverse term=reverse
-hi Special     ctermfg=DarkMagenta  guifg=DarkMagenta                                       term=bold
-hi SpecialKey  ctermfg=DarkBlue     guifg=Blue                                                                  term=bold
+hi Special     ctermfg=Magenta      guifg=#bb00bb                                           term=bold
+hi SpecialKey  ctermfg=DarkBlue     guifg=Blue                                              cterm=bold gui=bold term=bold
 hi SpellBad    ctermfg=NONE         guifg=NONE          ctermbg=NONE    guibg=NONE          cterm=undercurl gui=undercurl term=undercurl
 hi SpellCap    ctermfg=NONE         guifg=NONE          ctermbg=NONE    guibg=NONE          cterm=undercurl gui=undercurl term=undercurl
 hi SpellRare   ctermfg=NONE         guifg=NONE          ctermbg=NONE    guibg=NONE          cterm=undercurl gui=undercurl term=undercurl
