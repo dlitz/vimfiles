@@ -417,9 +417,11 @@ map <silent> \H <Plug>HiLinkTrace
 let g:netrw_silent = 1
 
 " Custom status line
+let g:statusline_foldlevel_enable = 0
 let &g:statusline = '%<%f %h%m%r'
   \ .. ' %1*%{taghelper#curtag()}%*'
   \ .. '%='
+  \ .. '%{% statusline#foldlevel(" ", "fold:", "", " ") %}'
   \ .. '%{&paste ? "paste " : ""}'
   \ .. '%{&et ? "spaces" : "tabs"} '
   \ .. '%{&sts == 0 ? "nosts " : &sts > 0 && &sts != &sw ? "sts:"..&sts.." " : ""}'
