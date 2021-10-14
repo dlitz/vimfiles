@@ -7,8 +7,7 @@ hi clear
 if exists("syntax_on")
     syntax reset
 endif
-
-let colors_name = "dwon"
+let g:colors_name = "dwon"
 
 hi Normal      ctermfg=LightGrey    guifg=grey90        ctermbg=Black   guibg=#000020
 
@@ -35,8 +34,6 @@ hi SpellCap    ctermfg=NONE         guifg=NONE          ctermbg=NONE    guibg=NO
 hi SpellRare   ctermfg=NONE         guifg=NONE          ctermbg=NONE    guibg=NONE          cterm=undercurl gui=undercurl term=undercurl
 hi SpellLocal  ctermfg=NONE         guifg=NONE          ctermbg=NONE    guibg=NONE          cterm=undercurl gui=undercurl term=undercurl
 hi Statement   ctermfg=DarkGreen    guifg=Green                                             cterm=NONE gui=NONE term=bold
-hi StatusLine  ctermfg=Yellow       guifg=Yellow        ctermbg=Blue    guibg=DarkBlue      cterm=bold gui=bold term=reverse
-hi StatusLineNC ctermfg=Black       guifg=grey20        ctermbg=Yellow  guibg=DarkYellow    cterm=NONE gui=bold term=bold
 hi Title       ctermfg=Blue         guifg=Blue                                              cterm=bold gui=bold term=bold
 hi Todo        ctermfg=Red          guifg=Red           ctermbg=Yellow  guibg=Yellow        cterm=bold gui=bold term=bold
 hi Type        ctermfg=Yellow       guifg=Yellow                                            cterm=bold gui=bold term=underline
@@ -44,8 +41,11 @@ hi Visual      ctermfg=DarkCyan     guifg=Cyan          ctermbg=DarkMagenta guib
 "hi Visual      ctermfg=Yellow       guifg=Yellow        ctermbg=Blue    guibg=Blue          cterm=bold          term=reverse
 hi WarningMsg  ctermfg=Red          guifg=Red           ctermbg=Blue    guibg=Blue          cterm=bold gui=bold term=standout
 
-" User1 is used by the pythonhelper.vim & taghelper.vim plugin for information on the status line
-hi User1       ctermfg=Yellow       guifg=Yellow        ctermbg=Blue    guibg=DarkBlue      cterm=bold gui=bold term=reverse
+" Status line colors
+hi StatusLine  ctermfg=Yellow       guifg=Yellow        ctermbg=Blue    guibg=DarkBlue      cterm=bold gui=bold term=reverse
+hi StatusLineNC ctermfg=Black       guifg=grey20        ctermbg=Yellow  guibg=DarkYellow    cterm=NONE gui=bold term=bold
+" User1 is used by the pythonhelper.vim & taghelper.vim plugins to show the name of the current function on the status line
+hi User1       ctermfg=Yellow       guifg=LightYellow   ctermbg=Blue    guibg=DarkBlue      cterm=bold gui=bold term=reverse
 
 " fstab coloring: Improves readability when fstab columns are not aligned
 hi fsMountPoint     ctermfg=Blue    guifg=#5454FF                                           cterm=bold gui=bold
