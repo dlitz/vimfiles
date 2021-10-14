@@ -82,3 +82,12 @@ noremap <silent> \n :setlocal number!<cr>:setlocal number?<cr>
 
 " <Leader>w -- toggle wrap
 noremap <silent> \w :setlocal wrap!<cr>:setlocal wrap?<cr>
+
+" Ctrl-Shift-C -- Copy to clipboard (gvim)
+vnoremap <c-s-c> "+ygv
+
+" Ctrl-Shift-C -- Cut to clipboard (gvim)
+vnoremap <c-s-x> "+dgv
+
+" Ctrl-Shift-V -- Paste (gvim)
+inoremap <c-s-v> <c-o>"+gP
