@@ -161,7 +161,7 @@ augroup END
 
 " For the vim-linux-coding-style plugin
 " These are regexps matched with path =~ pattern
-let g:linuxsty_patterns = [ "/kernel", "/linux" ]
+let g:linuxsty_patterns = [ "/kernel", "/linux", "/u-boot" ]
 
 " Copy and Paste (Linux GUI)
 if has("gui_running") && has("X11")
