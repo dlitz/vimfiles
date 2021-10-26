@@ -142,6 +142,7 @@ __DATA__
 ./subtrees git subtree pull --squash -P pack/laubzega/start/pruss-vim           https://github.com/laubzega/pruss-vim       HEAD
 #./subtrees git subtree pull --squash -P pack/nfnty/start/vim-nftables          https://github.com/nfnty/vim-nftables       master
 ./subtrees git subtree pull --squash -P pack/nfnty/start/vim-nftables           https://github.com/dlitz/vim-nftables       dev
+./subtrees git subtree pull --squash -P pack/tpope/start/vim-sleuth             https://github.com/tpope/vim-sleuth         HEAD
 ./subtrees git subtree pull --squash -P pack/vendor/start/vim-jq                https://github.com/bfrg/vim-jq              master
 ./subtrees git subtree pull --squash -P pack/vendor/start/vim-qml               https://github.com/peterhoeg/vim-qml        master
 ./subtrees git subtree pull --squash -P pack/vendor/start/vim-surround          https://github.com/tpope/vim-surround       master
