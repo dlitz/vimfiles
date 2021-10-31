@@ -1,4 +1,4 @@
-" Statusline helpers
+" foldlevel statusline helpers
 " dlitz 2021
 scriptversion 4
 
@@ -26,42 +26,69 @@ if !exists("g:statusline_foldlevel_cmdname_hide")
 endif
 
 " Returns the current fold level (syntax highlighted by default)
+" Arguments may be funcrefs.
 " Usage:
-"   statusline#foldlevel([outerPrefix, [innerPrefix, [innerSuffix, [outerSuffix]]]])
+"   statusline#foldlevel#foldlevel([outerPrefix, [innerPrefix, [innerSuffix, [outerSuffix]]]])
 " Examples:
-"   let &g:statusline ..= '%{% statusline#foldlevel#foldlevel() %}'
-"   let &g:statusline ..= '%{% statusline#foldlevel#foldlevel("", "fold:") %}'
-"   let &g:statusline ..= '%{% statusline#foldlevel#foldlevel(" ", "fold[", "]", " ") %}'
+"   let F = { -> 'fold(' .. &foldmethod .. ')' }
+"   if has('patch-8.2.2854')  " If support for re-evaluating the function output is available
+"     let &g:statusline ..= '%{% statusline#foldlevel#foldlevel() %}'
+"     let &g:statusline ..= '%{% statusline#foldlevel#foldlevel("", "fold:") %}'
+"     let &g:statusline ..= '%{% statusline#foldlevel#foldlevel(" ", "fold[", "]", " ") %}'
+"     let &g:statusline ..= '%{% statusline#foldlevel#foldlevel(" ", F) %}'
+"   else
+"     let &g:statusline ..= statusline#foldlevel#legacy#snippet()
+"     let &g:statusline ..= statusline#foldlevel#legacy#snippet('', 'fold:')
+"     let &g:statusline ..= statusline#foldlevel#legacy#snippet(' ', 'fold[', ']', ' ')
+"     let &g:statusline ..= statusline#foldlevel#legacy#snippet(' ', F)
+"   endif
+"
+"   let &g:statusline ..=
+"     \ (has('patch-8.2.2854')
+"     \  ? '%{% statusline#foldlevel#foldlevel(" ", F) %}'
+"     \  : statusline#foldlevel#legacy#snippet(' ', F))
 function statusline#foldlevel#foldlevel(...) abort
-  let outerPrefix = get(a:, 1, '')
-  let innerPrefix = get(a:, 2, '')
-  let innerSuffix = get(a:, 3, '')
-  let outerSuffix = get(a:, 4, '')
   if !g:statusline_foldlevel_enable
     return ""
-  else
-    let lvl = foldlevel(".")
-
-    if g:statusline_foldlevel_syntax_enable
-      if g:actual_curwin == win_getid()
-        let hlNamePrefix = "statuslineFoldLevel"
-      else
-        let hlNamePrefix = "statuslineFoldLevelNC"
-      endif
-      let hlName = hlNamePrefix .. lvl
-      if !hlexists(hlName)
-        let hlName = hlNamePrefix
-      endif
-      let syntaxStart = "%#" .. hlName .. "#"
-      let syntaxEnd = "%*"
-    else
-      let syntaxStart = ""
-      let syntaxEnd = ""
-    endif
-
-    return outerPrefix .. syntaxStart .. innerPrefix .. lvl .. innerSuffix .. syntaxEnd .. outerSuffix
   endif
+
+  " arguments that are Funcrefs will be evaluated here
+  let GetArg = { arg -> type(arg) == v:t_func ? call(get(arg, 'name'), []) : arg }
+  let outerPrefix = a:0 >= 1 ? GetArg(a:1) : ''
+  let innerPrefix = a:0 >= 2 ? GetArg(a:2) : ''
+  let innerSuffix = a:0 >= 3 ? GetArg(a:3) : ''
+  let outerSuffix = a:0 >= 4 ? GetArg(a:4) : ''
+
+  let lvl = foldlevel(".")
+  let isActiveWindow = g:actual_curwin == win_getid()
+
+  if g:statusline_foldlevel_syntax_enable
+    let syntaxStart = "%#" .. statusline#foldlevel#hlName(!isActiveWindow, lvl) .. "#"
+    let syntaxEnd = "%*"
+  else
+    let syntaxStart = ""
+    let syntaxEnd = ""
+  endif
+
+  return outerPrefix .. syntaxStart .. innerPrefix .. lvl .. innerSuffix .. syntaxEnd .. outerSuffix
 endf
+
+function statusline#foldlevel#hlName(nc, lvl) abort
+  if a:nc
+    let hlNamePrefix = "statuslineFoldLevelNC"
+  else
+    let hlNamePrefix = "statuslineFoldLevel"
+  endif
+  if a:lvl == -1
+    return hlNamePrefix
+  else
+    let hlName = hlNamePrefix .. a:lvl
+    if !hlexists(hlName)
+      let hlName = hlNamePrefix
+    endif
+    return hlName
+  endif
+endfunction
 
 hi def link statuslineFoldLevel   StatusLine
 hi def link statuslineFoldLevelNC StatusLineNC
@@ -74,13 +101,30 @@ if g:statusline_foldlevel_default_colors
   hi def statuslineFoldLevel5  ctermfg=7 ctermbg=5 guifg=White guibg=Magenta
   hi def statuslineFoldLevel6  ctermfg=0 ctermbg=6 guifg=Black guibg=Cyan
   hi def statuslineFoldLevel7  ctermfg=0 ctermbg=7 guifg=Black guibg=White
+
+  if !exists("g:statusline_foldlevel_max_level")
+    let g:statusline_foldlevel_max_level = 7
+  endif
+  if !exists("g:statusline_foldlevel_max_level_nc")
+    let g:statusline_foldlevel_max_level_nc = -1
+  endif
+else
+  " Configuration: The maximum level X where highlight statuslineFoldLevelX is defined
+  if !exists("g:statusline_foldlevel_max_level")
+    let g:statusline_foldlevel_max_level = -1
+  endif
+
+  " Configuration: The maximum level X where highlight statuslineFoldLevelNCX is defined
+  if !exists("g:statusline_foldlevel_max_level_nc")
+    let g:statusline_foldlevel_max_level_nc = -1
+  endif
 endif
 
 " Command to show/hide foldlevel
-function statusline#foldlevel#Show()
+function statusline#foldlevel#Show() abort
   let g:statusline_foldlevel_enable = 1
 endf
-function statusline#foldlevel#Hide()
+function statusline#foldlevel#Hide() abort
   let g:statusline_foldlevel_enable = 0
 endf
 if g:statusline_foldlevel_cmdname_show != ""
@@ -89,6 +133,9 @@ endif
 if g:statusline_foldlevel_cmdname_hide != ""
   execute "command " .. g:statusline_foldlevel_cmdname_hide .. " call statusline#foldlevel#Hide()"
 endif
+
+function statusline#foldlevel#NoOp() abort
+endfunction
 
 " == Demo area ==
 " Level 0
