@@ -52,12 +52,19 @@ function statusline#foldlevel#foldlevel(...) abort
     return ""
   endif
 
-  " arguments that are Funcrefs will be evaluated here
-  let GetArg = { arg -> type(arg) == v:t_func ? call(get(arg, 'name'), []) : arg }
-  let outerPrefix = a:0 >= 1 ? GetArg(a:1) : ''
-  let innerPrefix = a:0 >= 2 ? GetArg(a:2) : ''
-  let innerSuffix = a:0 >= 3 ? GetArg(a:3) : ''
-  let outerSuffix = a:0 >= 4 ? GetArg(a:4) : ''
+  if a:0 == 0
+    let outerPrefix = statusline#foldlevel#DefaultOuterPrefix()
+    let innerPrefix = statusline#foldlevel#DefaultInnerPrefix()
+    let innerSuffix = statusline#foldlevel#DefaultInnerSuffix()
+    let outerSuffix = statusline#foldlevel#DefaultOuterSuffix()
+  else
+    " arguments that are Funcrefs will be evaluated here
+    let GetArg = { arg -> type(arg) == v:t_func ? call(get(arg, 'name'), []) : arg }
+    let outerPrefix = a:0 >= 1 ? GetArg(a:1) : ''
+    let innerPrefix = a:0 >= 2 ? GetArg(a:2) : ''
+    let innerSuffix = a:0 >= 3 ? GetArg(a:3) : ''
+    let outerSuffix = a:0 >= 4 ? GetArg(a:4) : ''
+  endif
 
   let lvl = foldlevel(".")
   let isActiveWindow = g:actual_curwin == win_getid()
@@ -135,6 +142,22 @@ if g:statusline_foldlevel_cmdname_hide != ""
 endif
 
 function statusline#foldlevel#NoOp() abort
+endfunction
+
+function statusline#foldlevel#DefaultOuterPrefix() abort
+  return ' '
+endfunction
+
+function statusline#foldlevel#DefaultInnerPrefix() abort
+  return 'fold(' .. &foldmethod[0:2] .. '):'
+endfunction
+
+function statusline#foldlevel#DefaultInnerSuffix() abort
+  return ''
+endfunction
+
+function statusline#foldlevel#DefaultOuterSuffix() abort
+  return ' '
 endfunction
 
 " == Demo area ==

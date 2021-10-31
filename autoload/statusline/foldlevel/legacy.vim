@@ -19,10 +19,17 @@ call statusline#foldlevel#NoOp()
 "   let &g:statusline ..= statusline#snippet(' ', 'fold[', ']', ' ')
 "   let &g:statusline ..= statusline#snippet(' ', s:showLevelFunc)
 function statusline#foldlevel#legacy#snippet(...) abort
-  let outerPrefixExpr = s:string_expr(get(a:, 1, ''))
-  let innerPrefixExpr = s:string_expr(get(a:, 2, ''))
-  let innerSuffixExpr = s:string_expr(get(a:, 3, ''))
-  let outerSuffixExpr = s:string_expr(get(a:, 4, ''))
+  if a:0 == 0
+    let outerPrefixExpr = 'statusline#foldlevel#DefaultOuterPrefix()'
+    let innerPrefixExpr = 'statusline#foldlevel#DefaultInnerPrefix()'
+    let innerSuffixExpr = 'statusline#foldlevel#DefaultInnerSuffix()'
+    let outerSuffixExpr = 'statusline#foldlevel#DefaultOuterSuffix()'
+  else
+    let outerPrefixExpr = s:string_expr(get(a:, 1, ''))
+    let innerPrefixExpr = s:string_expr(get(a:, 2, ''))
+    let innerSuffixExpr = s:string_expr(get(a:, 3, ''))
+    let outerSuffixExpr = s:string_expr(get(a:, 4, ''))
+  endif
 
   let result = ''
     \ .. '%{' .. s:SID .. 'evalCase(0,0,' .. string(outerPrefixExpr) .. ')}'

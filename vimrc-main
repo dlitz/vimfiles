@@ -418,14 +418,11 @@ let g:netrw_silent = 1
 
 " Custom status line
 let g:statusline_foldlevel_enable = 0
-function s:StatuslineInnerPrefix() abort
-  return 'fold(' .. &foldmethod[0:2] .. '):'
-endfunction
 let &g:statusline = '%<%f %h%m%r'
   \ .. ' %1*%{taghelper#curtag()}%*'
   \ .. (has('patch-8.2.2854')
-  \     ? '%{% statusline#foldlevel#foldlevel(" ", function("'..expand('<SID>')..'StatuslineInnerPrefix")) %}'
-  \     : statusline#foldlevel#legacy#snippet(' ', function('s:StatuslineInnerPrefix')))
+  \     ? '%{% statusline#foldlevel#foldlevel() %}'
+  \     : statusline#foldlevel#legacy#snippet())
   \ .. '%='
   \ .. '%{&paste ? "paste " : ""}'
   \ .. '%{&et ? "spaces" : "tabs"} '
