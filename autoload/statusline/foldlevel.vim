@@ -29,10 +29,10 @@ endif
 " Usage:
 "   statusline#foldlevel([outerPrefix, [innerPrefix, [innerSuffix, [outerSuffix]]]])
 " Examples:
-"   let &g:statusline ..= '%{% statusline#foldlevel() %}'
-"   let &g:statusline ..= '%{% statusline#foldlevel("", "fold:") %}'
-"   let &g:statusline ..= '%{% statusline#foldlevel(" ", "fold[", "]", " ") %}'
-function statusline#foldlevel(...) abort
+"   let &g:statusline ..= '%{% statusline#foldlevel#foldlevel() %}'
+"   let &g:statusline ..= '%{% statusline#foldlevel#foldlevel("", "fold:") %}'
+"   let &g:statusline ..= '%{% statusline#foldlevel#foldlevel(" ", "fold[", "]", " ") %}'
+function statusline#foldlevel#foldlevel(...) abort
   let outerPrefix = get(a:, 1, '')
   let innerPrefix = get(a:, 2, '')
   let innerSuffix = get(a:, 3, '')
@@ -77,17 +77,17 @@ if g:statusline_foldlevel_default_colors
 endif
 
 " Command to show/hide foldlevel
-function statusline#FoldLevelShow()
+function statusline#foldlevel#Show()
   let g:statusline_foldlevel_enable = 1
 endf
-function statusline#FoldLevelHide()
+function statusline#foldlevel#Hide()
   let g:statusline_foldlevel_enable = 0
 endf
 if g:statusline_foldlevel_cmdname_show != ""
-  execute "command " .. g:statusline_foldlevel_cmdname_show .. " call statusline#FoldLevelShow()"
+  execute "command " .. g:statusline_foldlevel_cmdname_show .. " call statusline#foldlevel#Show()"
 endif
 if g:statusline_foldlevel_cmdname_hide != ""
-  execute "command " .. g:statusline_foldlevel_cmdname_hide .. " call statusline#FoldLevelHide()"
+  execute "command " .. g:statusline_foldlevel_cmdname_hide .. " call statusline#foldlevel#Hide()"
 endif
 
 " == Demo area ==
