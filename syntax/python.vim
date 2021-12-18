@@ -29,6 +29,8 @@
 "   let python_no_doctest_code_highlight = 1
 "   let python_no_doctest_highlight = 1
 "   let python_no_exception_highlight = 1
+"   let python_no_fstring_code_highlight = 1
+"   let python_no_fstring_highlight = 1
 "   let python_no_number_highlight = 1
 "   let python_space_error_highlight = 1
 "
@@ -66,6 +68,12 @@ if exists("python_highlight_all")
   endif
   if exists("python_no_exception_highlight")
     unlet python_no_exception_highlight
+  endif
+  if exists("python_no_fstring_code_highlight")
+    unlet python_no_fstring_code_highlight
+  endif
+  if exists("python_no_fstring_highlight")
+    unlet python_no_fstring_highlight
   endif
   if exists("python_no_number_highlight")
     unlet python_no_number_highlight
@@ -138,6 +146,45 @@ syn region  pythonRawString matchgroup=pythonQuotes
 syn region  pythonRawString matchgroup=pythonTripleQuotes
       \ start=+\c\%(ur\|br\|rb\|r\)\z('''\|"""\)+ end="\z1" keepend
       \ contains=pythonSpaceError,pythonDoctest,@Spell
+
+" Formatted python string literals are similar to other Python string
+" literals, except:
+"   - They are never byte strings (so don't look for the 'b' prefix)
+"   - They are never docstrings (so omit contains=pythonDocTest)
+"   - They may contain a 'replacement expression' in braces.
+"     - These braces are nestable.
+syn region  pythonFString matchgroup=pythonQuotes
+      \ start=+\c\%(f\)\z(['"]\)+ end="\z1" skip="\\\\\|\\\z1"
+      \ contains=pythonEscape,@Spell
+syn region  pythonFString matchgroup=pythonTripleQuotes
+      \ start=+\c\%(f\)\z('''\|"""\)+ end="\z1" keepend
+      \ contains=pythonEscape,pythonSpaceError,@Spell
+syn region  pythonRawFString matchgroup=pythonQuotes
+      \ start=+\c\%(fr\|rf\)\z(['"]\)+ end="\z1" skip="\\\\\|\\\z1"
+      \ contains=@Spell
+syn region  pythonRawFString matchgroup=pythonTripleQuotes
+      \ start=+\c\%(fr\|rf\)\z('''\|"""\)+ end="\z1" keepend
+      \ contains=pythonSpaceError,@Spell
+
+if exists("python_no_fstring_highlight")
+  " Don't highlight f-string contents at all.
+elseif exists("python_no_fstring_code_highlight")
+  " Highlight f-string replacement expressions as a single blobs of Special text.
+  syn region pythonFStringSpecial contained
+        \ containedin=pythonFStringSpecial,pythonFString,pythonRawFString
+        \ start=+{+ end=+}+
+else
+  " Highlight f-string replacement expression as code
+  syn region pythonFStringReplacement matchgroup=pythonFStringBraces contained
+        \ start=+{+ end=+}+
+	\ containedin=pythonFString,pythonRawFString
+        \ contains=TOP,@Spell
+  " Note: pythonFStringSubBraceExpr may be overridden below by pythonBraceExpr.
+  syn region pythonFStringSubBraceExpr contained
+        \ start=+{+ end=+}+
+	\ containedin=pythonFStringSubBraceExpr,pythonFStringReplacement
+	\ transparent
+endif
 
 if !exists("python_no_bracket_highlight")
   syn region pythonBraceExpr matchgroup=pythonBraces
@@ -312,7 +359,7 @@ hi def link pythonFunction		Function
 hi def link pythonComment		Comment
 hi def link pythonTodo			Todo
 hi def link pythonString		String
-hi def link pythonRawString		String
+hi def link pythonRawString		pythonString
 hi def link pythonQuotes		String
 hi def link pythonTripleQuotes		pythonQuotes
 hi def link pythonEscape		Special
@@ -324,6 +371,16 @@ if !exists("python_no_bracket_highlight")
   hi def link pythonBraces		pythonBrackets
   hi def link pythonParens		pythonBrackets
   hi def link pythonSqBrackets		pythonBrackets
+endif
+if !exists("python_no_fstring_highlight")
+  hi def link pythonFString		pythonString
+  hi def link pythonRawFString		pythonFString
+  hi def link pythonFStringSpecial	Special
+  if !exists("python_no_bracket_highlight")
+    hi def link pythonFStringBraces	pythonBraces
+  else
+    hi def link pythonFStringBraces	pythonFStringSpecial
+  endif
 endif
 if !exists("python_no_builtin_highlight")
   hi def link pythonBuiltin		Function
