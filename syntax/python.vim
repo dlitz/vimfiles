@@ -101,18 +101,18 @@ syn match   pythonDecoratorName	"@\s*\h\%(\w\|\.\)*" display contains=pythonDeco
 " Single line multiplication.
 syn match   pythonMatrixMultiply
       \ "\%(\w\|[])]\)\s*@"
-      \ contains=ALLBUT,pythonDecoratorName,pythonDecorator,pythonFunction,pythonDoctestValue
+      \ contains=TOP,pythonDecoratorName
       \ transparent
 " Multiplication continued on the next line after backslash.
 syn match   pythonMatrixMultiply
       \ "[^\\]\\\s*\n\%(\s*\.\.\.\s\)\=\s\+@"
-      \ contains=ALLBUT,pythonDecoratorName,pythonDecorator,pythonFunction,pythonDoctestValue
+      \ contains=TOP,pythonDecoratorName
       \ transparent
 " Multiplication in a parenthesized expression over multiple lines with @ at
 " the start of each continued line; very similar to decorators and complex.
 syn match   pythonMatrixMultiply
       \ "^\s*\%(\%(>>>\|\.\.\.\)\s\+\)\=\zs\%(\h\|\%(\h\|[[(]\).\{-}\%(\w\|[])]\)\)\s*\n\%(\s*\.\.\.\s\)\=\s\+@\%(.\{-}\n\%(\s*\.\.\.\s\)\=\s\+@\)*"
-      \ contains=ALLBUT,pythonDecoratorName,pythonDecorator,pythonFunction,pythonDoctestValue
+      \ contains=TOP,pythonDecoratorName
       \ transparent
 
 syn match   pythonFunction	"\h\w*" display contained
@@ -205,7 +205,7 @@ if !exists("python_no_builtin_highlight")
   syn keyword pythonBuiltin	tuple type vars zip __import__
   " avoid highlighting attributes as builtins
   syn match   pythonAttribute	/\.\h\w*/hs=s+1
-	\ contains=ALLBUT,pythonBuiltin,pythonFunction,pythonAsync
+	\ contains=TOP,pythonBuiltin
 	\ transparent
 endif
 
@@ -262,7 +262,7 @@ if !exists("python_no_doctest_highlight")
   if !exists("python_no_doctest_code_highlight")
     syn region pythonDoctest
 	  \ start="^\s*>>>\s" end="^\s*$"
-	  \ contained contains=ALLBUT,pythonDoctest,pythonFunction,@Spell
+	  \ contained contains=TOP
     syn region pythonDoctestValue
 	  \ start=+^\s*\%(>>>\s\|\.\.\.\s\|"""\|'''\)\@!\S\++ end="$"
 	  \ contained
