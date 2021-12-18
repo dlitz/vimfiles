@@ -24,6 +24,7 @@
 "
 " Optional highlighting can be controlled using these variables.
 "
+"   let python_no_bracket_highlight = 1
 "   let python_no_builtin_highlight = 1
 "   let python_no_doctest_code_highlight = 1
 "   let python_no_doctest_highlight = 1
@@ -51,6 +52,9 @@ if exists("python_no_doctest_highlight")
 endif
 
 if exists("python_highlight_all")
+  if exists("python_no_bracket_highlight")
+    unlet python_no_bracket_highlight
+  endif
   if exists("python_no_builtin_highlight")
     unlet python_no_builtin_highlight
   endif
@@ -134,6 +138,23 @@ syn region  pythonRawString matchgroup=pythonQuotes
 syn region  pythonRawString matchgroup=pythonTripleQuotes
       \ start=+\c\%(ur\|br\|rb\|r\)\z('''\|"""\)+ end="\z1" keepend
       \ contains=pythonSpaceError,pythonDoctest,@Spell
+
+if !exists("python_no_bracket_highlight")
+  syn region pythonBraceExpr matchgroup=pythonBraces
+        \ start=+{+ end=+}+
+        \ contains=TOP
+	\ transparent
+
+  syn region pythonParenExpr matchgroup=pythonParens
+        \ start=+(+ end=+)+
+        \ contains=TOP
+	\ transparent
+
+  syn region pythonSqBracketExpr matchgroup=pythonSqBrackets
+        \ start=+\[+ end=+\]+
+        \ contains=TOP
+	\ transparent
+endif
 
 syn match   pythonEscape	+\\[abfnrtv'"\\]+ contained
 syn match   pythonEscape	"\\\o\{1,3}" contained
@@ -297,6 +318,12 @@ hi def link pythonTripleQuotes		pythonQuotes
 hi def link pythonEscape		Special
 if !exists("python_no_number_highlight")
   hi def link pythonNumber		Number
+endif
+if !exists("python_no_bracket_highlight")
+  hi def link pythonBrackets		Delimiter
+  hi def link pythonBraces		pythonBrackets
+  hi def link pythonParens		pythonBrackets
+  hi def link pythonSqBrackets		pythonBrackets
 endif
 if !exists("python_no_builtin_highlight")
   hi def link pythonBuiltin		Function
