@@ -480,7 +480,6 @@ let g:tagbar_type_objc = {
 runtime plugin/securemodelines.vim
 if exists('g:loaded_securemodelines')
   call filter(g:secure_modelines_allowed_items, 'v:val !=# "softtabstop" && v:val !=# "sts"')
-  let g:secure_modelines_allowed_items += [ "wrap", "nowrap" ]
 endif
 " If vim doesn't support softtabstop=-1, we'll emulate it.
 if ! s:vim_supports_negative_softtabstop
