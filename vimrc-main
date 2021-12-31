@@ -151,6 +151,7 @@ augroup vimrc_main_autocmds
 
   " other file-specific settings
   autocmd FileType text setlocal spell
+  autocmd FileType fstab setlocal nowrap
 
   " Prefer not to aggressively line-wrap some file types
   autocmd FileType vim setlocal colorcolumn=
