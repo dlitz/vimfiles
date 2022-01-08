@@ -172,11 +172,17 @@ elseif exists("python_no_fstring_code_highlight")
   " Highlight f-string replacement expressions as a single blobs of Special text.
   syn region pythonFStringSpecial contained
         \ containedin=pythonFStringSpecial,pythonFString,pythonRawFString
-        \ start=+{+ end=+}+
+        \ start=+{{\@!+ end=+}+
 else
+  " Highlight special double-brace escapes
+  syn match pythonFStringBraceSpecial "{{\|}}" contained
+    \ containedin=pythonFString,pythonRawFString
+  " A lone } inside an f-string is an error
+  syn match pythonFStringBraceError "}}\@!" contained
+    \ containedin=pythonFString,pythonRawFString
   " Highlight f-string replacement expression as code
   syn region pythonFStringReplacement matchgroup=pythonFStringBraces contained
-        \ start=+{+ end=+}+
+        \ start=+{{\@!+ end=+}+
 	\ containedin=pythonFString,pythonRawFString
         \ contains=TOP,@Spell
   " Note: pythonFStringSubBraceExpr may be overridden below by pythonBraceExpr.
@@ -381,6 +387,8 @@ if !exists("python_no_fstring_highlight")
   else
     hi def link pythonFStringBraces	pythonFStringSpecial
   endif
+  hi def link pythonFStringBraceSpecial	Special
+  hi def link pythonFStringBraceError	Error
 endif
 if !exists("python_no_builtin_highlight")
   hi def link pythonBuiltin		Function
