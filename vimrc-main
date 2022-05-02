@@ -158,6 +158,13 @@ augroup vimrc_main_autocmds
 
   " Be more specific about some filetypes
   autocmd BufNewFile,BufRead ~/Arduino/* if &filetype =~ '\v^(c|cpp)$' | setlocal filetype=arduino | endif
+
+  " .glabels files are gzipped (See $VIMRUNTIME/plugin/gzip.vim)
+  autocmd BufReadPre,FileReadPre      *.glabels setlocal bin
+  autocmd BufReadPost,FileReadPost    *.glabels call vim_gzip#read("gzip -dn")
+  autocmd BufWritePost,FileWritePost  *.glabels call vim_gzip#write("gzip")
+  autocmd FileAppendPre               *.glabels call vim_gzip#appre("gzip -dn")
+  autocmd FileAppendPost              *.glabels call vim_gzip#write("gzip")
 augroup END
 
 " For the vim-linux-coding-style plugin

@@ -3,3 +3,4 @@
 /swapfiles/*
 /bundle/*/doc/tags
 /plugin/_local.vim
+__pycache__
