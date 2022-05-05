@@ -8,7 +8,7 @@ this_script = Path(__file__)
 
 def main():
     sys.path.insert(0, str(this_script.resolve().parent.parent))
-    print(sys.path)
+    #print(sys.path)
     import vim_gzip
     vim_gzip.main()
 
