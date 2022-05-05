@@ -47,6 +47,7 @@ set scrolloff=2
 set showcmd
 set showmatch
 set smartcase   " case-sensitive searches when pattern contains uppercase
+set swapsync=   " Don't fsync() the swapfiles.   Might lose data, but it's too slow.
 set t_vb=           " setting this blank when visualbell is set means we get no bell at alls
 set textwidth=0
 silent! set nospell                 " Requires Vim >= 7.0
