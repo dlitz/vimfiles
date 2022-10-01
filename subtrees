@@ -152,3 +152,4 @@ __DATA__
 ./subtrees git subtree pull --squash -P pack/vendor/start/taghelper.vim         https://github.com/mgedmin/taghelper.vim    master
 ./subtrees git subtree pull --squash -P pack/vendor/start/vim-lark-syntax       https://github.com/lark-parser/vim-lark-syntax master
 ./subtrees git subtree pull --squash -P pack/vivien/start/vim-linux-coding-style https://github.com/vivien/vim-linux-coding-style   HEAD
+./subtrees git subtree pull --squash -P pack/themes/start/papercolor-theme      https://github.com/NLKNguyen/papercolor-theme   master
