@@ -1,7 +1,7 @@
 " Vim syntax file
 " Language:	Python
 " Maintainer:	Zvezdan Petkovic <zpetkovic@acm.org>
-" Last Change:	2021 Feb 15
+" Last Change:	2022 Jun 28
 " Credits:	Neil Schemenauer <nas@python.ca>
 "		Dmitry Vasiliev
 "
@@ -77,7 +77,7 @@ endif
 "
 " The list can be checked using:
 "
-" python3 -c 'import keyword, pprint; pprint.pprint(keyword.kwlist, compact=True)'
+" python3 -c 'import keyword, pprint; pprint.pprint(keyword.kwlist + keyword.softkwlist, compact=True)'
 "
 syn keyword pythonStatement	False None True
 syn keyword pythonStatement	as assert break continue del global
@@ -89,6 +89,13 @@ syn keyword pythonOperator	and in is not or
 syn keyword pythonException	except finally raise try
 syn keyword pythonInclude	from import
 syn keyword pythonAsync		async await
+
+" Soft keywords
+" These keywords do not mean anything unless used in the right context
+" See https://docs.python.org/3/reference/lexical_analysis.html#soft-keywords 
+" for more on this.
+syn match   pythonConditional   "^\s*\zscase\%(\s\+.*:.*$\)\@="
+syn match   pythonConditional   "^\s*\zsmatch\%(\s\+.*:\s*\%(#.*\)\=$\)\@="
 
 " Decorators
 " A dot must be allowed because of @MyClass.myfunc decorators.
