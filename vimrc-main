@@ -51,6 +51,9 @@ call pathogen#infect()      " Must be before filetype plugin indent on
 " filetype-specific auto-indent
 filetype plugin indent on
 
+" Path to ~/.vim
+let s:VIMHOME = expand('<sfile>:p:h')
+
 " Terminal workarounds
 if has("gui_running")
   " do nothing
@@ -72,6 +75,11 @@ endif
 if exists("&termguicolors") && !empty(&t_8f) && !empty(&t_8b)
   " Use RGB colors in text mode if supported by the terminal (see :help xterm-true-color)
   set termguicolors
+endif
+
+" Local spell-checking dictionary?
+if exists('&spellfile') && empty(&spellfile) && !empty(s:VIMHOME)
+  let &spellfile=s:VIMHOME .. '/spell/en.utf-8.add'
 endif
 
 " Enable syntax highlighting (must be after `filetype plugin indent on`, apparently, or VimOrganizer syntax highlighting breaks)
