@@ -55,26 +55,43 @@ filetype plugin indent on
 let s:VIMHOME = expand('<sfile>:p:h')
 
 " Terminal workarounds
-if has("gui_running")
-  " do nothing
-elseif match(&term, "^konsole") != -1
-  " Enable true-color
-  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-  " Enable mouse protocol
-  set ttym=sgr
+if !has("gui_running")
+  " Enable best mouse protocol
+  if match(&term, "^konsole") != -1 || match(&ttym, "^xterm") != -1
+    set ttym=sgr
+  endif
+
+  " true-color support doesn't exist in vim 7.4? (before vim 8 maybe?)
+  if exists('&termguicolors')
+    " Sometimes the 'set foreground/background color RGB' options are blank
+    " for some reason.  If so, we'll check if we should attempt any
+    " workarounds.
+    if match(&term, "^konsole") != -1
+      \ || exists('$COLORTERM') && match($COLORTERM, "truecolor|24bit")
+      " Enable true-color
+      if empty(&t_8f) || empty(&t_8b)
+        let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"    " set foreground color (R, G, B)
+        let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"    " set background color (R, G, B)
+      endif
+    endif
+
+    " Use RGB colors in text mode if supported by the terminal (see :help xterm-true-color)
+    " we don't want to set this unless we have the actual escape codes
+    if !empty(&t_8f) && !empty(&t_8b)
+      set termguicolors
+    endif
+  endif
 endif
 
-" Better mouse protocol
-if match(&ttym, "^xterm") != -1
-  set ttym=sgr
-endif
-
-" true-color support doesn't exist in vim 7.4? (before vim 8 maybe?)
-" also we don't want to set this unless we have the actual escape codes
-if exists("&termguicolors") && !empty(&t_8f) && !empty(&t_8b)
-  " Use RGB colors in text mode if supported by the terminal (see :help xterm-true-color)
-  set termguicolors
+" The 'konsole' termcap entries suck, I guess?
+if match(&term, "^konsole") != -1
+  " Bracketed paste
+  if exists('&t_RF') && empty(&t_RF)
+    let &t_RF = "\<Esc>]10;?\x07"
+  endif
+  if exists('&t_RB') && empty(&t_RB)
+    let &t_RB = "\<Esc>]11;?\x07"
+  endif
 endif
 
 " Local spell-checking dictionary?
