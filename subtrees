@@ -123,7 +123,7 @@ __DATA__
 ./subtrees git subtree pull --squash -P bundle/cocoa.vim            https://github.com/msanders/cocoa.vim       master
 ./subtrees git subtree pull --squash -P bundle/QFEnter              https://github.com/yssl/QFEnter             master
 ./subtrees git subtree pull --squash -P bundle/securemodelines      https://github.com/ciaranm/securemodelines  master
-./subtrees git subtree pull --squash -P bundle/tagbar               https://github.com/majutsushi/tagbar        master
+./subtrees git subtree pull --squash -P bundle/tagbar               https://github.com/preservim/tagbar         master
 ./subtrees git subtree pull --squash -P bundle/vim-acpi-asl         https://github.com/martinlroth/vim-acpi-asl master
 ./subtrees git subtree pull --squash -P bundle/vim-coffee-script    https://github.com/kchmck/vim-coffee-script master
 ./subtrees git subtree pull --squash -P bundle/vim-emacsmodeline    https://github.com/sfiera/vim-emacsmodeline master
