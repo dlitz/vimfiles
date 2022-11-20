@@ -460,7 +460,6 @@ let &g:statusline = '%<%f %h%m%r'
   \     ? '%{% statusline#foldlevel#foldlevel() %}'
   \     : statusline#foldlevel#legacy#snippet())
   \ .. '%='
-  \ .. '%{winwidth(0)}x%{winheight(0)} '
   \ .. '%{&paste ? "paste " : ""}'
   \ .. '%{&et ? "spaces" : "tabs"} '
   \ .. '%{&sts == 0 ? "nosts " : &sts > 0 && &sts != &sw ? "sts:"..&sts.." " : ""}'
