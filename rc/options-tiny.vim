@@ -28,6 +28,7 @@ set fileencodings=ucs-bom,utf-8,default,latin1
 " misc default settings
 set backspace=2
 set nobackup
+set belloff=all
 silent! set foldlevelstart=99   " Requires Vim >= 7.0
 silent! set foldmethod=indent   " Requires Vim >= 7.0
 set formatoptions=tcq   " vim default, modified by filetypes
@@ -48,16 +49,17 @@ set showcmd
 set showmatch
 set smartcase   " case-sensitive searches when pattern contains uppercase
 set swapsync=   " Don't fsync() the swapfiles.   Might lose data, but it's too slow.
-set t_vb=           " setting this blank when visualbell is set means we get no bell at alls
+"set t_vb=           " setting this blank when visualbell is set means we get no bell at alls
 set textwidth=0
 silent! set nospell                 " Requires Vim >= 7.0
 silent! set spelllang=en_us,en_ca   " Requires Vim >= 7.0
 set undolevels=10000
-set visualbell
+"set visualbell
 set wildmenu wildmode=list:longest  " more bash-like tab completion, except cursors enable menu mode
 
 " colorscheme
-silent! colorscheme dwon
+"silent! colorscheme dwon
+silent! colorscheme solarized
 
 " Set colorcolumn to match coding styleguides of various source trees.
 silent! set colorcolumn=+1  " highlight the column after 'textwidth' (requires Vim >= 7.3)
