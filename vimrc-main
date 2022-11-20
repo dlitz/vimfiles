@@ -410,9 +410,9 @@ endif
 
 " Insert-mode autocompletion
 inoremap @#$% <c-\><c-o>$<tab><c-r>=printf(&commentstring, printf(" DEBUG FIXME(%s) ", g:me))<cr><space><space>
-map      @#$% $a@#$%<esc>
+nmap      @#$% $a@#$%<esc>
 inoremap !@#$ <c-\><c-o>$<tab><c-r>=printf(&commentstring, printf(" TODO(%s)", g:me))<cr>
-map      !@#$ $a!@#$<esc>
+nmap      !@#$ $a!@#$<esc>
 
 " Create the :Retag command
 " requires exuberant-ctags
@@ -431,14 +431,14 @@ command! RetagObjC call RetagObjC()
 " tagbar configuration -- thanks http://thomashunter.name/blog/installing-vim-tagbar-with-macvim-in-os-x/
 "let g:tagbar_ctags_bin='/usr/local/bin/ctags'
 "let g:tagbar_width=26
-noremap <silent> \y :TagbarToggle<cr>
+nnoremap <silent> \y :TagbarToggle<cr>
 nnoremap <silent> <F8> :TagbarToggle<CR>
 
 " <Leader>K -- search the source code for the word under the cursor
-noremap <silent> \K :<C-U>Ack<cr>
+nnoremap <silent> \K :<C-U>Ack<cr>
 
 " <Leader>/ -- clear the search pattern
-noremap <silent> \/ :let @/ = ""<cr>
+nnoremap <silent> \/ :let @/ = ""<cr>
 
 " <Leader>!s -- sort (used for python imports)
 " TODO: see help :map-operator  and help :omap to see how to enter
@@ -447,7 +447,7 @@ noremap <silent> \/ :let @/ = ""<cr>
 vnoremap \!s :!LC_ALL=C.UTF-8 sort<cr>
 
 " <Leader>H -- enable HiLinkTrace (show highlighting stack)
-map <silent> \H <Plug>HiLinkTrace
+nmap <silent> \H <Plug>HiLinkTrace
 
 " Do netrw transfers silently
 let g:netrw_silent = 1
