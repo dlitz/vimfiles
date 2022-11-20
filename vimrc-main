@@ -432,6 +432,7 @@ command! RetagObjC call RetagObjC()
 "let g:tagbar_ctags_bin='/usr/local/bin/ctags'
 "let g:tagbar_width=26
 noremap <silent> \y :TagbarToggle<cr>
+nnoremap <silent> <F8> :TagbarToggle<CR>
 
 " <Leader>K -- search the source code for the word under the cursor
 noremap <silent> \K :<C-U>Ack<cr>
