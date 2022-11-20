@@ -455,7 +455,7 @@ let g:netrw_silent = 1
 " Custom status line
 let g:statusline_foldlevel_enable = 0
 let &g:statusline = '%<%f %h%m%r'
-  \ .. "%{tagbar#currenttag(' [%s]', '', 'f', 'scoped-stl')}"
+  \ .. ' %1*%{taghelper#curtag()}%*'
   \ .. (has('patch-8.2.2854')
   \     ? '%{% statusline#foldlevel#foldlevel() %}'
   \     : statusline#foldlevel#legacy#snippet())
