@@ -180,6 +180,10 @@ augroup vimrc_main_autocmds
   autocmd FileType text setlocal spell
   autocmd FileType fstab setlocal nowrap
 
+  " Use "taghelper" in the statusline for the file formats that it supports, but not otherwise.
+  autocmd FileType * let b:use_taghelper=0
+  autocmd FileType c,cpp,python,diff let b:use_taghelper=1
+
   " Prefer not to aggressively line-wrap some file types
   autocmd FileType vim setlocal colorcolumn=
 
@@ -455,7 +459,7 @@ let g:netrw_silent = 1
 " Custom status line
 let g:statusline_foldlevel_enable = 0
 let &g:statusline = '%<%f %h%m%r'
-  \ .. ' %1*%{taghelper#curtag()}%*'
+  \ .. ' %1*%{' .. expand('<SID>') . 'statusline_tag_helper() }%*'
   \ .. (has('patch-8.2.2854')
   \     ? '%{% statusline#foldlevel#foldlevel() %}'
   \     : statusline#foldlevel#legacy#snippet())
@@ -467,6 +471,14 @@ let &g:statusline = '%<%f %h%m%r'
   \ .. 'ts:%{&ts} '
   \ .. 'tw:%{&tw} '
   \ .. ' %-14.(%l,%c%V (%o)%) %P'
+
+function <SID>statusline_tag_helper()
+  if exists('b:use_taghelper') && b:use_taghelper
+    return taghelper#curtag()
+  else
+    return tagbar#currenttag('[%s]', '', 'f', 'scoped-stl')
+  endif
+endfunction
 
 "" BEGIN copied from http://www.daskrachen.com/2011/12/how-to-make-tagbar-work-with-objective.html
 " add a definition for Objective-C to tagbar
