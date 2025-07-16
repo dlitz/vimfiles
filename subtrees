@@ -138,6 +138,7 @@ __DATA__
 ./subtrees git subtree pull --squash -P pack/gerw/start/vim-HiLinkTrace         https://github.com/gerw/vim-HiLinkTrace     master
 ./subtrees git subtree pull --squash -P pack/inkarkat/start/vim-ingo-library    https://github.com/inkarkat/vim-ingo-library HEAD
 ./subtrees git subtree pull --squash -P pack/inkarkat/start/vim-SyntaxRange     https://github.com/inkarkat/vim-SyntaxRange HEAD
+./subtrees git subtree pull --squash -P pack/jasonccox/start/vim-wayland-clipboard https://github.com/jasonccox/vim-wayland-clipboard master
 ./subtrees git subtree pull --squash -P pack/jvirtanen/start/vim-hcl            https://github.com/jvirtanen/vim-hcl        master
 ./subtrees git subtree pull --squash -P pack/laubzega/start/pruss-vim           https://github.com/laubzega/pruss-vim       HEAD
 #./subtrees git subtree pull --squash -P pack/nfnty/start/vim-nftables          https://github.com/nfnty/vim-nftables       master
