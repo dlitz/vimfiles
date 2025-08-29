@@ -528,6 +528,9 @@ let g:tagbar_type_objc = {
 runtime plugin/securemodelines.vim
 if exists('g:loaded_securemodelines')
   call filter(g:secure_modelines_allowed_items, 'v:val !=# "softtabstop" && v:val !=# "sts"')
+  " Allow files to specify whether they should be overwritten (same inode) or
+  " copied to a new file and renamed (different inode).
+  let g:secure_modelines_allowed_items += ['backupcopy', 'bkc']
 endif
 " If vim doesn't support softtabstop=-1, we'll emulate it.
 if ! s:vim_supports_negative_softtabstop
